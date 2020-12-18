@@ -1,0 +1,7 @@
+name "delimiter"
+description "A port of Lime chess engine to D"
+authors "Shinkarom"
+copyright "Copyright © 2020, Shinkarom"
+license "GPL v3.0"
+targetPath "bin"
+workingDirectory "bin"

@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/delimiter
+delimiter.so
+delimiter.dylib
+delimiter.dll
+delimiter.a
+delimiter.lib
+delimiter-test-*
+*.exe
+*.o
+*.obj
+*.lst
