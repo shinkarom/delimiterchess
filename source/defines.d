@@ -1,3 +1,5 @@
+public import psqt;
+
 enum : int { wP = 1, bP, wN, bN, wB, bB, wR, bR, wQ, bQ, wK, bK, ety };
 enum : int { WKC = 8, BKC = 4, WQC = 2, BQC = 1 };
 enum : int { NOFLAG, LOWER, UPPER, EXACT };
@@ -142,3 +144,4 @@ struct s_SearchParam
 	int force;
 	int usebook;
 }
+
