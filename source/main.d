@@ -4,6 +4,7 @@ import utils, defines, data;
 void main()
 {
 	unbufferStreams();
+	initMidtabEndtab();
 	numelem = 16;
 	/+
 	init_castlebits();

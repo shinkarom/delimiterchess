@@ -375,27 +375,5 @@ int[144] ebPawn = [
 0,0,0,0,0,0,0,0,0,0,0,0
 ];
 
-/+
-
-const int *midtab[16] = {
-    0,
-    mwPawn, mbPawn,
-    mKnight, mKnight,
-    mBishop, mBishop,
-    mwRook, mbRook,
-    mwQueen, mbQueen,
-    mwKing, mbKing,
-    0,0,0
-};
-
-const int *endtab[16] = {
-    0,
-    ewPawn, ebPawn,
-    mKnight, mKnight,
-    mBishop, mBishop,
-    mwRook, mbRook,
-    mwQueen, mbQueen,
-    eKing, eKing,
-    0,0,0
-};
-+/
+int[144]*[16] midtab;
+int[144]*[16] endtab;
