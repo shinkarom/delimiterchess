@@ -1,5 +1,5 @@
 import std.stdio, std.string;
-import utils, defines, data;
+import utils, defines, data, psqt, log;
 
 void main()
 {
@@ -12,9 +12,7 @@ void main()
 	init_hash_tables();
 	+/
 	logme = false;
-	/+
 	openlog();
-	+/
 	eo.passedpawn = 176;
 	eo.kingsafety = 128;
 	eo.pawnstructure = 96;
@@ -47,8 +45,6 @@ void main()
 			writeln("use 'uci' or 'quit'");
 		}
 	}
-		
-	/+	
+			
 	closelog();
-	+/
 }
