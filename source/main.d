@@ -27,12 +27,16 @@ void main()
 		command = readln().strip();
 		if(command=="uci")
 		{
-			//uci_mode();
+			/+
+			uci_mode();
+			+/
 			break;
 		}
 		else if (command=="xboard")
 		{
-			//xboard_mode();
+			/+
+			xboard_mode();
+			+/
 			break;
 		}
 		else if(command=="quit")
