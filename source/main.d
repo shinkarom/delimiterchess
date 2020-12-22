@@ -1,13 +1,13 @@
 import std.stdio, std.string;
-import utils, defines, data, psqt, log;
+import utils, defines, data, psqt, log, board;
 
 void main()
 {
 	unbufferStreams();
 	initMidtabEndtab();
 	numelem = 16;
-	/+
 	init_castlebits();
+	/+
 	init_distancetable();
 	init_hash_tables();
 	+/

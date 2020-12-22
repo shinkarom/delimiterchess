@@ -1,6 +1,5 @@
 import std.stdio;
-import data, defines;
-//import board;
+import data, defines, board;
 
 void openlog()
 {
@@ -91,7 +90,6 @@ void writeboard()
 		log_file.writeln();
 		for(int f = 0; f<8; f++)
 		{
-			/+
 			if(p.board[fileranktosquare(f,r)].typ != ety)
 			{
 				log_file.writef(" %c ",piecetochar[p.board[fileranktosquare(f,r)].typ]);
@@ -100,7 +98,6 @@ void writeboard()
 			{
 				log_file.write(" . ");
 			}
-			+/
 		}
 	}
 	
