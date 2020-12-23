@@ -1,10 +1,8 @@
 void unbufferStreams()
 {
-	import core.stdc.stdio;
-	setbuf(stdout, null);
-	setbuf(stdin, null);
-	setvbuf(stdout, null, _IONBF, 0);
-	setvbuf(stdin, null, _IONBF, 0);
+	import std.stdio;
+	stdout.setvbuf(0, _IONBF);
+	stdin.setvbuf(0, _IONBF);
 }
 
 void initMidtabEndtab()
@@ -23,4 +21,12 @@ void initMidtabEndtab()
 	midtab[11] = &mwKing;
 	midtab[12] = &mbKing;
 	endtab[11] = endtab[12] = &eKing;
+}
+
+void exitAll()
+{
+	import core.stdc.stdlib;
+	import core.runtime;
+	Runtime.terminate();
+	exit(0);
 }

@@ -1,5 +1,5 @@
 import std.stdio, std.string;
-import utils, defines, data, psqt, log, board;
+import utils, defines, data, psqt, log, board, sort, interrupt;
 
 void main()
 {
@@ -49,6 +49,6 @@ void main()
 			writeln("use 'uci' or 'quit'");
 		}
 	}
-			
-	closelog();
+	
+		closelog();
 }
