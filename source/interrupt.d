@@ -66,7 +66,6 @@ bool checkinput()
 		if(searchparam.xbmode)
 		{
 			stopsearch = true;
-			searchparam.force = true;
 			return true;
 		}
 		do
@@ -88,7 +87,6 @@ bool checkinput()
 			else if(input[0..4].toLower=="stop")
 			{
 				stopsearch = true;
-				searchparam.force = true;
 				return true;
 			}
 			else if(input[0..9].toLower=="ponderhit")

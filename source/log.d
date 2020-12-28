@@ -17,7 +17,7 @@ void writeply(int ply)
 	log_file.writef(" ply %d;",ply);
 }
 
-void writemove(s_Move our)
+void writemove(Move our)
 {
 	//string move = returnmove(our);
 	string move = "";

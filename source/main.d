@@ -1,11 +1,10 @@
 import std.stdio, std.string;
-import utils, defines, data, psqt, log, board, sort, interrupt;
+import utils, defines, data, psqt, log, board, sort, interrupt, xboard;
 
 void main()
 {
 	unbufferStreams();
-	initMidtabEndtab();
-	numelem = 16;
+	numelem = 32;
 	init_castlebits();
 	/+
 	init_distancetable();
@@ -18,6 +17,8 @@ void main()
 	eo.pawnstructure = 96;
 	searchparam.xbmode = false;
 	searchparam.ucimode = false;
+	searchparam.ics = false;
+	searchparam.cpon = false;
 	/+
 	book_init();
 	+/	
@@ -35,7 +36,7 @@ void main()
 		else if (command=="xboard")
 		{
 			/+
-			xboard_mode();
+			xboard();
 			+/
 			break;
 		}

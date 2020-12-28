@@ -375,5 +375,74 @@ int[144] ebPawn = [
 0,0,0,0,0,0,0,0,0,0,0,0
 ];
 
-int[144]*[16] midtab;
-int[144]*[16] endtab;
+int returnMidtab(int a, int b)
+{
+	switch(a)
+	{
+		case 0:
+		case 13:
+		case 14:
+		case 15:
+			return 0;
+		case 1:
+			return mwPawn[b];
+		case 2:
+			return mbPawn[b];
+		case 3:
+		case 4:
+			return mKnight[b];
+		case 5:
+		case 6:
+			return mBishop[b];
+		case 7:
+			return mwRook[b];
+		case 8:
+			return mbRook[b];
+		case 9:
+			return mwQueen[b];
+		case 10:
+			return mbQueen[b];
+		case 11:
+			return mwKing[b];
+		case 12:
+			return mbKing[b];
+		default:
+			return 0;
+	}
+}
+
+int returnEndtab(int a, int b)
+{
+	switch(a)
+	{
+		case 0:
+		case 13:
+		case 14:
+		case 15:
+			return 0;
+		case 1:
+			return ewPawn[b];
+		case 2:
+			return ebPawn[b];
+		case 3:
+		case 4:
+			return mKnight[b];
+		case 5:
+		case 6:
+			return mBishop[b];
+		case 7:
+			return mwRook[b];
+		case 8:
+			return mbRook[b];
+		case 9:
+			return mwQueen[b];
+		case 10:
+			return mbQueen[b];
+		case 11:
+			return eKing[b];
+		case 12:
+			return eKing[b];
+		default:
+			return 0;
+	}
+}

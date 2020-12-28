@@ -1,6 +1,17 @@
 import std.stdio;
 import defines;
 
+File book_file, bookfile, wbookfile;
+string[] vbooklines;
+BinEntry[] hashentries;
+File hash_file;
+BinEntry[] whitebook;
+
+int movestotal, readtotal;
+
+BinEntry binenter;
+BookInfo bookdata;
+
 File log_file;
 bool logme;
 
@@ -9,14 +20,14 @@ int[48] check;
 int[48] red;
 
 char[2] colours = "bw";
-s_Position p;
-s_EvalOptions eo;
+Position p;
+EvalOptions eo;
 
-s_Move pondermove;
-s_Hist[1024] hist;
+Move pondermove;
+Hist[1024] hist;
 
-s_Move nomove;
-s_Move best;
+Move nomove;
+Move best;
 
 int[144] castlebits;
 
@@ -24,28 +35,28 @@ char[15] piecetochar = ".PpNnBbRrQqKk.";
 char[8] brdranks = "12345678";
 char[8] brdfiles = "abcdefgh";
 
-s_Hashelem TTable;
+Hashelem TTable;
 int numelem;
 
 int[16] vals = [0, 100, 100, 300, 300, 300, 300, 500, 500, 900, 900, 10000, 10000, 0, 0, 0];
 
-s_EvalData eval;
+EvalData eval;
 
-s_SearchParam searchparam;
+SearchParam searchparam;
 int stopsearch;
 int itdepth;
-s_Move[48][48] pv;
+Move[48][48] pv;
 int[48] pvindex;
-s_Move[48] killer1;
-s_Move[48] killer2;
-s_Move[48] killer3;
+Move[48] killer1;
+Move[48] killer2;
 int[48] killerscore;
 int[48] killerscore2;
-s_Move[48] matekiller;
+Move[48] matekiller;
 int[144][144] history;
+int[MOVEBITS] his_table;
 int[144][144][2] hisall;
 int[144][144][2] hisfh;
-int don;
+int donull;
 int nodes;
 int qnodes;
 bool followpv;

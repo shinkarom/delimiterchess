@@ -1,6 +1,6 @@
-enum : int { wP = 1, bP, wN, bN, wB, bB, wR, bR, wQ, bQ, wK, bK, ety };
-enum : int { WKC = 8, BKC = 4, WQC = 2, BQC = 1 };
-enum : int { NOFLAG, LOWER, UPPER, EXACT };
+immutable int wP = 1, bP, wN, bN, wB, bB, wR, bR, wQ, bQ, wK, bK, ety;
+immutable int WKC = 8, BKC = 4, WQC = 2, BQC = 1;
+immutable int NOFLAG = 0, LOWER = 1, UPPER = 2, EXACT = 3;
 enum : int {	A1 = 26, B1, C1, D1, E1, F1, G1, H1, 
 				A2 = 38, B2, C2, D2, E2, F2, G2, H2, 
 				A3 = 50, B3, C3, D3, E3, F3, G3, H3, 
@@ -12,56 +12,58 @@ enum : int {	A1 = 26, B1, C1, D1, E1, F1, G1, H1,
 			};
 immutable int noenpas = 0, nopiece = 0, deadsquare = 0, edge = 0;
 
-enum : int { black, white };
+immutable int black = 0, white = 1;
 
 immutable int wpco = 1, bpco = 1, npco = 13;
 
-enum : int { vP = 90, vN = 325, vB = 325, vR = 500, vQ = 900, vK = 10000 };
+immutable int vP = 90, vN = 325, vB = 325, vR = 500, vQ = 900, vK = 10000;
 
 immutable string startfen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
-enum : int { mCA = 0x20000, mPST = 0x40000, mPEP = 0x180000, mCAP = 0x100000, mPQ = 0x600000, mPR = 0xa00000, mPB = 0x1200000, mPN = 0x2200000, mNORM = 0x10000, mProm = 0x200000 };
+immutable int mCA = 0x20000, mPST = 0x40000, mPEP = 0x180000, mCAP = 0x100000, mPQ = 0x600000, mPR = 0xa00000, mPB = 0x1200000, mPN = 0x2200000, mNORM = 0x10000, mProm = 0x200000;
 
 pure int TO(int x) { return x&0xff; };
 pure int FROM(int x) { return (x&0xff00)>>8; };
 pure int FLAG(int x) { return x&0xfff0000; };
 
-enum : int { oPQ = 0x400000, oPR = 0x800000, oPB = 0x1000000, oPN = 0x2000000, oPEP = 0x80000 };
+immutable int MOVEBITS = 0xffff;
+
+immutable int oPQ = 0x400000, oPR = 0x800000, oPB = 0x1000000, oPN = 0x2000000, oPEP = 0x80000;
 
 immutable int PLY = 64;
 
-struct s_Move
+struct Move
 {
 	int m;
 	int score;
 }
 
-struct s_Pce
+struct Pce
 {
 	int col;
 	int typ;
 }
 
-struct s_Hist
+struct Hist
 {
 	int data;
 	int en_pas;
 	ulong hashkey;
-	s_Pce captured;
+	Pce captured;
 	int castleflags;
 	int plistep;
 	int plist;
 	int fifty;
 }
 
-struct s_EvalOptions
+struct EvalOptions
 {
 	int pawnstructure;
 	int passedpawn;
 	int kingsafety;
 }
 
-struct s_Position
+struct Position
 {
 	int[17] pcenumtosq;
 	int[144] sqtopcenum;
@@ -74,13 +76,13 @@ struct s_Position
 	int ply;
 	int[2] material;
 	ulong hashkey;
-	s_Move[9600] list;
+	Move[9600] list;
 	int[512] listc;
-	s_Pce[144] board;
+	Pce[144] board;
 	int[2] k;
 }
 
-struct s_Hashelem
+struct Hashelem
 {
 	ulong hashkey;
 	short depth;
@@ -89,7 +91,7 @@ struct s_Hashelem
 	int move;
 }
 
-struct s_EvalData
+struct EvalData
 {
 	int wRc;
 	int bRc;
@@ -114,12 +116,12 @@ struct s_EvalData
 	int[2] defects;
 }
 
-struct s_Atab
+struct Atab
 {
 	int[144][2] atttab;
 }
 
-struct s_SearchParam
+struct SearchParam
 {
 	int depth;
 	double wtime;
@@ -139,7 +141,22 @@ struct s_SearchParam
 	int xbmode;
 	int ucimode;
 	int post;
-	int force;
 	int usebook;
+	int ics;
+	int ponfrom;
+	int ponto;
+	double pontime;	
 }
 
+struct BookInfo
+{
+	int whitelsize;
+	int whiteentries;
+}
+
+struct BinEntry
+{
+	ulong k;
+	char[5] m;
+	int freq;
+}
