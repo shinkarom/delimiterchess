@@ -14,15 +14,15 @@ double allocatetime()
 	{
 		return 128000000;
 	}
-	if(searchparam.movestogo > 0)
+	if(searchparam.movestogo[p.side] > 0)
 	{
 		if(p.side==black)
 		{
-			return ((searchparam.btime + (searchparam.binc*searchparam.movestogo)) / searchparam.movestogo+1)-1000;
+			return ((searchparam.btime + (searchparam.binc*searchparam.movestogo[p.side])) / searchparam.movestogo[p.side]+1)-1000;
 		}
 		else
 		{
-			return ((searchparam.wtime + (searchparam.winc*searchparam.movestogo)) / searchparam.movestogo+1)-1000;			
+			return ((searchparam.wtime + (searchparam.winc*searchparam.movestogo[p.side])) / searchparam.movestogo[p.side]+1)-1000;			
 		}
 	}
 	else
@@ -48,15 +48,15 @@ double pondertime()
 	{
 		return 128000000;
 	}
-	if(searchparam.movestogo > 0)
+	if(searchparam.movestogo[p.side] > 0)
 	{
 		if(p.side==black)
 		{
-			return ((searchparam.btime + (searchparam.binc*searchparam.movestogo)) / searchparam.movestogo+1)-1000;
+			return ((searchparam.btime + (searchparam.binc*searchparam.movestogo[p.side])) / searchparam.movestogo[p.side]+1)-1000;
 		}
 		else
 		{
-			return ((searchparam.wtime + (searchparam.winc*searchparam.movestogo)) / searchparam.movestogo+1)-1000;			
+			return ((searchparam.wtime + (searchparam.winc*searchparam.movestogo[p.side])) / searchparam.movestogo[p.side]+1)-1000;			
 		}
 	}
 	else

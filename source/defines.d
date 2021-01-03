@@ -131,7 +131,7 @@ struct SearchParam
 	double xtime;
 	double xotime;
 	int inf;
-	double movestogo;
+	double[2] movestogo;
 	double timepermove;
 	double starttime;
 	double stoptime;

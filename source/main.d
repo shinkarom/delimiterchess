@@ -35,9 +35,7 @@ void main()
 		}
 		else if (command=="xboard")
 		{
-			/+
-			xboard();
-			+/
+			xboard_mode();
 			break;
 		}
 		else if(command=="quit")

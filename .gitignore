@@ -13,3 +13,4 @@ delimiter-test-*
 *.o
 *.obj
 *.lst
+/bin/log.txt
