@@ -1,5 +1,5 @@
 import std.stdio, std.string;
-import utils, defines, data, psqt, log, board, sort, interrupt, xboard;
+import utils, defines, data, psqt, log, board, sort, interrupt, xboard, root;
 
 void main()
 {
