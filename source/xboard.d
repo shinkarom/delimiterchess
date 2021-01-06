@@ -1,5 +1,5 @@
 import std.stdio, utils;
-import data, defines;
+import data, defines, attack;
 
 void inifile()
 {
@@ -85,7 +85,6 @@ bool checkresult()
 	}
 	+/
 	if(played) return false;
-	/+
 	bool inc = isattacked(p.k[p.side], p.side^1);
 	
 	if(inc)
@@ -106,8 +105,6 @@ bool checkresult()
 		writeln("\n1/2-1/2 {stalemate}");
 		return true;
 	}
-	+/
-	return true;
 }
 
 void readinmove(string m)
