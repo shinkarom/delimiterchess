@@ -1,5 +1,5 @@
 import std.stdio, std.string;
-import utils, defines, data, psqt, log, board, sort, interrupt, xboard, root;
+import utils, defines, data, psqt, log, board, sort, interrupt, xboard, root, uci;
 
 void main()
 {
@@ -28,14 +28,12 @@ void main()
 		command = readln().strip();
 		if(command=="uci")
 		{
-			/+
-			uci_mode();
-			+/
+			uciMode();
 			break;
 		}
 		else if (command=="xboard")
 		{
-			xboard_mode();
+			xboardMode();
 			break;
 		}
 		else if(command=="quit")

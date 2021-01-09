@@ -146,3 +146,23 @@ ulong[144] hash_enp = [0x6D5C8E71D8564C0E, 0x2B2F4921F1C754FC, 0xC06F0E9E226869A
 ulong[2] hash_s = [0xED219F0B230F413D, 0x117445EE53315F7A];
 
 ulong[16] hash_ca = [0x6D5C8E71D8564C0E, 0x2B2F4921F1C754FC, 0xC06F0E9E226869A2, 0x5E4C3DB911FF8966, 0xF11AF890AAC4DEB6, 0x4656B646CCE57A1, 0xD43D021B76158551, 0xA06844350B369C5B, 0x89EB4AA63B794AC2, 0xA687AB1ADE0B93BE, 0xBA046494EC839792, 0x1830671D5F144140, 0xE0A8AF769D633A9B, 0x3AD3CC454633B9D, 0x4B576AA7EB73AC1C, 0x2E0EE6C139EA8C27];
+
+void initsearchparam()
+{
+	searchparam.depth = -1;
+	searchparam.winc = -1;
+	searchparam.binc = -1;
+	searchparam.wtime = -1;
+	searchparam.btime = -1;
+	searchparam.xtime = -1;
+	searchparam.xotime = -1;
+	searchparam.movestogo[white] = -1;
+	searchparam.movestogo[black] = -1;
+	searchparam.timepermove = -1;
+	searchparam.starttime = -1;
+	searchparam.stoptime = -1;
+	searchparam.inf = false;
+	searchparam.pon = false;
+	searchparam.ponderhit = false;
+	searchparam.post = true;
+}

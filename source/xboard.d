@@ -1,7 +1,7 @@
 import std.stdio, utils;
 import data, defines, attack;
 
-void inifile()
+void iniFile()
 {
 	import std.file: exists;
 	
@@ -18,7 +18,7 @@ void inifile()
 	//init_hash_tables();
 }
 
-void settime(double t, double ot, int compside)
+void setTime(double t, double ot, int compside)
 {
 	if(compside==white)
 	{
@@ -43,7 +43,7 @@ int repetition()
 	return rep;
 }
 
-bool drawmaterial()
+bool drawMaterial()
 {
 	//gameeval();
 	if(eval.wpawns || eval.bpawns) return false;
@@ -54,7 +54,7 @@ bool drawmaterial()
 	return true;
 }
 
-bool checkresult()
+bool checkResult()
 {
 	if(p.fifty>100)
 	{
@@ -107,7 +107,7 @@ bool checkresult()
 	}
 }
 
-void readinmove(string m)
+void readInMove(string m)
 {
 	/+
 	if(nopvmove(m))
@@ -136,7 +136,7 @@ void readinmove(string m)
 	+/
 }
 
-void xthink()
+void xThink()
 {
 	import alloctime, core.stdc.time;
 	
@@ -177,7 +177,7 @@ void xthink()
 	}
 }
 
-void xboard_mode()
+void xboardMode()
 {
 	import core.stdc.time, std.string, std.uni, std.format;
 	immutable int noside = 2;
@@ -185,7 +185,7 @@ void xboard_mode()
 	int mps, base, inc;
 	string command;
 
-	inifile();
+	iniFile();
 	/+
 	setboard(startfen);
 	clearhash();
@@ -198,25 +198,25 @@ void xboard_mode()
 	searchparam.usebook = true;
 	while(true)
 	{
-		if(drawmaterial)
+		if(drawMaterial)
 		{
 			writeln("\n1/2-1/2 (insufficient material)");
 		}
-		if(checkresult()) compside = noside;
+		if(checkResult()) compside = noside;
 		if(compside == p.side)
 		{
 			if(searchparam.xtime != -1)
 			{
-				settime(searchparam.xtime, searchparam.xotime, compside);
+				setTime(searchparam.xtime, searchparam.xotime, compside);
 			}
-			xthink();
-			if(checkresult()) compside = noside;
+			xThink();
+			if(checkResult()) compside = noside;
 			if(searchparam.movestogo[p.side^1]==0) searchparam.movestogo[p.side^1] = mps;
 			if(searchparam.cpon)
 			{
 				searchparam.pon = true;
 				searchparam.inf = true;
-				xthink();
+				xThink();
 				if(cast(double)(clock())> searchparam.stoptime)
 				{
 					writeln("pondertime was exceeded!");
@@ -315,7 +315,7 @@ void xboard_mode()
 				searchparam.depth = -1;
 				break;	
 			case "usermove":
-				readinmove(line[9..$]);
+				readInMove(line[9..$]);
 				if(searchparam.movestogo[p.side^1]!=-1)
 				{
 					searchparam.movestogo[p.side^1]--;
