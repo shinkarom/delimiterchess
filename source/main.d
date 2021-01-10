@@ -5,7 +5,7 @@ void main()
 {
 	unbufferStreams();
 	numelem = 32;
-	init_castlebits();
+	initCastleBits();
 	/+
 	init_distancetable();
 	init_hash_tables();

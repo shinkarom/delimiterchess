@@ -1,5 +1,5 @@
 import std.stdio, std.format, std.string, std.algorithm.searching, std.array, std.conv, core.stdc.time;
-import data, defines, utils, log, alloctime;
+import data, defines, utils, log, alloctime, setboard;
 
 const string[] uciStrings = [
 	"id name Delimiter",
@@ -79,15 +79,11 @@ void parsePosition(string str)
 	string moves = str.find("moves ")[6..$];
 	if(fen != "")
 	{
-		/+
-		setboard(fen);
-		+/
+		setBoard(fen);
 	}
 	else
 	{
-		/+
-		setboard(startfen);
-		+/
+		setBoard(startfen);
 	}
 	//now, if we have moves, parse and make them
 	string moveString;

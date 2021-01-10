@@ -1,5 +1,5 @@
 import std.stdio, utils;
-import data, defines, attack;
+import data, defines, attack, setboard;
 
 void iniFile()
 {
@@ -186,14 +186,12 @@ void xboardMode()
 	string command;
 
 	iniFile();
+	setBoard(startfen);
 	/+
-	setboard(startfen);
 	clearhash();
 	+/
 	int compside = noside;
-	/+
 	initsearchparam();
-	+/
 	searchparam.xbmode = true;
 	searchparam.usebook = true;
 	while(true)
@@ -261,15 +259,15 @@ void xboardMode()
 				searchparam.depth = -1;
 				break;
 			case "new":
+				setBoard(startfen);
 				/+
-				setboard(startfen);
 				clearhash();
 				+/
 				compside = black;
 				break;
-			case "perft":
+			case "perft":				
+				setBoard(startfen);
 				/+
-				setboard(startfen);
 				clearhash();
 				+/
 				compside = black;
@@ -334,9 +332,9 @@ void xboardMode()
 					writeln("offer draw");
 				+/
 				break;
-			case "setboard":
+			case "setboard":				
+				setBoard(line[9..$]);
 				/+
-				setboard(line[9..$]);
 				printboard();
 				+/
 				break;

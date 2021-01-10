@@ -1,6 +1,6 @@
 import defines, data;
 
-void clearboard()
+void clearBoard()
 {
 	for(int sq = 0; sq<144;sq++)
 	{
@@ -18,7 +18,7 @@ void clearboard()
 	p.material[1] = 0;
 }
 
-void init_castlebits()
+void initCastleBits()
 {
 	for(int sq = 0; sq<144;sq++)
 	{
@@ -96,7 +96,7 @@ char piece(int piece)
 	return piecetochar[piece];
 }
 
-void init_piecelists()
+void initPieceLists()
 {
 	int sq, pce;
 	
