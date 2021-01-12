@@ -1,5 +1,5 @@
 import std.stdio, std.format, std.string, std.algorithm.searching, std.array, std.conv, core.stdc.time;
-import data, defines, utils, log, alloctime, setboard;
+import data, defines, utils, log, alloctime, setboard, io;
 
 const string[] uciStrings = [
 	"id name Delimiter",
@@ -15,9 +15,9 @@ const string[] uciStrings = [
 
 void uciMode()
 {
-	searchparam.cpon = true;
-	searchparam.ucimode = true;
-	searchparam.usebook = false;
+	searchParam.cpon = true;
+	searchParam.ucimode = true;
+	searchParam.usebook = false;
 	foreach(s; uciStrings)
 		writeln(s);
 	uciLoop();
@@ -87,7 +87,7 @@ void parsePosition(string str)
 	}
 	//now, if we have moves, parse and make them
 	string moveString;
-	int prom;
+	bool prom;
 	if(moves != "")
 	{
 		while(moves.length >=4)
@@ -102,14 +102,13 @@ void parsePosition(string str)
 				moveString = moves[0..4];
 				moves = moves[4..$];
 			}
-			/+
 			int flag = understandmove(moveString, prom);
 			if(flag == -1)
 			{
 				writestring("not understood "~moveString);
 				assert(flag != 0);
 			}
-			+/
+			moves = moves[moveString.length..$];
 			while(moves.length>0 && moves[0]==' ')
 			{
 				moves = moves[1..$];
@@ -126,7 +125,7 @@ void parseGo(string str)
 		writestring(str);
 	}
 	
-	initsearchparam();
+	initSearchParam();
 	auto arr = str.split()[1..$];
 	
 	for(int i = 0; i<arr.length; i++)
@@ -134,45 +133,45 @@ void parseGo(string str)
 		switch(arr[i])
 		{
 			case "infinite":
-				searchparam.inf = true;
+				searchParam.inf = true;
 				break;
 			case "binc":
 				i++;
-				searchparam.binc = to!double(arr[i]);
+				searchParam.binc = to!double(arr[i]);
 				break;
 			case "btime":
 				i++;
-				searchparam.btime = to!double(arr[i]);
+				searchParam.btime = to!double(arr[i]);
 				break;
 			case "depth":
 				i++;
-				searchparam.depth = to!int(arr[i]);
+				searchParam.depth = to!int(arr[i]);
 				break;
 			case "mate":
 				break;
 			case "movestogo":
 				i++;
-				searchparam.movestogo[p.side] = to!int(arr[i]);
+				searchParam.movestogo[p.side] = to!int(arr[i]);
 				break;
 			case "movetime":
 				i++;
-				searchparam.timepermove = to!double(arr[i]);
+				searchParam.timepermove = to!double(arr[i]);
 				break;
 			case "nodes":
 				break;
 			case "ponder":
-				searchparam.pon = true;
-				searchparam.inf = true;
+				searchParam.pon = true;
+				searchParam.inf = true;
 				break;
 			case "searchmoves":
 				break;
 			case "winc":
 				i++;
-				searchparam.winc = to!double(arr[i]);
+				searchParam.winc = to!double(arr[i]);
 				break;
 			case "wtime":
 				i++;
-				searchparam.wtime = to!double(arr[i]);
+				searchParam.wtime = to!double(arr[i]);
 				break;
 			default:
 				break;
@@ -188,8 +187,8 @@ void think()
 	writeln("allocated ",allocatedtime);
 	if(allocatedtime<0)
 		allocatedtime = 200;
-	searchparam.starttime = cast(double)(clock());
-	searchparam.stoptime = searchparam.starttime+allocatedtime;
+	searchParam.starttime = cast(double)(clock());
+	searchParam.stoptime = searchParam.starttime+allocatedtime;
 	if(logme)
 	{
 		writestring("Calling calc(), allocatedtime = "~to!string(allocatedtime));
@@ -203,7 +202,7 @@ void think()
 		writestring("Returned from calc()");
 		writeboard();		
 	}
-	searchparam.inf = false;
+	searchParam.inf = false;
 	/+
 	writeln("bestmove ",returnmove(best)," ponder ",returnmove(pondermove));
 	+/
@@ -231,9 +230,9 @@ void parseOption(string str)
 			break;
 		case "OwnBook":
 			if(value=="true")
-				searchparam.usebook = true;
+				searchParam.usebook = true;
 			else if (value=="false")
-				searchparam.usebook = false;
+				searchParam.usebook = false;
 			break;
 		case "KingSafety":
 			eo.kingsafety = to!int(value);

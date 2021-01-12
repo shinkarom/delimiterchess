@@ -63,7 +63,7 @@ bool checkinput()
 	
 	if(bioskey())
 	{
-		if(searchparam.xbmode)
+		if(searchParam.xbmode)
 		{
 			stopsearch = true;
 			return true;
@@ -91,13 +91,13 @@ bool checkinput()
 			}
 			else if(input[0..9].toLower=="ponderhit")
 			{				
-				searchparam.ponderhit = true;
-				searchparam.pon = false;
-				searchparam.inf = false;
+				searchParam.ponderhit = true;
+				searchParam.pon = false;
+				searchParam.inf = false;
 				double alloctime = allocatetime();
 				if(alloctime<0) alloctime = 200;
-				searchparam.starttime = cast(double)(clock())+500;
-				searchparam.stoptime = searchparam.starttime + alloctime;
+				searchParam.starttime = cast(double)(clock())+500;
+				searchParam.stoptime = searchParam.starttime + alloctime;
 				return true;
 			}
 			else
@@ -113,7 +113,7 @@ bool checkinput()
 void checkup()
 {
 	checkinput();
-	if(cast(double)(clock()) >= searchparam.stoptime)
+	if(cast(double)(clock()) >= searchParam.stoptime)
 	{
 		stopsearch = true;
 	}

@@ -23,13 +23,13 @@ char[2] colours = "bw";
 Position p;
 EvalOptions eo;
 
-Move pondermove;
+Move ponderMove;
 Hist[1024] hist;
 
 Move nomove;
 Move best;
 
-int[144] castlebits;
+int[144] castleBits;
 
 char[15] piecetochar = ".PpNnBbRrQqKk.";
 char[8] brdranks = "12345678";
@@ -42,7 +42,7 @@ int[16] vals = [0, 100, 100, 300, 300, 300, 300, 500, 500, 900, 900, 10000, 1000
 
 EvalData eval;
 
-SearchParam searchparam;
+SearchParam searchParam;
 int stopsearch;
 int itdepth;
 Move[48][48] pv;
@@ -64,8 +64,8 @@ int histply;
 
 float fhf;
 float fh;
-float ntry;
-float ncut;
+float nulltry;
+float nullcut;
 float hashprobe;
 float hashhit;
 float incheckext;
@@ -147,22 +147,22 @@ ulong[2] hash_s = [0xED219F0B230F413D, 0x117445EE53315F7A];
 
 ulong[16] hash_ca = [0x6D5C8E71D8564C0E, 0x2B2F4921F1C754FC, 0xC06F0E9E226869A2, 0x5E4C3DB911FF8966, 0xF11AF890AAC4DEB6, 0x4656B646CCE57A1, 0xD43D021B76158551, 0xA06844350B369C5B, 0x89EB4AA63B794AC2, 0xA687AB1ADE0B93BE, 0xBA046494EC839792, 0x1830671D5F144140, 0xE0A8AF769D633A9B, 0x3AD3CC454633B9D, 0x4B576AA7EB73AC1C, 0x2E0EE6C139EA8C27];
 
-void initsearchparam()
+void initSearchParam()
 {
-	searchparam.depth = -1;
-	searchparam.winc = -1;
-	searchparam.binc = -1;
-	searchparam.wtime = -1;
-	searchparam.btime = -1;
-	searchparam.xtime = -1;
-	searchparam.xotime = -1;
-	searchparam.movestogo[white] = -1;
-	searchparam.movestogo[black] = -1;
-	searchparam.timepermove = -1;
-	searchparam.starttime = -1;
-	searchparam.stoptime = -1;
-	searchparam.inf = false;
-	searchparam.pon = false;
-	searchparam.ponderhit = false;
-	searchparam.post = true;
+	searchParam.depth = -1;
+	searchParam.winc = -1;
+	searchParam.binc = -1;
+	searchParam.wtime = -1;
+	searchParam.btime = -1;
+	searchParam.xtime = -1;
+	searchParam.xotime = -1;
+	searchParam.movestogo[white] = -1;
+	searchParam.movestogo[black] = -1;
+	searchParam.timepermove = -1;
+	searchParam.starttime = -1;
+	searchParam.stoptime = -1;
+	searchParam.inf = false;
+	searchParam.pon = false;
+	searchParam.ponderhit = false;
+	searchParam.post = true;
 }

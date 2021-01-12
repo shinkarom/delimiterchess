@@ -15,10 +15,10 @@ void main()
 	eo.passedpawn = 176;
 	eo.kingsafety = 128;
 	eo.pawnstructure = 96;
-	searchparam.xbmode = false;
-	searchparam.ucimode = false;
-	searchparam.ics = false;
-	searchparam.cpon = false;
+	searchParam.xbmode = false;
+	searchParam.ucimode = false;
+	searchParam.ics = false;
+	searchParam.cpon = false;
 	/+
 	book_init();
 	+/	

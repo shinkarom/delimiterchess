@@ -1,5 +1,5 @@
 import std.stdio, utils;
-import data, defines, attack, setboard;
+import data, defines, attack, setboard, io;
 
 void iniFile()
 {
@@ -22,13 +22,13 @@ void setTime(double t, double ot, int compside)
 {
 	if(compside==white)
 	{
-		searchparam.wtime = t;
-		searchparam.btime = ot;
+		searchParam.wtime = t;
+		searchParam.btime = ot;
 	}
 	else
 	{
-		searchparam.btime = t;
-		searchparam.wtime = ot;		
+		searchParam.btime = t;
+		searchParam.wtime = ot;		
 	}
 }
 
@@ -109,15 +109,13 @@ bool checkResult()
 
 void readInMove(string m)
 {
-	/+
 	if(nopvmove(m))
 	{
 		writeln("\nno pv move");
 		return;
 	}
-	+/
 	string move_string;
-	int prom;
+	bool prom;
 	if(m.length==4 || m[4]==' ')
 	{
 		move_string = m[0..4].idup;
@@ -126,14 +124,12 @@ void readInMove(string m)
 	{
 		move_string = m[0..5].idup;
 	}
-	/+
 	int flag = understandmove(move_string, prom);
 	if(flag == -1)
 	{
 		writeln("\nnot understood",m);
 		assert(flag != 0);
 	}
-	+/
 }
 
 void xThink()
@@ -141,39 +137,39 @@ void xThink()
 	import alloctime, core.stdc.time;
 	
 	double allocatedtime;
-	if(!searchparam.pon)
+	if(!searchParam.pon)
 	{
 		allocatedtime = allocatetime();
 		if(allocatedtime < 0) allocatedtime = 200;
-		searchparam.starttime = cast(double)clock();
-		searchparam.stoptime = searchparam.starttime + allocatedtime;
+		searchParam.starttime = cast(double)clock();
+		searchParam.stoptime = searchParam.starttime + allocatedtime;
 	}
 	else
 	{
 		allocatedtime = (pondertime()*4)/3;
-		searchparam.starttime = cast(double)clock();
-		searchparam.pontime = searchparam.starttime + allocatedtime;
-		searchparam.stoptime = searchparam.starttime + 128000000;
+		searchParam.starttime = cast(double)clock();
+		searchParam.pontime = searchParam.starttime + allocatedtime;
+		searchParam.stoptime = searchParam.starttime + 128000000;
 	}
 	/+
 		calc();
 	+/
 	
-	if(!searchparam.pon)
+	if(!searchParam.pon)
 	{
 		//makemove(best);
 		//writeln("move=",returnmove(best));
-		if(searchparam.movestogo[p.side^1] != -1)
+		if(searchParam.movestogo[p.side^1] != -1)
 		{
-			searchparam.movestogo[p.side^1]--;
+			searchParam.movestogo[p.side^1]--;
 		}
-		searchparam.ponfrom = deadsquare;
-		searchparam.ponto = deadsquare;
+		searchParam.ponfrom = deadsquare;
+		searchParam.ponto = deadsquare;
 	}
 	else
 	{
-		searchparam.ponfrom = FROM(best.m);
-		searchparam.ponto = TO(best.m);
+		searchParam.ponfrom = FROM(best.m);
+		searchParam.ponto = TO(best.m);
 	}
 }
 
@@ -191,9 +187,9 @@ void xboardMode()
 	clearhash();
 	+/
 	int compside = noside;
-	initsearchparam();
-	searchparam.xbmode = true;
-	searchparam.usebook = true;
+	initSearchParam();
+	searchParam.xbmode = true;
+	searchParam.usebook = true;
 	while(true)
 	{
 		if(drawMaterial)
@@ -203,24 +199,24 @@ void xboardMode()
 		if(checkResult()) compside = noside;
 		if(compside == p.side)
 		{
-			if(searchparam.xtime != -1)
+			if(searchParam.xtime != -1)
 			{
-				setTime(searchparam.xtime, searchparam.xotime, compside);
+				setTime(searchParam.xtime, searchParam.xotime, compside);
 			}
 			xThink();
 			if(checkResult()) compside = noside;
-			if(searchparam.movestogo[p.side^1]==0) searchparam.movestogo[p.side^1] = mps;
-			if(searchparam.cpon)
+			if(searchParam.movestogo[p.side^1]==0) searchParam.movestogo[p.side^1] = mps;
+			if(searchParam.cpon)
 			{
-				searchparam.pon = true;
-				searchparam.inf = true;
+				searchParam.pon = true;
+				searchParam.inf = true;
 				xThink();
-				if(cast(double)(clock())> searchparam.stoptime)
+				if(cast(double)(clock())> searchParam.stoptime)
 				{
 					writeln("pondertime was exceeded!");
 				}
-				searchparam.inf = false;
-				searchparam.pon = false;
+				searchParam.inf = false;
+				searchParam.pon = false;
 			}
 		}
 		string line = readln().strip().toLower();
@@ -243,20 +239,20 @@ void xboardMode()
 				break;
 			case "level":
 				/+
-				initsearchparam();
+				initsearchParam();
 				+/
 				formattedRead(line, "level %d %d %d",mps, base, inc);
 				if(mps)
 				{
-					searchparam.movestogo[white] = mps;
-					searchparam.movestogo[black] = mps;
+					searchParam.movestogo[white] = mps;
+					searchParam.movestogo[black] = mps;
 				}
 				if(inc)
 				{
-					searchparam.winc = inc*1000;
-					searchparam.binc = inc*1000;
+					searchParam.winc = inc*1000;
+					searchParam.binc = inc*1000;
 				}
-				searchparam.depth = -1;
+				searchParam.depth = -1;
 				break;
 			case "new":
 				setBoard(startfen);
@@ -292,33 +288,33 @@ void xboardMode()
 			case "sd":
 				int d;
 				formattedRead(line,"sd %d",d);
-				searchparam.depth = d;
+				searchParam.depth = d;
 				break;
 			case "st":
 				int t;
 				formattedRead(line,"st %d",t);
-				searchparam.timepermove = t*1000;
-				searchparam.depth = -1;
+				searchParam.timepermove = t*1000;
+				searchParam.depth = -1;
 				break;
 			case "time":
 				int t;
 				formattedRead(line,"time %d",t);
-				searchparam.xtime = t*10;
-				searchparam.depth = -1;
+				searchParam.xtime = t*10;
+				searchParam.depth = -1;
 				break;	
 			case "otim":
 				int t;
 				formattedRead(line,"otim %d",t);
-				searchparam.xotime = t*10;
-				searchparam.depth = -1;
+				searchParam.xotime = t*10;
+				searchParam.depth = -1;
 				break;	
 			case "usermove":
 				readInMove(line[9..$]);
-				if(searchparam.movestogo[p.side^1]!=-1)
+				if(searchParam.movestogo[p.side^1]!=-1)
 				{
-					searchparam.movestogo[p.side^1]--;
-					if(searchparam.movestogo[p.side^1]==0)
-						searchparam.movestogo[p.side^1]=mps;
+					searchParam.movestogo[p.side^1]--;
+					if(searchParam.movestogo[p.side^1]==0)
+						searchParam.movestogo[p.side^1]=mps;
 				}
 				break;
 			case "ping":
@@ -339,7 +335,7 @@ void xboardMode()
 				+/
 				break;
 			case "ics":
-				searchparam.ics = (line[4] != '-');
+				searchParam.ics = (line[4] != '-');
 				break;
 			case "hint":
 				break;
@@ -374,16 +370,16 @@ void xboardMode()
 				+/
 				break;
 			case "hard":
-				searchparam.cpon = true;
+				searchParam.cpon = true;
 				break;
 			case "easy":
-				searchparam.cpon = false;
+				searchParam.cpon = false;
 				break;
 			case "post":
-				searchparam.post = true;
+				searchParam.post = true;
 				break;
 			case "nopost":
-				searchparam.post = false;
+				searchParam.post = false;
 				break;
 			case "name":
 				break;

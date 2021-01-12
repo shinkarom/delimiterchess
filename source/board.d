@@ -25,25 +25,25 @@ void initCastleBits()
 		switch(sq)
 		{
 			case A1:
-				castlebits[sq] = 11;
+				castleBits[sq] = 11;
 				break;
 			case H1:
-				castlebits[sq] = 7;
+				castleBits[sq] = 7;
 				break;
 			case A8:
-				castlebits[sq] = 14;
+				castleBits[sq] = 14;
 				break;
 			case H8:
-				castlebits[sq] = 13;
+				castleBits[sq] = 13;
 				break;
 			case E1:
-				castlebits[sq] = 3;
+				castleBits[sq] = 3;
 				break;
 			case E8:
-				castlebits[sq] = 12;
+				castleBits[sq] = 12;
 				break;	
 			default:
-				castlebits[sq] = 15;
+				castleBits[sq] = 15;
 				break;
 		}
 	}
