@@ -117,8 +117,7 @@ void score_capture(ref Move m)
 			m.score = equalcap[p.board[FROM(m.m)].typ];
 		}
 		else
-		{
-		/+
+		{	
 			if(isattacked(to,p.side^1))
 			{
 				m.score = 0;
@@ -127,7 +126,6 @@ void score_capture(ref Move m)
 			{
 				m.score = SEECAP;
 			}
-		+/
 		}
 	}
 }

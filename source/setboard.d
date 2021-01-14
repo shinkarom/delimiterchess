@@ -1,5 +1,5 @@
 import std.stdio;
-import data, defines, board, utils;
+import data, defines, board, utils, hash;
 
 int[64] index = [
 	110, 111, 112, 113, 114, 115, 116, 117,
@@ -192,9 +192,7 @@ void setBoard(string str)
 	p.fifty*=2;
 	
 	initPieceLists();
-	/+
 	fullhashkey();
-	+/
 	p.ply = 0;
 	histply = 0;
 	p.listc[0] = 0;

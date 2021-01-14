@@ -35,7 +35,7 @@ char[15] piecetochar = ".PpNnBbRrQqKk.";
 char[8] brdranks = "12345678";
 char[8] brdfiles = "abcdefgh";
 
-Hashelem TTable;
+Hashelem[] TTable;
 int numelem;
 
 int[16] vals = [0, 100, 100, 300, 300, 300, 300, 500, 500, 900, 900, 10000, 10000, 0, 0, 0];

@@ -85,9 +85,10 @@ struct Position
 struct Hashelem
 {
 	ulong hashkey;
-	short depth;
-	short flag;
-	short Null;
+	int depth;
+	int flag;
+	int nul;
+	int score;
 	int move;
 }
 

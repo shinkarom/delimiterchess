@@ -1,5 +1,5 @@
 import std.stdio, std.format, std.string, std.algorithm.searching, std.array, std.conv, core.stdc.time;
-import data, defines, utils, log, alloctime, setboard, io;
+import data, defines, utils, log, alloctime, setboard, io, hash;
 
 const string[] uciStrings = [
 	"id name Delimiter",
@@ -44,10 +44,8 @@ void uciLoop()
 				parseOption(line[10..$]);
 				break;
 			case "ucinewgame":
-				/+
-				setboard(startfen);
+				setBoard(startfen);
 				clearhash();
-				+/
 				break;
 			case "go":
 				parseGo(line[3..$]);
@@ -203,9 +201,7 @@ void think()
 		writeboard();		
 	}
 	searchParam.inf = false;
-	/+
-	writeln("bestmove ",returnmove(best)," ponder ",returnmove(pondermove));
-	+/
+	writeln("bestmove ",returnmove(best)," ponder ",returnmove(ponderMove));
 }
 
 void parseOption(string str)

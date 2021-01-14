@@ -1,5 +1,5 @@
 import std.stdio, std.string;
-import utils, defines, data, psqt, log, board, sort, interrupt, xboard, root, uci;
+import utils, defines, data, psqt, log, board, sort, interrupt, xboard, root, uci, hash;
 
 void main()
 {
@@ -8,8 +8,8 @@ void main()
 	initCastleBits();
 	/+
 	init_distancetable();
-	init_hash_tables();
 	+/
+	init_hash_tables();	
 	logme = false;
 	openlog();
 	eo.passedpawn = 176;

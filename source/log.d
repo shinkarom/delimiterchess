@@ -1,5 +1,5 @@
 import std.stdio;
-import data, defines, board;
+import data, defines, board, io;
 
 void openlog()
 {
@@ -19,15 +19,13 @@ void writeply(int ply)
 
 void writemove(Move our)
 {
-	//string move = returnmove(our);
-	string move = "";
+	string move = returnmove(our);
 	log_file.writef(" move %s", move);
 }
 
 void writesq(int our)
 {
-	//string sq = returnsquare(our);
-	string sq = "";
+	string sq = returnsquare(our);
 	log_file.write(sq);
 }
 
@@ -103,7 +101,7 @@ void writeboard()
 	
 	log_file.writef(" \n side = %d", p.side);
 	writestring("\n Castle Flags ");
-	//writestring(returncastle());
+	writestring(returncastle());
 	writesq(p.en_pas);
 	log_file.writef("\n hashkey %X", p.hashkey);
 	log_file.writef("\n side = %d", colours[p.side]);

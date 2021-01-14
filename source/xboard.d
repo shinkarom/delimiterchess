@@ -1,5 +1,5 @@
 import std.stdio, utils;
-import data, defines, attack, setboard, io;
+import data, defines, attack, setboard, io, hash;
 
 void iniFile()
 {
@@ -15,7 +15,7 @@ void iniFile()
 	ini.readf("%d",size);
 	numelem = size;
 	writeln("numelem set to ",numelem);
-	//init_hash_tables();
+	init_hash_tables();
 }
 
 void setTime(double t, double ot, int compside)
@@ -158,7 +158,7 @@ void xThink()
 	if(!searchParam.pon)
 	{
 		//makemove(best);
-		//writeln("move=",returnmove(best));
+		writeln("move=",returnmove(best));
 		if(searchParam.movestogo[p.side^1] != -1)
 		{
 			searchParam.movestogo[p.side^1]--;
@@ -183,9 +183,7 @@ void xboardMode()
 
 	iniFile();
 	setBoard(startfen);
-	/+
 	clearhash();
-	+/
 	int compside = noside;
 	initSearchParam();
 	searchParam.xbmode = true;
@@ -238,9 +236,7 @@ void xboardMode()
 				writeln("feature ics=1");
 				break;
 			case "level":
-				/+
-				initsearchParam();
-				+/
+				initSearchParam();
 				formattedRead(line, "level %d %d %d",mps, base, inc);
 				if(mps)
 				{
@@ -256,16 +252,12 @@ void xboardMode()
 				break;
 			case "new":
 				setBoard(startfen);
-				/+
 				clearhash();
-				+/
 				compside = black;
 				break;
 			case "perft":				
 				setBoard(startfen);
-				/+
 				clearhash();
-				+/
 				compside = black;
 				/+
 				perft(6);
