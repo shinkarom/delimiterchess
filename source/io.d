@@ -1,5 +1,5 @@
 import std.stdio, core.stdc.time;
-import defines, data, board;
+import defines, data, board, doundo;
 
 string returnsquare(int from)
 {
@@ -45,8 +45,8 @@ int understandmove(string move, ref bool prom)
 	/+
 	movegen();
 	+/
-	
-	for(int i = p.listc[p.ply]; i<p.listc[p.ply+1]; i++)
+	int i;
+	for(i = p.listc[p.ply]; i<p.listc[p.ply+1]; i++)
 	{
 		if(FROM(p.list[i].m)==from && TO(p.list[i].m)==to)
 		{
@@ -87,7 +87,7 @@ int understandmove(string move, ref bool prom)
 	{
 		return -1;
 	}
-	/+
+
 	if(makemove(p.list[i]))
 	{
 		takemove();
@@ -95,7 +95,6 @@ int understandmove(string move, ref bool prom)
 		returnflag = -1;
 		prom = false;
 	}
-	+/
 	return returnflag;
 }
 

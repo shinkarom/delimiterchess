@@ -130,9 +130,11 @@ void setBoard(string str)
 		}
 		ptr++;
 	}
-	if(WK!=1 || BK!=1 || WP!=1 || BP!=1)
+	if(WK!=1 || BK!=1 || WP>8 || BP>8)
 	{
 		writeln("FEN ILLEGAL NUM");
+		writeln(str);
+		writeln(WK, " ",BK," ",WP," ",BP);
 		exitAll();
 	}
 	

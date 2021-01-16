@@ -50,7 +50,7 @@ void writegamehist()
 	log_file.write(" \ngame history ");
 	for(int i = 0;i<histply-1; i++)
 	{
-		//log_file.write(" move %d %s ", i, returnmove(hist[i]));
+		log_file.write(" move %d %s ", i, returnmove(Move(hist[i].data,0)));
 	}
 	log_file.write("\n");
 }

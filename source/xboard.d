@@ -1,5 +1,5 @@
 import std.stdio, utils;
-import data, defines, attack, setboard, io, hash;
+import data, defines, attack, setboard, io, hash, doundo;
 
 void iniFile()
 {
@@ -71,7 +71,6 @@ bool checkResult()
 	
 	int played = 0;
 	
-	/+
 	for(int i = p.listc[p.ply]; i<p.listc[p.ply+1]; i++)
 	{
 		if(makemove(p.list[i]))
@@ -83,7 +82,6 @@ bool checkResult()
 		played++;
 		takemove();
 	}
-	+/
 	if(played) return false;
 	bool inc = isattacked(p.k[p.side], p.side^1);
 	
@@ -157,7 +155,7 @@ void xThink()
 	
 	if(!searchParam.pon)
 	{
-		//makemove(best);
+		makemove(best);
 		writeln("move=",returnmove(best));
 		if(searchParam.movestogo[p.side^1] != -1)
 		{
@@ -342,7 +340,6 @@ void xboardMode()
 				compside = black;
 				break;
 			case "remove":
-				/+
 				if(histply>0)
 				{
 					takemove();
@@ -351,15 +348,12 @@ void xboardMode()
 						takemove();
 					}
 				}
-				+/
 				break;
 			case "undo":
-				/+
 				if(histply>0)
 				{
 					takemove();
 				}
-				+/
 				break;
 			case "hard":
 				searchParam.cpon = true;
