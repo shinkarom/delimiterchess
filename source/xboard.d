@@ -1,5 +1,5 @@
-import std.stdio, utils;
-import data, defines, attack, setboard, io, hash, doundo;
+import std.stdio;
+import data, defines, attack, setboard, io, hash, doundo, utils, perftm;
 
 void iniFile()
 {
@@ -257,9 +257,7 @@ void xboardMode()
 				setBoard(startfen);
 				clearhash();
 				compside = black;
-				/+
 				perft(6);
-				+/
 				break;	
 			case "quit":
 				exitAll();
