@@ -151,13 +151,13 @@ struct SearchParam
 
 struct BookInfo
 {
-	int whitelsize;
-	int whiteentries;
+	ulong whitelsize;
+	ulong whiteentries;
 }
 
 struct BinEntry
 {
 	ulong k;
-	char[5] m;
+	string m;
 	int freq;
 }

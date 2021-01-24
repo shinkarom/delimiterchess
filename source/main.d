@@ -1,5 +1,5 @@
 import std.stdio, std.string;
-import utils, defines, data, psqt, log, board, sort, interrupt, xboard, root, uci, hash;
+import utils, defines, data, psqt, log, board, sort, interrupt, xboard, root, uci, hash, book;
 
 void main()
 {
@@ -19,9 +19,7 @@ void main()
 	searchParam.ucimode = false;
 	searchParam.ics = false;
 	searchParam.cpon = false;
-	/+
 	book_init();
-	+/	
 	string command;
 	while(true)
 	{
