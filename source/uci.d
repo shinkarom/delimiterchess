@@ -1,5 +1,5 @@
 import std.stdio, std.format, std.string, std.algorithm.searching, std.array, std.conv, core.stdc.time;
-import data, defines, utils, log, alloctime, setboard, io, hash;
+import data, defines, utils, log, alloctime, setboard, io, hash, calcm;
 
 const string[] uciStrings = [
 	"id name Delimiter",
@@ -192,9 +192,7 @@ void think()
 		writestring("Calling calc(), allocatedtime = "~to!string(allocatedtime));
 		writeboard();
 	}
-	/+
 	calc();
-	+/
 	if(logme)
 	{
 		writestring("Returned from calc()");

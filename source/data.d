@@ -43,7 +43,7 @@ int[16] vals = [0, 100, 100, 300, 300, 300, 300, 500, 500, 900, 900, 10000, 1000
 EvalData eval;
 
 SearchParam searchParam;
-int stopsearch;
+bool stopsearch;
 int itdepth;
 Move[48][48] pv;
 int[48] pvindex;

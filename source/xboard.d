@@ -1,5 +1,5 @@
 import std.stdio;
-import data, defines, attack, setboard, io, hash, doundo, utils, perftm;
+import data, defines, attack, setboard, io, hash, doundo, utils, perftm, calcm;
 
 void iniFile()
 {
@@ -149,9 +149,7 @@ void xThink()
 		searchParam.pontime = searchParam.starttime + allocatedtime;
 		searchParam.stoptime = searchParam.starttime + 128000000;
 	}
-	/+
-		calc();
-	+/
+	calc();
 	
 	if(!searchParam.pon)
 	{
