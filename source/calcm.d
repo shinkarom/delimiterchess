@@ -1,5 +1,5 @@
 import core.stdc.time, std.stdio;
-import data, defines, io, book, root, doundo, hash, sort;
+import data, defines, io, book, root, doundo, hash, sort, searchm;
 
 void calc()
 {
@@ -68,7 +68,7 @@ bool timeCheck()
 Move findHashMove(Move m)
 {
 	int fakeDepth = 0;
-	int fakeNull = 0;
+	bool fakeNull = false;
 	int fakeScore = 0;
 	int fbeta = 0;
 	
@@ -83,9 +83,7 @@ Move findHashMove(Move m)
 		order(nomove);
 		for(int i = p.listc[p.ply]; i<p.listc[p.ply+1]; i++)
 		{
-			/+
 			pick(i);
-			+/
 			if(makemove(p.list[i]))
 			{
 				takemove();
@@ -93,9 +91,7 @@ Move findHashMove(Move m)
 			}
 			else
 			{
-				/+
 				pick(p.listc[p.ply]);
-				+/
 				hashMove = p.list[i];
 				break;
 			}

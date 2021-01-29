@@ -87,7 +87,7 @@ struct Hashelem
 	ulong hashkey;
 	int depth;
 	int flag;
-	int nul;
+	bool nul;
 	int score;
 	int move;
 }

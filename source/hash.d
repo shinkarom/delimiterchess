@@ -62,7 +62,7 @@ void testhashkey()
 	}
 }
 
-int probe_hash_table(int depth, Move move, ref int nul, ref int score, int beta)
+int probe_hash_table(int depth, Move move, ref bool nul, ref int score, int beta)
 {
 	hashprobe++;
 	Hashelem probe2;
