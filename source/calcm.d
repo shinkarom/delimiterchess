@@ -1,5 +1,5 @@
 import core.stdc.time, std.stdio;
-import data, defines, io, book, root, doundo, hash, sort, searchm;
+import data, defines, io, book, root, doundo, hash, sort, searchm, movegen;
 
 void calc()
 {
@@ -77,9 +77,7 @@ Move findHashMove(Move m)
 	fakeScore = probe_hash_table(fakeDepth, hashMove, fakeNull, fakeScore, fbeta);
 	if(nopvmove(returnmove(hashMove)))
 	{
-		/+
-		movegen();
-		+/
+		moveGen();
 		order(nomove);
 		for(int i = p.listc[p.ply]; i<p.listc[p.ply+1]; i++)
 		{

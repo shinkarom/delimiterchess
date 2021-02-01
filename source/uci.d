@@ -83,7 +83,7 @@ void parsePosition(string str)
 	{
 		setBoard(startfen);
 	}
-	//now, if we have moves, parse and make them
+
 	string moveString;
 	bool prom;
 	if(moves != "")
@@ -217,10 +217,8 @@ void parseOption(string str)
 			int val = to!int(value);
 			if(val<4)
 				val = 4;
-			numelem = val;
-			/+
+			numelem = val;			
 			init_hash_tables();
-			+/
 			break;
 		case "OwnBook":
 			if(value=="true")

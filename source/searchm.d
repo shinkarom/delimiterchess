@@ -1,4 +1,4 @@
-import data, defines, interrupt, sort, doundo, hash, attack;
+import data, defines, interrupt, sort, doundo, hash, attack, movegen;
 
 int search(int alpha, int beta, int depth, bool nul)
 {
@@ -95,9 +95,9 @@ int search(int alpha, int beta, int depth, bool nul)
 	
 	if(!hashmove.m)
 		hashmove = pv[p.ply][0];
-	/+
-	movegen();
-	+/
+
+	moveGen();
+
 	
 	order(hashmove);
 	
@@ -216,9 +216,9 @@ int quies(int alpha, int beta)
 		return beta;
 	if(score > alpha)
 		alpha = score;
-	/+
-	capgen();
-	+/
+
+	capGen();
+
 	qorder();
 	for(int i = p.listc[p.ply]; i<p.listc[p.ply+1]; i++)
 	{

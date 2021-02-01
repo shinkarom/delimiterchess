@@ -1,5 +1,5 @@
 import core.stdc.time, std.stdio, std.algorithm.searching, std.format;
-import data, defines, doundo, hash, io, setboard;
+import data, defines, doundo, hash, io, setboard, movegen;
 
 long pnodes, actnodes, pdepth;
 bool target;
@@ -48,9 +48,8 @@ void goshow(int depth)
 {
 	if(depth == 0)
 		return;
-	/+
-	movegen
-	+/
+
+	moveGen();
 	for(int i  = p.listc[p.ply]; i < p.listc[p.ply+1]; i++)
 	{
 		if(makemove(p.list[i]))
@@ -74,9 +73,9 @@ void goroot(int depth)
 {
 	if(depth == 0)
 		return;
-	/+
-	movegen
-	+/
+
+	moveGen();
+
 	long oldnodes = 0;
 	for(int i  = p.listc[p.ply]; i < p.listc[p.ply+1]; i++)
 	{

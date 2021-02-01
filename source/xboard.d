@@ -1,5 +1,5 @@
 import std.stdio;
-import data, defines, attack, setboard, io, hash, doundo, utils, perftm, calcm;
+import data, defines, attack, setboard, io, hash, doundo, utils, perftm, calcm, movegen;
 
 void iniFile()
 {
@@ -45,7 +45,9 @@ int repetition()
 
 bool drawMaterial()
 {
-	//gameeval();
+	/+
+	gameeval();
+	+/
 	if(eval.wpawns || eval.bpawns) return false;
 	if(eval.wRc || eval.wRc || eval.wQc || eval.bQc) return false;
 	if(eval.wBc>1 || eval.bBc>1) return false;
@@ -67,7 +69,7 @@ bool checkResult()
 		return true;
 	}
 	
-	//movegen();
+	moveGen();
 	
 	int played = 0;
 	

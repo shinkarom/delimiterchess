@@ -1,5 +1,5 @@
 import std.stdio, std.algorithm.sorting, std.file, std.bitmanip, core.stdc.time, core.stdc.stdlib;
-import defines, data, setboard, io;
+import defines, data, setboard, io, movegen;
 
 void store(BinEntry[] full)
 {
@@ -166,9 +166,7 @@ void parseopeningline(string str)
 
 int wfindhashbookmove()
 {
-	/+
-	movegen();
-	+/
+	moveGen();
 	int[2] f = [-1, -1];
 	int[2] m = [-1, -1];
 	foreach(it; whitebook)

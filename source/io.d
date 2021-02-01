@@ -1,5 +1,5 @@
 import std.stdio, core.stdc.time;
-import defines, data, board, doundo;
+import defines, data, board, doundo, movegen;
 
 string returnsquare(int from)
 {
@@ -190,9 +190,7 @@ int myparse(string move)
 	int from = fileranktosquare(chartofile(move[0]), chartorank(move[1]));
 	int to = fileranktosquare(chartofile(move[2]), chartorank(move[3]));
 	
-	/+
-	movegen();
-	+/
+	moveGen();
 	
 	for(int i = p.listc[p.ply]; i<p.listc[p.ply+1]; i++)
 	{
