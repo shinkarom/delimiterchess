@@ -1,4 +1,4 @@
-import data, defines, sort, attack, searchm, doundo;
+import data, defines, sort, attack, searchm, doundo, movegenlegal;
 
 immutable int ROOTLEGAL = 0, ROOTILLEGAL = 1, ILLEGALSCORE = -32000;
 
@@ -11,9 +11,7 @@ void rootInit()
 
 void rootMoveList()
 {
-	/+
 	movegen_legal();
-	+/
 }
 
 void scoreRootMoves()
@@ -22,9 +20,7 @@ void scoreRootMoves()
 	
 	for(int i = p.listc[now]; i<p.listc[now+1]; i++)
 	{
-		/+
 		makelegalmove(p.list[i]);
-		+/
 		p.list[i].score = -quies(-10000, 10000);
 		takemove();		
 	}
@@ -62,9 +58,7 @@ int rootSearch(int alpha, int beta, int depth)
 	for(int i = p.listc[p.ply]; i<p.listc[p.ply+1];i++)
 	{		
 		pick(i);
-		/+
 		makelegalmove(p.list[i]);
-		+/
 		if(isattacked(p.k[p.side],p.side^1))
 		{
 			inc = PLY;

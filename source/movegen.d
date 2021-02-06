@@ -242,31 +242,31 @@ void moveGen()
 					}
 					break;
 				case bN:
-					knightMove(sq, sq+14, bpco);
-					knightMove(sq, sq+10, bpco);
-					knightMove(sq, sq+25, bpco);
-					knightMove(sq, sq+23, bpco);
-					knightMove(sq, sq-14, bpco);
-					knightMove(sq, sq-10, bpco);
-					knightMove(sq, sq-25, bpco);
-					knightMove(sq, sq-23, bpco);
+					knightMove(sq, sq+14, wpco);
+					knightMove(sq, sq+10, wpco);
+					knightMove(sq, sq+25, wpco);
+					knightMove(sq, sq+23, wpco);
+					knightMove(sq, sq-14, wpco);
+					knightMove(sq, sq-10, wpco);
+					knightMove(sq, sq-25, wpco);
+					knightMove(sq, sq-23, wpco);
 					break;
 				case bK:
-					knightMove(sq, sq+1, bpco);
-					knightMove(sq, sq+12, bpco);
-					knightMove(sq, sq+11, bpco);
-					knightMove(sq, sq+13, bpco);
-					knightMove(sq, sq-1, bpco);
-					knightMove(sq, sq-12, bpco);
-					knightMove(sq, sq-11, bpco);
-					knightMove(sq, sq-13, bpco);
+					knightMove(sq, sq+1, wpco);
+					knightMove(sq, sq+12, wpco);
+					knightMove(sq, sq+11, wpco);
+					knightMove(sq, sq+13, wpco);
+					knightMove(sq, sq-1, wpco);
+					knightMove(sq, sq-12, wpco);
+					knightMove(sq, sq-11, wpco);
+					knightMove(sq, sq-13, wpco);
 					if(sq == E8)
 					{
 						if(p.castleflags & 2)
 						{
 							if(p.board[H8].typ == bR && p.board[F8].typ == ety && p.board[G8].typ == ety)
 							{
-								if(!isattacked(F8, black) && !isattacked(E8, black) && !isattacked(G8, black))
+								if(!isattacked(F8, white) && !isattacked(E8, white) && !isattacked(G8, white))
 								{
 									pushMove((E8 << 8) | G8 | mCA);
 								}
@@ -276,7 +276,7 @@ void moveGen()
 						{
 							if(p.board[A8].typ == bR && p.board[D8].typ == ety && p.board[C8].typ == ety && p.board[B8].typ == ety)
 							{
-								if(!isattacked(D8, black) && !isattacked(E8, black) && !isattacked(C8, black))
+								if(!isattacked(D8, white) && !isattacked(E8, white) && !isattacked(C8, white))
 								{
 									pushMove((E8 << 8) | C8 | mCA);
 								}
@@ -285,26 +285,26 @@ void moveGen()
 					}
 					break;
 				case bQ:
-					slideMove(sq, sq+13, bpco);
-					slideMove(sq, sq+11, bpco);
-					slideMove(sq, sq+12, bpco);
-					slideMove(sq, sq+1, bpco);
-					slideMove(sq, sq-13, bpco);
-					slideMove(sq, sq-11, bpco);
-					slideMove(sq, sq-12, bpco);
-					slideMove(sq, sq-1, bpco);
+					slideMove(sq, sq+13, wpco);
+					slideMove(sq, sq+11, wpco);
+					slideMove(sq, sq+12, wpco);
+					slideMove(sq, sq+1, wpco);
+					slideMove(sq, sq-13, wpco);
+					slideMove(sq, sq-11, wpco);
+					slideMove(sq, sq-12, wpco);
+					slideMove(sq, sq-1, wpco);
 					break;
 				case bB:
-					slideMove(sq, sq+13, bpco);
-					slideMove(sq, sq+11, bpco);
-					slideMove(sq, sq-13, bpco);
-					slideMove(sq, sq-11, bpco);
+					slideMove(sq, sq+13, wpco);
+					slideMove(sq, sq+11, wpco);
+					slideMove(sq, sq-13, wpco);
+					slideMove(sq, sq-11, wpco);
 					break;
 				case bR:
-					slideMove(sq, sq+12, bpco);
-					slideMove(sq, sq+1, bpco);
-					slideMove(sq, sq-12, bpco);
-					slideMove(sq, sq-1, bpco);
+					slideMove(sq, sq+12, wpco);
+					slideMove(sq, sq+1, wpco);
+					slideMove(sq, sq-12, wpco);
+					slideMove(sq, sq-1, wpco);
 					break;
 				default:
 					break;
@@ -423,46 +423,46 @@ void capGen()
 					}		
 					break;
 				case bN:
-					knightMoveC(sq, sq+14, bpco);
-					knightMoveC(sq, sq+10, bpco);
-					knightMoveC(sq, sq+25, bpco);
-					knightMoveC(sq, sq+23, bpco);
-					knightMoveC(sq, sq-14, bpco);
-					knightMoveC(sq, sq-10, bpco);
-					knightMoveC(sq, sq-25, bpco);
-					knightMoveC(sq, sq-23, bpco);
+					knightMoveC(sq, sq+14, wpco);
+					knightMoveC(sq, sq+10, wpco);
+					knightMoveC(sq, sq+25, wpco);
+					knightMoveC(sq, sq+23, wpco);
+					knightMoveC(sq, sq-14, wpco);
+					knightMoveC(sq, sq-10, wpco);
+					knightMoveC(sq, sq-25, wpco);
+					knightMoveC(sq, sq-23, wpco);
 					break;
 				case bK:
-					knightMoveC(sq, sq+1, bpco);
-					knightMoveC(sq, sq+12, bpco);
-					knightMoveC(sq, sq+11, bpco);
-					knightMoveC(sq, sq+13, bpco);
-					knightMoveC(sq, sq-1, bpco);
-					knightMoveC(sq, sq-12, bpco);
-					knightMoveC(sq, sq-11, bpco);
-					knightMoveC(sq, sq-13, bpco);
+					knightMoveC(sq, sq+1, wpco);
+					knightMoveC(sq, sq+12, wpco);
+					knightMoveC(sq, sq+11, wpco);
+					knightMoveC(sq, sq+13, wpco);
+					knightMoveC(sq, sq-1, wpco);
+					knightMoveC(sq, sq-12, wpco);
+					knightMoveC(sq, sq-11, wpco);
+					knightMoveC(sq, sq-13, wpco);
 					break;
 				case bQ:
-					slideMoveC(sq, sq+13, bpco);
-					slideMoveC(sq, sq+11, bpco);
-					slideMoveC(sq, sq+12, bpco);
-					slideMoveC(sq, sq+1, bpco);
-					slideMoveC(sq, sq-13, bpco);
-					slideMoveC(sq, sq-11, bpco);
-					slideMoveC(sq, sq-12, bpco);
-					slideMoveC(sq, sq-1, bpco);
+					slideMoveC(sq, sq+13, wpco);
+					slideMoveC(sq, sq+11, wpco);
+					slideMoveC(sq, sq+12, wpco);
+					slideMoveC(sq, sq+1, wpco);
+					slideMoveC(sq, sq-13, wpco);
+					slideMoveC(sq, sq-11, wpco);
+					slideMoveC(sq, sq-12, wpco);
+					slideMoveC(sq, sq-1, wpco);
 					break;
 				case bB:
-					slideMoveC(sq, sq+13, bpco);
-					slideMoveC(sq, sq+11, bpco);
-					slideMoveC(sq, sq-13, bpco);
-					slideMoveC(sq, sq-11, bpco);
+					slideMoveC(sq, sq+13, wpco);
+					slideMoveC(sq, sq+11, wpco);
+					slideMoveC(sq, sq-13, wpco);
+					slideMoveC(sq, sq-11, wpco);
 					break;
 				case bR:
-					slideMoveC(sq, sq+12, bpco);
-					slideMoveC(sq, sq+1, bpco);
-					slideMoveC(sq, sq-12, bpco);
-					slideMoveC(sq, sq-1, bpco);
+					slideMoveC(sq, sq+12, wpco);
+					slideMoveC(sq, sq+1, wpco);
+					slideMoveC(sq, sq-12, wpco);
+					slideMoveC(sq, sq-1, wpco);
 					break;
 				default:
 					break;
