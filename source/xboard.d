@@ -1,5 +1,5 @@
 import std.stdio;
-import data, defines, attack, setboard, io, hash, doundo, utils, perftm, calcm, movegen;
+import data, defines, attack, setboard, io, hash, doundo, utils, perftm, calcm, movegen, eval;
 
 void iniFile()
 {
@@ -45,14 +45,12 @@ int repetition()
 
 bool drawMaterial()
 {
-	/+
 	gameeval();
-	+/
-	if(eval.wpawns || eval.bpawns) return false;
-	if(eval.wRc || eval.wRc || eval.wQc || eval.bQc) return false;
-	if(eval.wBc>1 || eval.bBc>1) return false;
-	if(eval.wNc && eval.wBc) return false;
-	if(eval.bNc && eval.bBc) return false;
+	if(evalData.wpawns || evalData.bpawns) return false;
+	if(evalData.wRc || evalData.wRc || evalData.wQc || evalData.bQc) return false;
+	if(evalData.wBc>1 || evalData.bBc>1) return false;
+	if(evalData.wNc && evalData.wBc) return false;
+	if(evalData.bNc && evalData.bBc) return false;
 	return true;
 }
 
@@ -311,10 +309,8 @@ void xboardMode()
 				writeln("pong ",p);
 				break;
 			case "draw":
-				/+
 				if(isdrawnp()==0)
 					writeln("offer draw");
-				+/
 				break;
 			case "setboard":				
 				setBoard(line[9..$]);

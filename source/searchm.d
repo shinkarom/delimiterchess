@@ -1,4 +1,4 @@
-import data, defines, interrupt, sort, doundo, hash, attack, movegen;
+import data, defines, interrupt, sort, doundo, hash, attack, movegen, eval;
 
 int search(int alpha, int beta, int depth, bool nul)
 {
@@ -13,10 +13,8 @@ int search(int alpha, int beta, int depth, bool nul)
 		return 0;
 	if(p.ply && isrep())
 		return 0;
-	/+
 	if(p.ply>31)
 		return gameeval();
-	+/
 	nodes++;
 	pvindex[p.ply] = p.ply;
 	hflag = probe_hash_table(depth, hashmove, nul, hashscore, beta);
@@ -204,14 +202,10 @@ int quies(int alpha, int beta)
 	if(stopsearch)
 		return 0;
 	qnodes++;
-	/+
 	if(p.ply>31)
 		return gameeval();
-	+/
 	pvindex[p.ply] = p.ply;
-	/+
 	score = gameeval();
-	+/
 	if(score >= beta)
 		return beta;
 	if(score > alpha)

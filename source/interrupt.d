@@ -1,5 +1,5 @@
 import std.stdio, core.stdc.time;
-import defines, data, utils, alloctime;
+import defines, data, utils, alloctime, eval;
 
 version (Posix)
 {

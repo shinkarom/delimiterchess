@@ -1,14 +1,12 @@
 import std.stdio, std.string;
-import utils, defines, data, psqt, log, board, sort, interrupt, xboard, root, uci, hash, book;
+import utils, defines, data, psqt, log, board, sort, interrupt, xboard, root, uci, hash, book, eval;
 
 void main()
 {
 	unbufferStreams();
 	numelem = 32;
 	initCastleBits();
-	/+
 	init_distancetable();
-	+/
 	init_hash_tables();	
 	logme = false;
 	openlog();
