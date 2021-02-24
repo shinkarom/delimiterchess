@@ -4,7 +4,7 @@ immutable int HASH = 65536, M_KILLER = 65526, WIN_CAPT1 = 65516, WIN_CAPT2 = 655
 
 immutable int[16] equalcap = [0, GCAP_PP, GCAP_PP, GCAP_NN, GCAP_NN, GCAP_BB, GCAP_BB, GCAP_RR, GCAP_RR, GCAP_QQ, GCAP_QQ, 10000, 10000, 0, 0, 0];
 
-void update_history(Move move, int depth)
+void updateHistory(Move move, int depth)
 {
 	his_table[move.m&MOVEBITS] = depth/PLY;
 	if(his_table[move.m&MOVEBITS] > MOVEBITS)
@@ -16,7 +16,7 @@ void update_history(Move move, int depth)
 	}
 }
 
-void update_killers(Move move, int score)
+void updateKillers(Move move, int score)
 {
 	if(score > 10000-p.ply)
 	{
@@ -37,17 +37,16 @@ void update_killers(Move move, int score)
 	}
 }
 
-bool score_killer(ref Move m)
+bool scoreKiller(ref Move m)
 {
 	int from = FROM(m.m);
 	int to = TO(m.m);
-	
 	if(from == FROM(killer1[p.ply].m) && to == TO(killer1[p.ply].m))
 	{
 		m.score = KILLER1;
 		return true;
 	}
-	else if(from == FROM(killer1[p.ply-1].m) && to == TO(killer1[p.ply-1].m) && p.ply)
+	else if(from == FROM(p.ply && killer1[p.ply-1].m) && to == TO(killer1[p.ply-1].m))
 	{
 		m.score = KILLER1_PLY;
 		return true;
@@ -57,7 +56,7 @@ bool score_killer(ref Move m)
 		m.score = KILLER2;
 		return true;
 	}
-	else if(from == FROM(killer2[p.ply-1].m) && to == TO(killer2[p.ply-1].m) && p.ply)
+	else if(from == FROM(p.ply && killer2[p.ply-1].m) && to == TO(killer2[p.ply-1].m))
 	{
 		m.score = KILLER2_PLY;
 		return true;
@@ -65,12 +64,12 @@ bool score_killer(ref Move m)
 	return false;
 }
 
-void score_ca(ref Move m)
+void scoreCa(ref Move m)
 {
 	m.score = OO;
 }
 
-void score_prom(ref Move m)
+void scoreProm(ref Move m)
 {
 	if(m.m & oPQ)
 	{
@@ -82,7 +81,7 @@ void score_prom(ref Move m)
 	}
 }
 
-void score_capture(ref Move m)
+void scoreCapture(ref Move m)
 {
 	if(m.m & mProm)
 	{
@@ -155,17 +154,17 @@ void order(ref Move hm)
 			}
 			else if(p.list[i].m & mCAP)
 			{
-				score_capture(p.list[i]);
+				scoreCapture(p.list[i]);
 			}
 			else if(p.list[i].m & mProm)
 			{
-				score_prom(p.list[i]);
+				scoreProm(p.list[i]);
 			}
 			else if(p.list[i].m & mCA)
 			{
-				score_ca(p.list[i]);
+				scoreCa(p.list[i]);
 			}
-			else if (!score_killer(p.list[i]))
+			else if (!scoreKiller(p.list[i]))
 			{
 				p.list[i].score = his_table[p.list[i].m & MOVEBITS];
 				int fromType = p.board[FROM(p.list[i].m)].typ;
@@ -197,17 +196,17 @@ void order(ref Move hm)
 			}
 			else if(p.list[i].m & mCAP)
 			{
-				score_capture(p.list[i]);
+				scoreCapture(p.list[i]);
 			}
 			else if(p.list[i].m & mProm)
 			{
-				score_prom(p.list[i]);
+				scoreProm(p.list[i]);
 			}
 			else if(p.list[i].m & mCA)
 			{
-				score_ca(p.list[i]);
+				scoreCa(p.list[i]);
 			}
-			else if (!score_killer(p.list[i]))
+			else if (!scoreKiller(p.list[i]))
 			{
 				p.list[i].score = his_table[p.list[i].m & MOVEBITS];
 				int fromType = p.board[FROM(p.list[i].m)].typ;
@@ -250,7 +249,7 @@ void qorder()
 	}
 }
 
-int extradepth(Move m)
+int extraDepth(Move m)
 {
 	int nd = 0;
 	int to = TO(m.m);

@@ -453,7 +453,7 @@ int whitekingsafety(int sq)
 	{
 		ourscore += fpen;
 	}
-	return (ourscore * eo.kingsafety) / 128;
+	return (ourscore * eo.kingSafety) / 128;
 }
 
 int blackkingsafety(int sq)
@@ -484,7 +484,7 @@ int blackkingsafety(int sq)
 	{
 		ourscore += fpen;
 	}
-	return (ourscore * eo.kingsafety) / 128;
+	return (ourscore * eo.kingSafety) / 128;
 }
 
 int whitepawncover(int file, int rank)
@@ -589,8 +589,8 @@ void whitepawnsstructure(int sq)
 	{
 		wpp(sq);
 	}
-	evalData.score[white][beg] += (mscore * eo.pawnstructure) / 128;
-	evalData.score[white][end] += (escore * eo.pawnstructure) / 128;
+	evalData.score[white][beg] += (mscore * eo.pawnStructure) / 128;
+	evalData.score[white][end] += (escore * eo.pawnStructure) / 128;
 }
 
 void blackpawnsstructure(int sq)
@@ -639,8 +639,8 @@ void blackpawnsstructure(int sq)
 	{
 		bpp(sq);
 	}
-	evalData.score[black][beg] += (mscore * eo.pawnstructure) / 128;
-	evalData.score[black][end] += (escore * eo.pawnstructure) / 128;	
+	evalData.score[black][beg] += (mscore * eo.pawnStructure) / 128;
+	evalData.score[black][end] += (escore * eo.pawnStructure) / 128;	
 }
 
 void wpp(int sq)
@@ -675,8 +675,8 @@ void wpp(int sq)
 			escore += 800;
 		}
 	}
-	evalData.score[white][beg] += (mscore * eo.passedpawn) / 128;
-	evalData.score[white][end] += (escore * eo.passedpawn) / 128;
+	evalData.score[white][beg] += (mscore * eo.passedPawn) / 128;
+	evalData.score[white][end] += (escore * eo.passedPawn) / 128;
 }
 
 void bpp(int sq)
@@ -711,8 +711,8 @@ void bpp(int sq)
 			escore += 800;
 		}
 	}
-	evalData.score[black][beg] += (mscore * eo.passedpawn) / 128;
-	evalData.score[black][end] += (escore * eo.passedpawn) / 128;	
+	evalData.score[black][beg] += (mscore * eo.passedPawn) / 128;
+	evalData.score[black][end] += (escore * eo.passedPawn) / 128;	
 }
 
 int wNsupport(int sq)

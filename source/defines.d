@@ -1,20 +1,19 @@
-immutable int wP = 1, bP, wN, bN, wB, bB, wR, bR, wQ, bQ, wK, bK, ety;
+immutable int wP = 1, bP = 2, wN = 3, bN = 4, wB = 5, bB = 6, wR = 7, bR = 8, wQ = 9, bQ = 10, wK = 11, bK = 12, ety = 13;
 immutable int WKC = 8, BKC = 4, WQC = 2, BQC = 1;
 immutable int NOFLAG = 0, LOWER = 1, UPPER = 2, EXACT = 3;
-enum : int {	A1 = 26, B1, C1, D1, E1, F1, G1, H1, 
-				A2 = 38, B2, C2, D2, E2, F2, G2, H2, 
-				A3 = 50, B3, C3, D3, E3, F3, G3, H3, 
-				A4 = 62, B4, C4, D4, E4, F4, G4, H4, 
-				A5 = 74, B5, C5, D5, E5, F5, G5, H5, 
-				A6 = 86, B6, C6, D6, E6, F6, G6, H6, 
-				A7 = 98, B7, C7, D7, E7, F7, G7, H7, 
-				A8 = 110, B8, C8, D8, E8, F8, G8, H8 
-			};
+immutable int A1 = 26, B1 = 27, C1 = 28, D1 = 29, E1 = 30, F1 = 31, G1 = 32, H1 = 33, 
+			A2 = 38, B2 = 39, C2 = 40, D2 = 41, E2 = 42, F2 = 43, G2 = 44, H2 = 45, 
+			A3 = 50, B3 = 51, C3 = 52, D3 = 53, E3 = 54, F3 = 55, G3 = 56, H3 = 57, 
+			A4 = 62, B4 = 63, C4 = 64, D4 = 65, E4 = 66, F4 = 67, G4 = 68, H4 = 69, 
+			A5 = 74, B5 = 75, C5 = 76, D5 = 77, E5 = 78, F5 = 79, G5 = 80, H5 = 81, 
+			A6 = 86, B6 = 87, C6 = 88, D6 = 89, E6 = 90, F6 = 91, G6 = 92, H6 = 93, 
+			A7 = 98, B7 = 99, C7 = 100, D7 = 101, E7 = 102, F7 = 103, G7 = 104, H7 = 105, 
+			A8 = 110, B8 = 111, C8 = 112, D8 = 113, E8 = 114, F8 = 115, G8 = 116, H8 = 117; 
 immutable int noenpas = 0, nopiece = 0, deadsquare = 0, edge = 0;
 
 immutable int black = 0, white = 1;
 
-immutable int wpco = 1, bpco = 1, npco = 13;
+immutable int wpco = 1, bpco = 2, npco = 3;
 
 immutable int vP = 90, vN = 325, vB = 325, vR = 500, vQ = 900, vK = 10000;
 
@@ -47,25 +46,25 @@ struct Pce
 struct Hist
 {
 	int data;
-	int en_pas;
-	ulong hashkey;
+	int enPas;
+	ulong hashKey;
 	Pce captured;
-	int castleflags;
-	int plistep;
-	int plist;
+	int castleFlags;
+	int pListEp;
+	int pList;
 	int fifty;
 }
 
 struct EvalOptions
 {
-	int pawnstructure;
-	int passedpawn;
-	int kingsafety;
+	int pawnStructure;
+	int passedPawn;
+	int kingSafety;
 }
 
 struct Position
 {
-	int[17] pcenumtosq;
+	int[33] pcenumtosq;
 	int[144] sqtopcenum;
 	int pcenum;
 	int majors;

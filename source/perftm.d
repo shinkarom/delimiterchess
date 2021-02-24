@@ -23,9 +23,7 @@ void go(int depth)
 {
 	if(depth == 0)
 		return;
-	/+
-	movegen
-	+/
+	moveGen();
 	for(int i  = p.listc[p.ply]; i < p.listc[p.ply+1]; i++)
 	{
 		if(makemove(p.list[i]))

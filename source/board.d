@@ -125,9 +125,10 @@ void initPieceLists()
 			{
 				p.majors++;
 			}
-			p.pcenum++;
+			
 			p.pcenumtosq[p.pcenum] = sq;
 			p.sqtopcenum[sq] = p.pcenum;
+			p.pcenum++;
 		}
 	}
 }

@@ -10,15 +10,16 @@ void main()
 	init_hash_tables();	
 	logme = false;
 	openlog();
-	eo.passedpawn = 176;
-	eo.kingsafety = 128;
-	eo.pawnstructure = 96;
+	eo.passedPawn = 176;
+	eo.kingSafety = 128;
+	eo.pawnStructure = 96;
 	searchParam.xbmode = false;
 	searchParam.ucimode = false;
 	searchParam.ics = false;
 	searchParam.cpon = false;
 	book_init();
 	string command;
+	uciMode();
 	while(true)
 	{
 		command = readln().strip();

@@ -130,6 +130,7 @@ void setBoard(string str)
 		}
 		ptr++;
 	}
+	
 	if(WK!=1 || BK!=1 || WP>8 || BP>8)
 	{
 		writeln("FEN ILLEGAL NUM");
@@ -162,8 +163,8 @@ void setBoard(string str)
 			p.castleflags |= 2;
 		else if(str[ptr]=='q')
 			p.castleflags |= 1;
+		ptr++;
 	}
-	
 	ptr++;
 	while(str[ptr]==' ')
 		ptr++;
@@ -191,7 +192,7 @@ void setBoard(string str)
 	p.fifty += str[ptr]-'0';
 	if(p.fifty<0 || p.fifty>49)
 		p.fifty = 0;
-	p.fifty*=2;
+	p.fifty *= 2;
 	
 	initPieceLists();
 	fullhashkey();

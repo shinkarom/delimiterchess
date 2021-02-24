@@ -8,10 +8,10 @@ bool makemove(Move m)
 	bool r = false;
 	
 	hist[histply].data = m.m;
-	hist[histply].en_pas = p.en_pas;
+	hist[histply].enPas = p.en_pas;
 	hist[histply].fifty = p.fifty;
-	hist[histply].hashkey = p.hashkey;
-	hist[histply].castleflags = p.castleflags;
+	hist[histply].hashKey = p.hashkey;
+	hist[histply].castleFlags = p.castleflags;
 	hist[histply].captured = p.board[to];
 	
 	p.hashkey ^= hash_s[p.side];
@@ -26,7 +26,7 @@ bool makemove(Move m)
 	p.board[from].typ = ety;
 	p.board[from].col = npco;
 	
-	hist[histply].plist = p.sqtopcenum[to];
+	hist[histply].pList = p.sqtopcenum[to];
 	p.pcenumtosq[p.sqtopcenum[to]] = 0;
 	p.pcenumtosq[p.sqtopcenum[from]] = to;
 	p.sqtopcenum[to] = p.sqtopcenum[from];
@@ -209,7 +209,7 @@ bool makemove(Move m)
 			p.hashkey ^= hash_p[bP][to-12];
 			p.material[black] -= vP;
 			
-			hist[histply].plist = p.sqtopcenum[to-12];
+			hist[histply].pList = p.sqtopcenum[to-12];
 			p.pcenumtosq[p.sqtopcenum[to-12]] = 0;
 			p.sqtopcenum[to-12] = 0;
 		}
@@ -221,7 +221,7 @@ bool makemove(Move m)
 			p.hashkey ^= hash_p[wP][to+12];
 			p.material[white] -= vP;
 			
-			hist[histply].plist = p.sqtopcenum[to+12];
+			hist[histply].pList = p.sqtopcenum[to+12];
 			p.pcenumtosq[p.sqtopcenum[to+12]] = 0;
 			p.sqtopcenum[to+12] = 0;			
 		}
@@ -246,9 +246,9 @@ void takemove()
 	p.side ^= 1;
 	histply--;
 	
-	p.castleflags = hist[histply].castleflags;
-	p.en_pas = hist[histply].en_pas;
-	p.hashkey = hist[histply].hashkey;
+	p.castleflags = hist[histply].castleFlags;
+	p.en_pas = hist[histply].enPas;
+	p.hashkey = hist[histply].hashKey;
 	p.fifty = hist[histply].fifty;
 	
 	int from = FROM(hist[histply].data);
@@ -259,7 +259,7 @@ void takemove()
 	p.board[to] = hist[histply].captured;
 	
 	p.sqtopcenum[from] = p.sqtopcenum[to];
-	p.sqtopcenum[to] = hist[histply].plist;
+	p.sqtopcenum[to] = hist[histply].pList;
 	p.pcenumtosq[p.sqtopcenum[to]] = to;
 	p.pcenumtosq[p.sqtopcenum[from]] = from;
 	
@@ -356,8 +356,8 @@ void takemove()
 			p.board[to-12].col = bpco;
 			p.material[black] += vP;
 			
-			p.sqtopcenum[to-12] = hist[histply].plist;
-			p.pcenumtosq[hist[histply].plist] = to-12;
+			p.sqtopcenum[to-12] = hist[histply].pList;
+			p.pcenumtosq[hist[histply].pList] = to-12;
 			p.sqtopcenum[to] = 0;
 		}
 		else
@@ -366,8 +366,8 @@ void takemove()
 			p.board[to+12].col = wpco;
 			p.material[white] += vP;
 			
-			p.sqtopcenum[to+12] = hist[histply].plist;
-			p.pcenumtosq[hist[histply].plist] = to+12;
+			p.sqtopcenum[to+12] = hist[histply].pList;
+			p.pcenumtosq[hist[histply].pList] = to+12;
 			p.sqtopcenum[to] = 0;			
 		}
 	}

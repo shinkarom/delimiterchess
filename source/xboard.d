@@ -37,7 +37,7 @@ int repetition()
 	int rep = 0;
 	for(int i = 0; i<histply; i++)
 	{
-		if(hist[i].hashkey == p.hashkey)
+		if(hist[i].hashKey == p.hashkey)
 			rep++;
 	}
 	return rep;

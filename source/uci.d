@@ -1,4 +1,4 @@
-import std.stdio, std.format, std.string, std.algorithm.searching, std.array, std.conv, core.stdc.time;
+import std.stdio, std.format, std.string, std.algorithm.searching, std.array, std.conv, core.time;
 import data, defines, utils, log, alloctime, setboard, io, hash, calcm;
 
 const string[] uciStrings = [
@@ -25,30 +25,46 @@ void uciMode()
 
 void uciLoop()
 {
+	parseLine("position startpos");
+	parseLine("go depth 2");
 	while(true)
 	{
-		string line = readln().strip();
+		string line = readln().strip();	
 		if(line.length==0)
 			continue;
+		else
+			parseLine(line);
+	}
+}
+
+void parseLine(string str)
+{
 		string command;
-		formattedRead(line,"%s",command);	
+		int spaceIndex = 0;
+		while((spaceIndex<str.length)&&(str[spaceIndex]!=' '))
+			spaceIndex++;
+		if(spaceIndex != str.length)
+			command = str[0.. spaceIndex];
+		else 
+			command = str;
+		writeln("\"",command,"\"");		
 		switch(command)
 		{
 			case "isready":
 				writeln("readyok");
 				break;
 			case "position":
-				parsePosition(line[9..$]);
+				parsePosition(str[9..$]);
 				break;
 			case "setoption":
-				parseOption(line[10..$]);
+				parseOption(str[10..$]);
 				break;
 			case "ucinewgame":
 				setBoard(startfen);
 				clearhash();
 				break;
 			case "go":
-				parseGo(line[3..$]);
+				parseGo(str[3..$]);
 				break;
 			case "setboard":
 				break;
@@ -62,8 +78,7 @@ void uciLoop()
 			default:
 				writeln("unknown command");
 				break;
-		}
-	}
+		}	
 }
 
 void parsePosition(string str)
@@ -73,10 +88,11 @@ void parsePosition(string str)
 		writestring("parsing position...\n");
 		writestring(str~"\n");
 	}
-	string fen = str.find("fen ")[4..$];
-	string moves = str.find("moves ")[6..$];
+	string fen = str.find("fen ");
+	string moves = str.find("moves ");
 	if(fen != "")
 	{
+		fen = fen[4..$];
 		setBoard(fen);
 	}
 	else
@@ -88,6 +104,7 @@ void parsePosition(string str)
 	bool prom;
 	if(moves != "")
 	{
+		moves = moves[6..$];
 		while(moves.length >=4)
 		{
 			if(moves.length >= 5 && moves[4]!=' ')
@@ -124,8 +141,7 @@ void parseGo(string str)
 	}
 	
 	initSearchParam();
-	auto arr = str.split()[1..$];
-	
+	auto arr = str.split(' ');
 	for(int i = 0; i<arr.length; i++)
 	{
 		switch(arr[i])
@@ -182,10 +198,10 @@ void parseGo(string str)
 void think()
 {
 	double allocatedtime = allocatetime();
-	writeln("allocated ",allocatedtime);
+	//writeln("allocated ",allocatedtime);
 	if(allocatedtime<0)
 		allocatedtime = 200;
-	searchParam.starttime = cast(double)(clock());
+	searchParam.starttime = MonoTime.currTime.ticks;
 	searchParam.stoptime = searchParam.starttime+allocatedtime;
 	if(logme)
 	{
@@ -199,7 +215,10 @@ void think()
 		writeboard();		
 	}
 	searchParam.inf = false;
-	writeln("bestmove ",returnmove(best)," ponder ",returnmove(ponderMove));
+	if(ponderMove.m)
+		writeln("bestmove ",returnmove(best)," ponder ",returnmove(ponderMove));
+	else
+		writeln("bestmove ",returnmove(best));
 }
 
 void parseOption(string str)
@@ -227,19 +246,19 @@ void parseOption(string str)
 				searchParam.usebook = false;
 			break;
 		case "KingSafety":
-			eo.kingsafety = to!int(value);
+			eo.kingSafety = to!int(value);
 			writestring("King Safety adjusted to ");
-			writeint(eo.kingsafety);
+			writeint(eo.kingSafety);
 			break;
 		case "PassedPawn":
-			eo.passedpawn = to!int(value);
+			eo.passedPawn = to!int(value);
 			writestring("Passed Pawn adjusted to ");
-			writeint(eo.passedpawn);
+			writeint(eo.passedPawn);
 			break;
 		case "PawnStructure":
-			eo.pawnstructure = to!int(value);
+			eo.pawnStructure = to!int(value);
 			writestring("Pawn Structure adjusted to ");
-			writeint(eo.pawnstructure);
+			writeint(eo.pawnStructure);
 			break;
 		case "Ponder":
 			break;

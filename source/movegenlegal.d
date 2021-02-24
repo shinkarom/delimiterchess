@@ -1,46 +1,48 @@
 import data, defines, attack;
-
-void pushmove_legal(int data)
+	import std.stdio;
+	
+void pushMoveLegal(int from, int to, int flag)
 {
 	Pce holdme;
-	if(!makequick(data, holdme))
+	int data = (from << 8) | to | flag;
+	if(!makeQuick(data, holdme))
 	{
 		p.list[p.listc[p.ply+1]++].m = data;
 	}
-	takequick(data, holdme);
+	takeQuick(data, holdme);
 }
 
-void pushpawn_legal(int from, int to, int flag)
+void pushPawnLegal(int from, int to, int flag)
 {
+	import std.stdio;	
 	if(to > H7 || to < A2)
 	{
-		pushmove_legal((from << 8) | to | mPQ);
-		pushmove_legal((from << 8) | to | mPR);
-		pushmove_legal((from << 8) | to | mPB);
-		pushmove_legal((from << 8) | to | mPN);
+		pushMoveLegal(from, to, mPQ);
+		pushMoveLegal(from, to, mPR);
+		pushMoveLegal(from, to, mPB);
+		pushMoveLegal(from, to, mPN);
 	}
 	else
 	{
-		pushmove_legal((from << 8) | to | flag);
+		pushMoveLegal(from, to, flag);
 	}
 }
 
-void knightmove_legal(int f, int t, int xcol)
+void knightMoveLegal(int f, int t, int xcol)
 {
 	if(p.board[t].typ == edge)
 		return;
-		
-	if(p.board[t].typ == ety)
+	else if(p.board[t].typ == ety)
 	{
-		pushmove_legal((f<<8) | t | mNORM);
+		pushMoveLegal(f, t, mNORM);
 	}
 	else if(p.board[t].col == xcol)
 	{
-		pushmove_legal((f<<8) | t | mCAP);
+		pushMoveLegal(f, t, mCAP);
 	}	
 }
 
-void slidemove_legal(int f, int t, int xcol)
+void slideMoveLegal(int f, int t, int xcol)
 {
 	int d = t-f;
 	if(p.board[t].typ == edge)
@@ -49,12 +51,12 @@ void slidemove_legal(int f, int t, int xcol)
 	{
 		if(p.board[t].typ == ety)
 		{
-			pushmove_legal((f<<8) | t | mNORM);
+			pushMoveLegal(f, t, mNORM);
 			t+=d;
 		}
 		else if (p.board[t].col == xcol)
 		{
-			pushmove_legal((f<<8) | t | mCAP);
+			pushMoveLegal(f, t, mCAP);
 			break;
 		}
 		else 
@@ -62,71 +64,70 @@ void slidemove_legal(int f, int t, int xcol)
 	} while(p.board[t].typ != edge);
 }
 
-void movegen_legal()
+void moveGenLegal()
 {
 	int tsq;
-
 	p.listc[p.ply+1] = p.listc[p.ply];
 	
 	if(p.side == white)
 	{
-		for(int index = 1; index <= p.pcenum; index++)
-		{
+		import std.stdio;
+		for(int index = 0; index < p.pcenum; index++)
+		{			
 			if(p.pcenumtosq[index] == 0)
 				continue;
 				
 			int sq = p.pcenumtosq[index];
-			
 			switch(p.board[sq].typ)
 			{
 				case wP:
-					tsq = sq+13;
+					tsq = sq+13;					
 					if(p.board[tsq].col == bpco)
 					{
-						pushpawn_legal(sq, tsq, mCAP);
+						pushPawnLegal(sq, tsq, mCAP);
 					}
 					if(p.en_pas == tsq)
 					{
-						pushmove_legal((sq<<8) | tsq | mPEP);
+						pushMoveLegal(sq, tsq, mPEP);
 					}
 					tsq = sq+11;
 					if(p.board[tsq].col == bpco)
 					{
-						pushpawn_legal(sq, tsq, mCAP);
+						pushPawnLegal(sq, tsq, mCAP);
 					}
 					if(p.en_pas == tsq)
 					{
-						pushmove_legal((sq<<8) | tsq | mPEP);
+						pushMoveLegal(sq, tsq, mPEP);
 					}
 					tsq = sq+12;
-					if(p.board[sq].typ == ety)
+					if(p.board[tsq].typ == ety)
 					{
-						pushpawn_legal(sq, tsq, mNORM);
+						pushPawnLegal(sq, tsq, mNORM);
 						if(sq < A3 && p.board[tsq+12].typ == ety)
 						{
-							pushmove_legal((sq<<8) | (tsq+12) | mPST);
+							pushMoveLegal(sq, (tsq+12), mPST);
 						}
 					}
 					break;
 				case wN:
-					knightmove_legal(sq, sq+14, bpco);
-					knightmove_legal(sq, sq+10, bpco);
-					knightmove_legal(sq, sq+25, bpco);
-					knightmove_legal(sq, sq+23, bpco);
-					knightmove_legal(sq, sq-14, bpco);
-					knightmove_legal(sq, sq-10, bpco);
-					knightmove_legal(sq, sq-25, bpco);
-					knightmove_legal(sq, sq-23, bpco);
+					knightMoveLegal(sq, sq+14, bpco);
+					knightMoveLegal(sq, sq+10, bpco);
+					knightMoveLegal(sq, sq+25, bpco);
+					knightMoveLegal(sq, sq+23, bpco);
+					knightMoveLegal(sq, sq-14, bpco);
+					knightMoveLegal(sq, sq-10, bpco);
+					knightMoveLegal(sq, sq-25, bpco);
+					knightMoveLegal(sq, sq-23, bpco);
 					break;
 				case wK:
-					knightmove_legal(sq, sq+1, bpco);
-					knightmove_legal(sq, sq+12, bpco);
-					knightmove_legal(sq, sq+11, bpco);
-					knightmove_legal(sq, sq+13, bpco);
-					knightmove_legal(sq, sq-1, bpco);
-					knightmove_legal(sq, sq-12, bpco);
-					knightmove_legal(sq, sq-11, bpco);
-					knightmove_legal(sq, sq-13, bpco);
+					knightMoveLegal(sq, sq+1, bpco);
+					knightMoveLegal(sq, sq+12, bpco);
+					knightMoveLegal(sq, sq+11, bpco);
+					knightMoveLegal(sq, sq+13, bpco);
+					knightMoveLegal(sq, sq-1, bpco);
+					knightMoveLegal(sq, sq-12, bpco);
+					knightMoveLegal(sq, sq-11, bpco);
+					knightMoveLegal(sq, sq-13, bpco);
 					if(sq == E1)
 					{
 						if(p.castleflags & 8)
@@ -135,7 +136,7 @@ void movegen_legal()
 							{
 								if(!isattacked(F1, black) && !isattacked(E1, black) && !isattacked(G1, black))
 								{
-									pushmove_legal((E1 << 8) | G1 | mCA);
+									pushMoveLegal(E1, G1, mCA);
 								}
 							}
 						}
@@ -145,33 +146,33 @@ void movegen_legal()
 							{
 								if(!isattacked(D1, black) && !isattacked(E1, black) && !isattacked(C1, black))
 								{
-									pushmove_legal((E1 << 8) | C1 | mCA);
+									pushMoveLegal(E1, C1, mCA);
 								}
 							}
 						}
 					}
 					break;
 				case wQ:
-					slidemove_legal(sq, sq+13, bpco);
-					slidemove_legal(sq, sq+11, bpco);
-					slidemove_legal(sq, sq-13, bpco);
-					slidemove_legal(sq, sq-11, bpco);
-					slidemove_legal(sq, sq+12, bpco);
-					slidemove_legal(sq, sq+1, bpco);
-					slidemove_legal(sq, sq-12, bpco);
-					slidemove_legal(sq, sq-1, bpco);
+					slideMoveLegal(sq, sq+13, bpco);
+					slideMoveLegal(sq, sq+11, bpco);
+					slideMoveLegal(sq, sq-13, bpco);
+					slideMoveLegal(sq, sq-11, bpco);
+					slideMoveLegal(sq, sq+12, bpco);
+					slideMoveLegal(sq, sq+1, bpco);
+					slideMoveLegal(sq, sq-12, bpco);
+					slideMoveLegal(sq, sq-1, bpco);
 					break;
 				case wB:
-					slidemove_legal(sq, sq+13, bpco);
-					slidemove_legal(sq, sq+11, bpco);
-					slidemove_legal(sq, sq-13, bpco);
-					slidemove_legal(sq, sq-11, bpco);
+					slideMoveLegal(sq, sq+13, bpco);
+					slideMoveLegal(sq, sq+11, bpco);
+					slideMoveLegal(sq, sq-13, bpco);
+					slideMoveLegal(sq, sq-11, bpco);
 					break;
 				case wR:
-					slidemove_legal(sq, sq+12, bpco);
-					slidemove_legal(sq, sq+1, bpco);
-					slidemove_legal(sq, sq-12, bpco);
-					slidemove_legal(sq, sq-1, bpco);
+					slideMoveLegal(sq, sq+12, bpco);
+					slideMoveLegal(sq, sq+1, bpco);
+					slideMoveLegal(sq, sq-12, bpco);
+					slideMoveLegal(sq, sq-1, bpco);
 					break;
 				default:
 					break;
@@ -193,50 +194,50 @@ void movegen_legal()
 					tsq = sq-13;
 					if(p.board[tsq].col == wpco)
 					{
-						pushpawn_legal(sq, tsq, mCAP);
+						pushPawnLegal(sq, tsq, mCAP);
 					}
 					if(p.en_pas == tsq)
 					{
-						pushmove_legal((sq<<8) | tsq | mPEP);
+						pushMoveLegal(sq, tsq, mPEP);
 					}
 					tsq = sq-11;
 					if(p.board[tsq].col == wpco)
 					{
-						pushpawn_legal(sq, tsq, mCAP);
+						pushPawnLegal(sq, tsq, mCAP);
 					}
 					if(p.en_pas == tsq)
 					{
-						pushmove_legal((sq<<8) | tsq | mPEP);
+						pushMoveLegal(sq, tsq, mPEP);
 					}
 					tsq = sq-12;
-					if(p.board[sq].typ == ety)
+					if(p.board[tsq].typ == ety)
 					{
-						pushpawn_legal(sq, tsq, mNORM);
+						pushPawnLegal(sq, tsq, mNORM);
 						if(sq < A3 && p.board[tsq+12].typ == ety)
 						{
-							pushmove_legal((sq<<8) | (tsq-12) | mPST);
+							pushMoveLegal(sq, (tsq-12), mPST);
 						}
 					}
 					break;
 				case bN:
-					knightmove_legal(sq, sq+14, wpco);
-					knightmove_legal(sq, sq+10, wpco);
-					knightmove_legal(sq, sq+25, wpco);
-					knightmove_legal(sq, sq+23, wpco);
-					knightmove_legal(sq, sq-14, wpco);
-					knightmove_legal(sq, sq-10, wpco);
-					knightmove_legal(sq, sq-25, wpco);
-					knightmove_legal(sq, sq-23, wpco);
+					knightMoveLegal(sq, sq+14, wpco);
+					knightMoveLegal(sq, sq+10, wpco);
+					knightMoveLegal(sq, sq+25, wpco);
+					knightMoveLegal(sq, sq+23, wpco);
+					knightMoveLegal(sq, sq-14, wpco);
+					knightMoveLegal(sq, sq-10, wpco);
+					knightMoveLegal(sq, sq-25, wpco);
+					knightMoveLegal(sq, sq-23, wpco);
 					break;
 				case bK:
-					knightmove_legal(sq, sq+1, wpco);
-					knightmove_legal(sq, sq+12, wpco);
-					knightmove_legal(sq, sq+11, wpco);
-					knightmove_legal(sq, sq+13, wpco);
-					knightmove_legal(sq, sq-1, wpco);
-					knightmove_legal(sq, sq-12, wpco);
-					knightmove_legal(sq, sq-11, wpco);
-					knightmove_legal(sq, sq-13, wpco);
+					knightMoveLegal(sq, sq+1, wpco);
+					knightMoveLegal(sq, sq+12, wpco);
+					knightMoveLegal(sq, sq+11, wpco);
+					knightMoveLegal(sq, sq+13, wpco);
+					knightMoveLegal(sq, sq-1, wpco);
+					knightMoveLegal(sq, sq-12, wpco);
+					knightMoveLegal(sq, sq-11, wpco);
+					knightMoveLegal(sq, sq-13, wpco);
 					if(sq == E8)
 					{
 						if(p.castleflags & 2)
@@ -245,7 +246,7 @@ void movegen_legal()
 							{
 								if(!isattacked(F8, white) && !isattacked(E8, white) && !isattacked(G8, white))
 								{
-									pushmove_legal((E8 << 8) | G8 | mCA);
+									pushMoveLegal(E8, G8, mCA);
 								}
 							}
 						}
@@ -255,33 +256,33 @@ void movegen_legal()
 							{
 								if(!isattacked(D8, white) && !isattacked(E8, white) && !isattacked(C8, white))
 								{
-									pushmove_legal((E8 << 8) | C8 | mCA);
+									pushMoveLegal(E8, C8, mCA);
 								}
 							}
 						}
 					}
 					break;
 				case bQ:
-					slidemove_legal(sq, sq+13, wpco);
-					slidemove_legal(sq, sq+11, wpco);
-					slidemove_legal(sq, sq-13, wpco);
-					slidemove_legal(sq, sq-11, wpco);
-					slidemove_legal(sq, sq+12, wpco);
-					slidemove_legal(sq, sq+1, wpco);
-					slidemove_legal(sq, sq-12, wpco);
-					slidemove_legal(sq, sq-1, wpco);
+					slideMoveLegal(sq, sq+13, wpco);
+					slideMoveLegal(sq, sq+11, wpco);
+					slideMoveLegal(sq, sq-13, wpco);
+					slideMoveLegal(sq, sq-11, wpco);
+					slideMoveLegal(sq, sq+12, wpco);
+					slideMoveLegal(sq, sq+1, wpco);
+					slideMoveLegal(sq, sq-12, wpco);
+					slideMoveLegal(sq, sq-1, wpco);
 					break;
 				case bB:
-					slidemove_legal(sq, sq+13, wpco);
-					slidemove_legal(sq, sq+11, wpco);
-					slidemove_legal(sq, sq-13, wpco);
-					slidemove_legal(sq, sq-11, wpco);
+					slideMoveLegal(sq, sq+13, wpco);
+					slideMoveLegal(sq, sq+11, wpco);
+					slideMoveLegal(sq, sq-13, wpco);
+					slideMoveLegal(sq, sq-11, wpco);
 					break;
 				case bR:
-					slidemove_legal(sq, sq+12, wpco);
-					slidemove_legal(sq, sq+1, wpco);
-					slidemove_legal(sq, sq-12, wpco);
-					slidemove_legal(sq, sq-1, wpco);
+					slideMoveLegal(sq, sq+12, wpco);
+					slideMoveLegal(sq, sq+1, wpco);
+					slideMoveLegal(sq, sq-12, wpco);
+					slideMoveLegal(sq, sq-1, wpco);
 					break;
 				default:
 					break;
@@ -290,7 +291,7 @@ void movegen_legal()
 	}
 }
 
-bool makequick(int m, ref Pce holdme)
+bool makeQuick(int m, ref Pce holdme)
 {
 	int from = FROM(m);
 	int to = TO(m);
@@ -395,6 +396,7 @@ bool makequick(int m, ref Pce holdme)
 	}
 	else if (flag & oPEP)
 	{
+		import std.stdio;
 		if(p.side == white)
 		{
 			p.board[to-12].typ = ety;
@@ -410,7 +412,7 @@ bool makequick(int m, ref Pce holdme)
 	return r;
 }
 
-void takequick(int m, ref Pce holdme)
+void takeQuick(int m, ref Pce holdme)
 {
 	int from  = FROM(m);
 	int to = TO(m);
@@ -486,7 +488,7 @@ void takequick(int m, ref Pce holdme)
 	}
 }
 
-bool makelegalmove(Move m)
+bool makeLegalMove(Move m)
 {
 	int from = FROM(m.m);
 	int to = TO(m.m);
@@ -495,10 +497,10 @@ bool makelegalmove(Move m)
 	bool r = false;
 	
 	hist[histply].data = m.m;
-	hist[histply].en_pas = p.en_pas;
+	hist[histply].enPas = p.en_pas;
 	hist[histply].fifty = p.fifty;
-	hist[histply].hashkey = p.hashkey;
-	hist[histply].castleflags = p.castleflags;
+	hist[histply].hashKey = p.hashkey;
+	hist[histply].castleFlags = p.castleflags;
 	hist[histply].captured = p.board[to];
 	
 	p.hashkey ^= hash_s[p.side];
@@ -509,11 +511,17 @@ bool makelegalmove(Move m)
 	p.castleflags &= castleBits[to];
 	p.castleflags &= castleBits[from];
 	
-	hist[histply].plist = p.sqtopcenum[to];	
+	hist[histply].pList = p.sqtopcenum[to];	
 	p.pcenumtosq[p.sqtopcenum[to]] = 0;
 	p.pcenumtosq[p.sqtopcenum[from]] = to;
 	p.sqtopcenum[to] = p.sqtopcenum[from];
 	p.sqtopcenum[from] = 0;
+	
+	p.board[to].typ = p.board[from].typ;
+	p.board[to].col = p.board[from].col;
+	p.board[from].typ = ety;
+	p.board[from].col = npco;
+	
 	
 	if(p.side == white && p.board[to].typ == wK)
 	{
@@ -697,7 +705,7 @@ bool makelegalmove(Move m)
 			p.hashkey ^= hash_p[bP][to-12];
 			p.material[black] -= vP;
 			
-			hist[histply].plist = p.sqtopcenum[to-12];
+			hist[histply].pList = p.sqtopcenum[to-12];
 			p.pcenumtosq[p.sqtopcenum[to-12]] = 0;
 			p.sqtopcenum[to-12] = 0;
 		}
@@ -709,7 +717,7 @@ bool makelegalmove(Move m)
 			p.hashkey ^= hash_p[wP][to+12];
 			p.material[white] -= vP;
 			
-			hist[histply].plist = p.sqtopcenum[to+12];
+			hist[histply].pList = p.sqtopcenum[to+12];
 			p.pcenumtosq[p.sqtopcenum[to+12]] = 0;
 			p.sqtopcenum[to+12] = 0;			
 		}
@@ -722,6 +730,5 @@ bool makelegalmove(Move m)
 	p.hashkey ^= hash_s[p.side];
 	p.hashkey ^= hash_ca[p.castleflags];
 	p.hashkey ^= hash_enp[p.en_pas];
-	
 	return r;
 }

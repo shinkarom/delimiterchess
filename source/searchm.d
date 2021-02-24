@@ -120,7 +120,7 @@ int search(int alpha, int beta, int depth, bool nul)
 		}
 		if(!extend)
 		{
-			nd = extradepth(p.list[i]);
+			nd = extraDepth(p.list[i]);
 		}
 		if(played == 1)
 		{
@@ -147,13 +147,13 @@ int search(int alpha, int beta, int depth, bool nul)
 			if(score > alpha)
 			{
 				alpha = score;
-				update_history(p.list[i], depth);
+				updateHistory(p.list[i], depth);
 				if(score>=beta)
 				{
 					if(played == 1)
 						fhf++;
 					fh++;
-					update_killers(p.list[i], score);
+					updateKillers(p.list[i], score);
 					store_hash(depth, score, LOWER, nul, bestmove);
 					return beta;
 				}
@@ -265,7 +265,7 @@ bool isrep()
 		return true;
 	for(int i = 0; i < histply; i++)
 	{
-		if(hist[i].hashkey == p.hashkey)
+		if(hist[i].hashKey == p.hashkey)
 			return true;
 	}
 

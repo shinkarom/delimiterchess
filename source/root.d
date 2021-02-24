@@ -11,7 +11,7 @@ void rootInit()
 
 void rootMoveList()
 {
-	movegen_legal();
+	moveGenLegal();
 }
 
 void scoreRootMoves()
@@ -20,9 +20,9 @@ void scoreRootMoves()
 	
 	for(int i = p.listc[now]; i<p.listc[now+1]; i++)
 	{
-		makelegalmove(p.list[i]);
+		makeLegalMove(p.list[i]);
 		p.list[i].score = -quies(-10000, 10000);
-		takemove();		
+		takemove();	
 	}
 }
 
@@ -54,11 +54,11 @@ int rootSearch(int alpha, int beta, int depth)
 	int played = 0;
 	int bestscore = -10001;
 	Move bestmove;
-
+	import std.stdio;
 	for(int i = p.listc[p.ply]; i<p.listc[p.ply+1];i++)
-	{		
+	{	
 		pick(i);
-		makelegalmove(p.list[i]);
+		makeLegalMove(p.list[i]);
 		if(isattacked(p.k[p.side],p.side^1))
 		{
 			inc = PLY;

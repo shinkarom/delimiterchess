@@ -1,4 +1,4 @@
-import core.stdc.time, std.stdio;
+import core.time, std.stdio;
 import data, defines, io, book, root, doundo, hash, sort, searchm, movegen;
 
 void calc()
@@ -57,7 +57,7 @@ bool timeCheck()
 {
 	if(itdepth < 6)
 		return false;
-	double timeNow = cast(double)(clock());
+	double timeNow = MonoTime.currTime.ticks;
 	double timeToLastPly = timeNow - searchParam.starttime;
 	double timeForNextPly = timeToLastPly * 2;
 	if(timeForNextPly+timeNow > searchParam.stoptime)
