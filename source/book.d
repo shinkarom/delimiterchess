@@ -193,7 +193,7 @@ int wfindhashbookmove()
 	}
 	if(m[0]==-1)
 		return -1;
-	srand(cast(double)(clock()));
+	srand(cast(uint)(clock()));
 	int r = rand() % 2;
 	writeln("book hit, freq ",f[r]," position ",r);
 	return m[r];
