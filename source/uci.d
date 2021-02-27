@@ -25,9 +25,9 @@ void uciMode()
 
 void uciLoop()
 {
-	//parseLine("position startpos");
-	//parseLine("go depth 3");
-	//parseLine("quit");
+	if(debugMode)
+		foreach(l; autorunLines)
+			parseLine(l);
 	while(true)
 	{
 		string line = readln().strip();	

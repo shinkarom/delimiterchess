@@ -3,6 +3,7 @@ import utils, defines, data, psqt, log, board, sort, interrupt, xboard, root, uc
 
 void main()
 {
+	debugMode = false;
 	unbufferStreams();
 	numelem = 32;
 	initCastleBits();
@@ -19,7 +20,8 @@ void main()
 	searchParam.cpon = false;
 	book_init();
 	string command;
-	uciMode();
+	if(debugMode)
+		uciMode();
 	while(true)
 	{
 		command = readln().strip();

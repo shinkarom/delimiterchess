@@ -1,4 +1,4 @@
-import std.stdio, std.algorithm.sorting, std.file, std.bitmanip, core.stdc.time, core.stdc.stdlib;
+import std.stdio, std.algorithm.sorting, std.file, std.bitmanip, std.random;
 import defines, data, setboard, io, movegen;
 
 void store(BinEntry[] full)
@@ -193,8 +193,7 @@ int wfindhashbookmove()
 	}
 	if(m[0]==-1)
 		return -1;
-	srand(cast(double)(clock()));
-	int r = rand() % 2;
+	int r = uniform(0, 1+1);
 	writeln("book hit, freq ",f[r]," position ",r);
 	return m[r];
 }

@@ -1,6 +1,9 @@
 import std.stdio;
 import defines;
 
+string[] autorunLines = ["position startpos", "go depth 3", "quit"];
+bool debugMode;
+
 File book_file, bookfile, wbookfile;
 string[] vbooklines;
 BinEntry[] hashentries;
