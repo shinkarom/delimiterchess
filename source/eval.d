@@ -1,5 +1,5 @@
-import std.math;
-import data, defines, psqt;
+import std.math, std.stdio;
+import data, defines, psqt, io;
 
 const int beg = 0, end = 1;
 const int[16] blockerbonus = [0, 0, 0, 15, 15, 12, 12, 7, 7, 2, 2, 0, 0, 0, 0, 0];
@@ -159,7 +159,7 @@ void midgameeval()
 		}
 	}
 	
-	for(int index = 1; index <= p.pcenum; index++)
+	for(int index = 0; index < p.pcenum; index++)
 	{
 		if(p.pcenumtosq[index] == 0)
 			continue;
@@ -194,7 +194,7 @@ void midgameeval()
 				evalData.score[white][beg] += Rook[sq];
 				evalData.score[white][end] += vR;
 				wrooktrapped(sq);
-				wrookmob(sq);
+				wrookmob(sq);				
 				if(evalData.pawns[white][files[sq]+1] == 0)
 				{
 					evalData.score[white][beg] += 8;
@@ -720,6 +720,7 @@ int wNsupport(int sq)
 	int score = SupN[sq];
 	if(score == 0)
 		return score;
+		writeln(sq+2);
 	if(evalData.pawn_set[black][files[sq+2]] <= ranks[sq] && evalData.pawn_set[black][files[sq]] <= ranks[sq])
 	{
 		if(evalData.bNc == 0)

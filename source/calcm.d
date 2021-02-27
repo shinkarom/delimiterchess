@@ -28,7 +28,7 @@ void calc()
 	if(p.listc[p.ply+1]-p.listc[p.ply] == 1)
 		loopDepth = 5;
 	for(int itDepth = 1; itDepth <= loopDepth; itDepth++)
-	{
+	{		
 		followpv = true;
 		score = rootSearch(-10000, 10000, itDepth*PLY);
 		best = pv[0][0];

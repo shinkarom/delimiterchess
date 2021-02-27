@@ -10,9 +10,9 @@ string returnmove(Move move)
 {
 	string result = "";
 	result ~= filetochar(files[FROM(move.m)]);
-	result ~= ranktochar(files[FROM(move.m)]);
+	result ~= ranktochar(ranks[FROM(move.m)]);
 	result ~= filetochar(files[TO(move.m)]);
-	result ~= ranktochar(files[TO(move.m)]);
+	result ~= ranktochar(ranks[TO(move.m)]);
 	int flag = FLAG(move.m);
 	if(flag & mProm)
 	{

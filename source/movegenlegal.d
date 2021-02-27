@@ -76,7 +76,6 @@ void moveGenLegal()
 		{			
 			if(p.pcenumtosq[index] == 0)
 				continue;
-				
 			int sq = p.pcenumtosq[index];
 			switch(p.board[sq].typ)
 			{
@@ -181,13 +180,12 @@ void moveGenLegal()
 	}
 	else
 	{
-		for(int index = 1; index <= p.pcenum; index++)
+		for(int index = 0; index < p.pcenum; index++)
 		{
 			if(p.pcenumtosq[index] == 0)
 				continue;
 				
 			int sq = p.pcenumtosq[index];
-			
 			switch(p.board[sq].typ)
 			{
 				case bP:

@@ -1,7 +1,9 @@
+import std.stdio;
+import debugit, io;
 import data, defines, attack;
 
 bool makemove(Move m)
-{
+{	
 	int from = FROM(m.m);
 	int to = TO(m.m);
 	int flag = FLAG(m.m);
@@ -236,7 +238,8 @@ bool makemove(Move m)
 	p.hashkey ^= hash_s[p.side];
 	p.hashkey ^= hash_ca[p.castleflags];
 	p.hashkey ^= hash_enp[p.en_pas];
-	
+//writeln("after making move ",returnmove(m));
+//	debugSquareTypes();
 	return r;
 }
 
@@ -371,5 +374,6 @@ void takemove()
 			p.sqtopcenum[to] = 0;			
 		}
 	}
-	
+	//writeln("after unmaking move");
+	//debugSquareTypes();
 }

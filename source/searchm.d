@@ -1,4 +1,4 @@
-import data, defines, interrupt, sort, doundo, hash, attack, movegen, eval;
+import data, defines, interrupt, sort, doundo, hash, attack, movegen, eval, movegenlegal;
 
 int search(int alpha, int beta, int depth, bool nul)
 {
@@ -197,12 +197,12 @@ int firstquies(int alpha, int beta)
 int quies(int alpha, int beta)
 {
 	int score;
-	if(((nodes+qnodes)&2047)==0)
+	if(((nodes + qnodes) & 2047) == 0)
 		checkup();
 	if(stopsearch)
 		return 0;
 	qnodes++;
-	if(p.ply>31)
+	if(p.ply > 31)
 		return gameeval();
 	pvindex[p.ply] = p.ply;
 	score = gameeval();
@@ -214,7 +214,7 @@ int quies(int alpha, int beta)
 	capGen();
 
 	qorder();
-	for(int i = p.listc[p.ply]; i<p.listc[p.ply+1]; i++)
+	for(int i = p.listc[p.ply]; i < p.listc[p.ply+1]; i++)
 	{
 		pick(i);
 		if(makemove(p.list[i]))

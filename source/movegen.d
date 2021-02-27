@@ -1,7 +1,9 @@
+import std.stdio,io, std.format;
 import data, defines, psqt, attack;
 
-void pushMove(int data)
-{
+void pushMove(int from, int to, int flag)
+{	
+	auto data = (from << 8) | to | flag;
 	p.list[p.listc[p.ply+1]++].m = data;
 }
 
@@ -9,14 +11,14 @@ void pushPawn(int from, int to, int flag)
 {
 	if(to > H7 || to < A2)
 	{
-		pushMove((from << 8) | to | mPQ | flag);
-		pushMove((from << 8) | to | mPR | flag);
-		pushMove((from << 8) | to | mPB | flag);
-		pushMove((from << 8) | to | mPN | flag);
+		pushMove(from, to, mPQ | flag);
+		pushMove(from, to, mPR | flag);
+		pushMove(from, to, mPB | flag);
+		pushMove(from, to, mPN | flag);
 	}
 	else
 	{
-		pushMove((from << 8) | to | flag);
+		pushMove(from, to, flag);
 	}
 }
 
@@ -26,11 +28,11 @@ void knightMove(int f, int t, int xcol)
 		return;		
 	if(p.board[t].typ == ety)
 	{
-		pushMove((f<<8) | t | mNORM);
+		pushMove(f, t, mNORM);
 	}	
 	else if(p.board[t].col == xcol)
 	{
-		pushMove((f<<8) | t | mCAP);
+		pushMove(f, t, mCAP);
 	}	
 }
 
@@ -43,13 +45,13 @@ void slideMove(int f, int t, int xcol)
 	{
 		if(p.board[t].typ == ety)
 		{
-			pushMove((f<<8)|t|mNORM);
+			pushMove(f, t, mNORM);
 			t+=d;
 		}
 		else if(p.board[t].col == xcol)
 		{
-			pushMove((f<<8)|t|mCAP);
-			t+=d;			
+			pushMove(f, t, mCAP);
+			break;			
 		}
 		else
 		{
@@ -64,7 +66,7 @@ void knightMoveC(int f, int t, int xcol)
 		return;		
 	else if(p.board[t].col == xcol)
 	{
-		pushMove((f<<8) | t | mCAP);
+		pushMove(f, t, mCAP);
 	}	
 }
 
@@ -81,8 +83,8 @@ void slideMoveC(int f, int t, int xcol)
 		}
 		else if(p.board[t].col == xcol)
 		{
-			pushMove((f<<8)|t|mCAP);
-			t+=d;			
+			pushMove(f, t, mCAP);
+			break;			
 		}
 		else
 		{
@@ -97,7 +99,7 @@ void moveGen()
 	p.listc[p.ply+1] = p.listc[p.ply];
 	if(p.side == white)
 	{
-		for(int index = 1; index <= p.pcenum; index++)
+		for(int index = 0; index < p.pcenum; index++)
 		{
 			if(p.pcenumtosq[index] == 0)
 				continue;
@@ -112,7 +114,7 @@ void moveGen()
 					}
 					if(p.en_pas == tsq)
 					{
-						pushMove((sq<<8) | tsq | mPEP);
+						pushMove(sq, tsq, mPEP);
 					}
 					tsq = sq+11;
 					if(p.board[tsq].col == bpco)
@@ -121,7 +123,7 @@ void moveGen()
 					}
 					if(p.en_pas == tsq)
 					{
-						pushMove((sq<<8) | tsq | mPEP);
+						pushMove(sq, tsq, mPEP);
 					}		
 					tsq = sq+12;
 					if(p.board[tsq].typ == ety)
@@ -129,7 +131,7 @@ void moveGen()
 						pushPawn(sq, tsq, mNORM);
 						if(sq < A3 && p.board[tsq+12].typ == ety)
 						{
-							pushMove((sq << 8) | (tsq+12) | mPST);
+							pushMove(sq, (tsq+12), mPST);
 						}
 					}
 					break;
@@ -160,7 +162,7 @@ void moveGen()
 							{
 								if(!isattacked(F1, black) && !isattacked(E1, black) && !isattacked(G1, black))
 								{
-									pushMove((E1 << 8) | G1 | mCA);
+									pushMove(E1, G1, mCA);
 								}
 							}
 						}
@@ -170,7 +172,7 @@ void moveGen()
 							{
 								if(!isattacked(D1, black) && !isattacked(E1, black) && !isattacked(C1, black))
 								{
-									pushMove((E1 << 8) | C1 | mCA);
+									pushMove(E1, C1, mCA);
 								}
 							}
 						}
@@ -205,7 +207,7 @@ void moveGen()
 	}
 	else
 	{
-		for(int index = 1; index <= p.pcenum; index++)
+		for(int index = 0; index < p.pcenum; index++)
 		{
 			if(p.pcenumtosq[index] == 0)
 				continue;
@@ -220,7 +222,7 @@ void moveGen()
 					}
 					if(p.en_pas == tsq)
 					{
-						pushMove((sq<<8) | tsq | mPEP);
+						pushMove(sq, tsq, mPEP);
 					}
 					tsq = sq-11;
 					if(p.board[tsq].col == wpco)
@@ -229,7 +231,7 @@ void moveGen()
 					}
 					if(p.en_pas == tsq)
 					{
-						pushMove((sq<<8) | tsq | mPEP);
+						pushMove(sq, tsq, mPEP);
 					}		
 					tsq = sq-12;
 					if(p.board[tsq].typ == ety)
@@ -237,7 +239,7 @@ void moveGen()
 						pushPawn(sq, tsq, mNORM);
 						if(sq > H6 && p.board[tsq-12].typ == ety)
 						{
-							pushMove((sq << 8) | (tsq-12) | mPST);
+							pushMove(sq, (tsq-12), mPST);
 						}
 					}
 					break;
@@ -268,7 +270,7 @@ void moveGen()
 							{
 								if(!isattacked(F8, white) && !isattacked(E8, white) && !isattacked(G8, white))
 								{
-									pushMove((E8 << 8) | G8 | mCA);
+									pushMove(E8 , G8, mCA);
 								}
 							}
 						}
@@ -278,7 +280,7 @@ void moveGen()
 							{
 								if(!isattacked(D8, white) && !isattacked(E8, white) && !isattacked(C8, white))
 								{
-									pushMove((E8 << 8) | C8 | mCA);
+									pushMove(E8, C8, mCA);
 								}
 							}
 						}					
@@ -334,7 +336,7 @@ void capGen()
 					}
 					if(p.en_pas == tsq)
 					{
-						pushMove((sq<<8) | tsq | mPEP);
+						pushMove(sq, tsq, mPEP);
 					}
 					tsq = sq+11;
 					if(p.board[tsq].col == bpco)
@@ -343,7 +345,7 @@ void capGen()
 					}
 					if(p.en_pas == tsq)
 					{
-						pushMove((sq<<8) | tsq | mPEP);
+						pushMove(sq, tsq, mPEP);
 					}		
 					break;
 				case wN:
@@ -410,7 +412,7 @@ void capGen()
 					}
 					if(p.en_pas == tsq)
 					{
-						pushMove((sq<<8) | tsq | mPEP);
+						pushMove(sq, tsq, mPEP);
 					}
 					tsq = sq-11;
 					if(p.board[tsq].col == wpco)
@@ -419,7 +421,7 @@ void capGen()
 					}
 					if(p.en_pas == tsq)
 					{
-						pushMove((sq<<8) | tsq | mPEP);
+						pushMove(sq, tsq, mPEP);
 					}		
 					break;
 				case bN:
