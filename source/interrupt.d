@@ -3,7 +3,7 @@ import defines, data, utils, alloctime, eval;
 
 version (Posix)
 {
-	import core.sys.posix.posix;
+	import core.sys.posix.sys.select;
 	
 	bool bioskey()
 	{
@@ -11,13 +11,13 @@ version (Posix)
 		timeval timeout;
 		
 		FD_ZERO(&readfs);
-		FD_SET(fileno(stdin), &readfs);
+		FD_SET(stdin.fileno(), &readfs);
 		
 		timeout.tv_sec = 0;
 		timeout.tv_usec = 0;
 		select(16, &readfs, 0, 0, &timeout);
 		
-		return FD_ISSET(fileno(stdin), &readfs);
+		return FD_ISSET(stdin.fileno(), &readfs);
 	}
 	
 }
