@@ -1,5 +1,7 @@
-immutable int wP = 1, bP = 2, wN = 3, bN = 4, wB = 5, bB = 6, wR = 7, bR = 8, wQ = 9, bQ = 10, wK = 11, bK = 12, ety = 13;
-immutable int WKC = 8, BKC = 4, WQC = 2, BQC = 1;
+import core.time;
+
+immutable int bP = 0, wP = 1, bN = 2, wN = 3, bB = 4, wB = 5, bR = 6, wR = 7, bQ = 8, wQ = 9, bK = 10, wK = 11, empty = 12;
+immutable int WKC = 8, WQC = 4, BKC = 2, BQC = 1;
 immutable int NOFLAG = 0, LOWER = 1, UPPER = 2, EXACT = 3;
 immutable int A1 = 26, B1 = 27, C1 = 28, D1 = 29, E1 = 30, F1 = 31, G1 = 32, H1 = 33, 
 			A2 = 38, B2 = 39, C2 = 40, D2 = 41, E2 = 42, F2 = 43, G2 = 44, H2 = 45, 
@@ -9,7 +11,7 @@ immutable int A1 = 26, B1 = 27, C1 = 28, D1 = 29, E1 = 30, F1 = 31, G1 = 32, H1 
 			A6 = 86, B6 = 87, C6 = 88, D6 = 89, E6 = 90, F6 = 91, G6 = 92, H6 = 93, 
 			A7 = 98, B7 = 99, C7 = 100, D7 = 101, E7 = 102, F7 = 103, G7 = 104, H7 = 105, 
 			A8 = 110, B8 = 111, C8 = 112, D8 = 113, E8 = 114, F8 = 115, G8 = 116, H8 = 117; 
-immutable int noenpas = 0, nopiece = 0, deadsquare = 0, edge = 0;
+immutable int noenpas = 200, nopiece = 0, deadsquare = 0, edge = 13;
 
 immutable int black = 0, white = 1;
 
@@ -17,7 +19,7 @@ immutable int wpco = 1, bpco = 2, npco = 3;
 
 immutable int vP = 90, vN = 325, vB = 325, vR = 500, vQ = 900, vK = 10000;
 
-immutable string startfen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+immutable string startFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
 immutable int mCA = 0x20000, mPST = 0x40000, mPEP = 0x180000, mCAP = 0x100000, mPQ = 0x600000, mPR = 0xa00000, mPB = 0x1200000, mPN = 0x2200000, mNORM = 0x10000, mProm = 0x200000;
 
@@ -37,10 +39,10 @@ struct Move
 	int score;
 }
 
-struct Pce
+struct Piece
 {
-	int col;
-	int typ;
+	int color;
+	int type;
 }
 
 struct Hist
@@ -48,7 +50,7 @@ struct Hist
 	int data;
 	int enPas;
 	ulong hashKey;
-	Pce captured;
+	Piece captured;
 	int castleFlags;
 	int pListEp;
 	int pList;
@@ -64,9 +66,9 @@ struct EvalOptions
 
 struct Position
 {
-	int[33] pcenumtosq;
-	int[144] sqtopcenum;
-	int pcenum;
+	int[33] pceNumToSq;
+	int[144] sqToPceNum;
+	int pceNum;
 	int majors;
 	int castleflags;
 	int fifty;
@@ -77,7 +79,7 @@ struct Position
 	ulong hashkey;
 	Move[9600] list;
 	int[512] listc;
-	Pce[144] board;
+	Piece[144] board;
 	int[2] k;
 }
 
@@ -124,17 +126,17 @@ struct Atab
 struct SearchParam
 {
 	int depth;
-	double wtime;
-	double btime;
-	double winc;
-	double binc;
-	double xtime;
-	double xotime;
+	ulong wtime;
+	ulong btime;
+	ulong winc;
+	ulong binc;
+	ulong xtime;
+	ulong xotime;
 	int inf;
-	double[2] movestogo;
-	double timepermove;
-	double starttime;
-	double stoptime;
+	int[2] movestogo;
+	ulong timepermove;
+	ulong starttime;
+	ulong stoptime;
 	int pon;
 	int cpon;
 	int ponderhit;

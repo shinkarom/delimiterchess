@@ -1,4 +1,4 @@
-import std.stdio;
+import std.stdio, core.time;
 import data, defines, attack, setboard, io, hash, doundo, utils, perftm, calcm, movegen, eval;
 
 void iniFile()
@@ -18,7 +18,7 @@ void iniFile()
 	init_hash_tables();
 }
 
-void setTime(double t, double ot, int compside)
+void setTime(ulong t, ulong ot, int compside)
 {
 	if(compside==white)
 	{
@@ -134,18 +134,18 @@ void xThink()
 {
 	import alloctime, core.stdc.time;
 	
-	double allocatedtime;
+	ulong allocatedtime;
 	if(!searchParam.pon)
 	{
 		allocatedtime = allocatetime();
 		if(allocatedtime < 0) allocatedtime = 200;
-		searchParam.starttime = cast(double)clock();
+		searchParam.starttime = (MonoTime.currTime-MonoTime.zero()).total!"msecs";
 		searchParam.stoptime = searchParam.starttime + allocatedtime;
 	}
 	else
 	{
 		allocatedtime = (pondertime()*4)/3;
-		searchParam.starttime = cast(double)clock();
+		searchParam.starttime = (MonoTime.currTime-MonoTime.zero()).total!"msecs";
 		searchParam.pontime = searchParam.starttime + allocatedtime;
 		searchParam.stoptime = searchParam.starttime + 128000000;
 	}
@@ -178,7 +178,7 @@ void xboardMode()
 	string command;
 
 	iniFile();
-	setBoard(startfen);
+	setBoard(startFEN);
 	clearhash();
 	int compside = noside;
 	initSearchParam();
@@ -205,7 +205,7 @@ void xboardMode()
 				searchParam.pon = true;
 				searchParam.inf = true;
 				xThink();
-				if(cast(double)(clock())> searchParam.stoptime)
+				if((MonoTime.currTime()-MonoTime.zero()).total!"msecs" > searchParam.stoptime)
 				{
 					writeln("pondertime was exceeded!");
 				}
@@ -247,12 +247,12 @@ void xboardMode()
 				searchParam.depth = -1;
 				break;
 			case "new":
-				setBoard(startfen);
+				setBoard(startFEN);
 				clearhash();
 				compside = black;
 				break;
 			case "perft":				
-				setBoard(startfen);
+				setBoard(startFEN);
 				clearhash();
 				compside = black;
 				perft(6);

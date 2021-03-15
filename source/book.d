@@ -132,7 +132,7 @@ void parseopeningline(string str)
 	int movemade;
 	bool t;
 	
-	setBoard(startfen);
+	setBoard(startFEN);
 	
 	while(ptr < str.length)
 	{

@@ -24,77 +24,77 @@ void setBoard(string str)
 		switch(str[ptr])
 		{
 			case 'K':
-				p.board[index[sq]].typ = wK;
-				p.board[index[sq]].col = wpco;
+				p.board[index[sq]].type = wK;
+				p.board[index[sq]].color = wpco;
 				p.k[white] = index[sq];
 				WK++;
 				sq++;
 				break;
 			case 'Q':
-				p.board[index[sq]].typ = wQ;
-				p.board[index[sq]].col = wpco;
+				p.board[index[sq]].type = wQ;
+				p.board[index[sq]].color = wpco;
 				p.material[white] += vQ;
 				sq++;
 				break;	
 			case 'R':
-				p.board[index[sq]].typ = wR;
-				p.board[index[sq]].col = wpco;
+				p.board[index[sq]].type = wR;
+				p.board[index[sq]].color = wpco;
 				p.material[white] += vR;
 				sq++;
 				break;
 			case 'B':
-				p.board[index[sq]].typ = wB;
-				p.board[index[sq]].col = wpco;
+				p.board[index[sq]].type = wB;
+				p.board[index[sq]].color = wpco;
 				p.material[white] += vB;
 				sq++;
 				break;
 			case 'N':
-				p.board[index[sq]].typ = wN;
-				p.board[index[sq]].col = wpco;
+				p.board[index[sq]].type = wN;
+				p.board[index[sq]].color = wpco;
 				p.material[white] += vN;
 				sq++;
 				break;
 			case 'P':
-				p.board[index[sq]].typ = wP;
-				p.board[index[sq]].col = wpco;
+				p.board[index[sq]].type = wP;
+				p.board[index[sq]].color = wpco;
 				p.material[white] += vP;
 				sq++;
 				WP++;
 				break;
 			case 'k':
-				p.board[index[sq]].typ = bK;
-				p.board[index[sq]].col = bpco;
+				p.board[index[sq]].type = bK;
+				p.board[index[sq]].color = bpco;
 				p.k[black] = index[sq];
 				BK++;
 				sq++;
 				break;
 			case 'q':
-				p.board[index[sq]].typ = bQ;
-				p.board[index[sq]].col = bpco;
+				p.board[index[sq]].type = bQ;
+				p.board[index[sq]].color = bpco;
 				p.material[black] += vQ;
 				sq++;
 				break;	
 			case 'r':
-				p.board[index[sq]].typ = bR;
-				p.board[index[sq]].col = bpco;
+				p.board[index[sq]].type = bR;
+				p.board[index[sq]].color = bpco;
 				p.material[black] += vR;
 				sq++;
 				break;
 			case 'b':
-				p.board[index[sq]].typ = bB;
-				p.board[index[sq]].col = bpco;
+				p.board[index[sq]].type = bB;
+				p.board[index[sq]].color = bpco;
 				p.material[black] += vB;
 				sq++;
 				break;
 			case 'n':
-				p.board[index[sq]].typ = bN;
-				p.board[index[sq]].col = bpco;
+				p.board[index[sq]].type = bN;
+				p.board[index[sq]].color = bpco;
 				p.material[black] += vN;
 				sq++;
 				break;
 			case 'p':
-				p.board[index[sq]].typ = bP;
-				p.board[index[sq]].col = bpco;
+				p.board[index[sq]].type = bP;
+				p.board[index[sq]].color = bpco;
 				p.material[black] += vP;
 				sq++;
 				BP++;

@@ -1,52 +1,51 @@
-import core.stdc.time, std.stdio, std.algorithm.searching, std.format;
+import core.stdc.time, std.stdio, std.algorithm.searching, std.format, std.conv, std.string, core.time;
 import data, defines, doundo, hash, io, setboard, movegen;
 
-long pnodes, actnodes, pdepth;
+long actnodes;
 bool target;
 long[100] rootnodes;
 
-void perft(int depth)
+long perft(int depth, bool silent = false)
 {
-	pnodes = 0;
-	actnodes = 0;
 	p.ply = 0;
 	auto s = cast(double)(clock());
 	rootnodes = 0;
-	goroot(depth);
+	long nodes = goroot(depth);
 	auto f = cast(double)(clock());
-	writeln("pnodes = ",pnodes);
-	writeln("actnodes = ",actnodes);
-	writeln("time = ",(f-s)/1000);
+	if(!silent)
+		writeln(nodes,", actnodes ",actnodes, " time ",(f-s)/1000);
+	return nodes;
 }
 
-void go(int depth)
-{
+long go(int depth)
+{	
 	if(depth == 0)
-		return;
+		return 1;
+	long nodes = 0;	
 	moveGen();
 	for(int i  = p.listc[p.ply]; i < p.listc[p.ply+1]; i++)
 	{
+		//writeln(returnmove(p.list[i])," there is on depth ",depth);
 		if(makemove(p.list[i]))
 		{
+			//writeln("move ",returnmove(p.list[i])," depth ",depth," unavailable");
 			takemove();
 			continue;
 		}
+		//writeln("move ",returnmove(p.list[i])," depth ",depth);
 		testhashkey();
-		pnodes++;
-		if(pdepth == p.ply)
-			actnodes++;
 			
-		go(depth-1);
+		nodes += go(depth-1);
 		takemove();
 	}
-	return;
+	return nodes;
 }
 
-void goshow(int depth)
+long goshow(int depth)
 {
 	if(depth == 0)
-		return;
-
+		return 1;
+	long nodes = 0;
 	moveGen();
 	for(int i  = p.listc[p.ply]; i < p.listc[p.ply+1]; i++)
 	{
@@ -55,92 +54,64 @@ void goshow(int depth)
 			takemove();
 			continue;
 		}
-		writeln("making ",returnmove(p.list[i]));
+		//writeln("making ",returnmove(p.list[i]));
 		testhashkey();
-		pnodes++;
-		if(pdepth == p.ply)
-			actnodes++;
 			
-		go(depth-1);
+		nodes += go(depth-1);
 		takemove();
 	}
-	return;	
+	return nodes;	
 }
 
-void goroot(int depth)
+long goroot(int depth)
 {
 	if(depth == 0)
-		return;
-
+		return 1;
+	long nodes = 0;
 	moveGen();
 
-	long oldnodes = 0;
+	//long oldnodes = 0;
 	for(int i  = p.listc[p.ply]; i < p.listc[p.ply+1]; i++)
 	{
 		if(makemove(p.list[i]))
 		{
+			//writeln("root move ",returnmove(p.list[i])," depth ",depth," unavailable");
 			takemove();
 			continue;
 		}
+		//writeln("root move ",returnmove(p.list[i]));
 		testhashkey();
-		pnodes++;
-		if(pdepth == p.ply)
-			actnodes++;
 			
-		go(depth-1);
+		nodes += go(depth-1);
 		takemove();
 		
-		rootnodes[i] = actnodes - oldnodes;
-		writeln(returnmove(p.list[i])," ",rootnodes[i]);
-		oldnodes = actnodes;
+		//rootnodes[i] = actnodes - oldnodes;
+		//writeln(returnmove(p.list[i])," ",rootnodes[i]);
+		//oldnodes = actnodes;
 	}
-	return;	
+	return nodes;	
 }
 
-void perftfile()
+void perftfile(int depth)
 {
-	long[] myscore;
-	long[] targetscore;
-	long x;
-	int tests = 0;
+	long targetScore;
 	
-	writeln("This function will always test to depth 6!!");
-	writeln("the perft file must have the target number of nodes at the end of");
-	writeln("the fen in the following format:  'D6 1888900'. The program looks for 'D6'");
-	
-	writeln();
-	writeln();
-	
-	writeln("Enter filename...");
-	string filename = readln();
-	
-	File testfile = File(filename,"r");
+	File testfile = File("perftsuite.epd","r");
 	
 	foreach(fileline; testfile.byLine())
 	{
 		setBoard(fileline.idup);
-		auto finddepth = fileline.find("D6 ");
+		auto finddepth = fileline.find("D"~to!string(depth)~" ");
 		if(finddepth == "")
 			continue;
 		finddepth = finddepth[3..$];
-		formattedRead(finddepth, "%d", x);
-		targetscore ~= x;
-		perft(6);
-		myscore ~= actnodes;
-		writeln("position ",tests+1, " target ",x," actual ",actnodes);
-	}
-	writeln("\n\nTest compete.");
-	for(int i = 0; i<tests;i++)
-	{
-		write("Position ",i+1,"\t",targetscore[i],"\t",myscore[i]," ");
-		if(targetscore[i] == myscore[i])
+		formattedRead(finddepth, "%d", targetScore);
+		long perftResult = perft(depth, true);		
+		if(targetScore != perftResult)
 		{
-			write("PASS");
+			writeln(fileline.idup.split(' ')[0..5].join(' ') ," | ",targetScore," ",perftResult," ");
 		}
-		else
-		{
-			write("FAIL");
-		}
-		writeln();
 	}
+	writeln("\n\nTest complete.");
+	testfile.close();
 }

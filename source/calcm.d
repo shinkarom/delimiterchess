@@ -57,9 +57,9 @@ bool timeCheck()
 {
 	if(itdepth < 6)
 		return false;
-	double timeNow = MonoTime.currTime.ticks;
-	double timeToLastPly = timeNow - searchParam.starttime;
-	double timeForNextPly = timeToLastPly * 2;
+	ulong timeNow = (MonoTime.currTime()-MonoTime.zero()).total!"msecs";
+	ulong timeToLastPly = timeNow - searchParam.starttime;
+	ulong timeForNextPly = timeToLastPly * 2;
 	if(timeForNextPly+timeNow > searchParam.stoptime)
 		return true;
 	return false;

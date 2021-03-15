@@ -1,4 +1,4 @@
-import std.stdio, core.stdc.time;
+import std.stdio, core.time;
 import defines, data, board, doundo, movegen;
 
 string returnsquare(int from)
@@ -39,17 +39,17 @@ int understandmove(string move, ref bool prom)
 		writeln("ILLEGAL PARSE : ",move);
 		return -1;
 	}
-	int from = fileranktosquare(chartofile(move[0]), chartorank(move[1]));
-	int to = fileranktosquare(chartofile(move[2]), chartorank(move[3]));
+	int from = fileranktosquare(chartorank(move[1]), chartofile(move[0]));
+	int to = fileranktosquare(chartorank(move[3]), chartofile(move[2]));
 	
-	/+
-	movegen();
-	+/
+	
+	moveGen();
+	
 	int i;
 	for(i = p.listc[p.ply]; i<p.listc[p.ply+1]; i++)
 	{
 		if(FROM(p.list[i].m)==from && TO(p.list[i].m)==to)
-		{
+		{			
 			if(FLAG(p.list[i].m) & mProm)
 			{
 				if(move[4]=='q' && (p.list[i].m & oPQ))
@@ -104,7 +104,7 @@ void printpv(int score)
 	{
 		write("info depth ",itdepth);
 		write(" score cp ",score);
-		write(" time ",cast(double)(clock())-searchParam.starttime);
+		write(" time ",(MonoTime.currTime()-MonoTime.zero()).total!"msecs"-searchParam.starttime);
 		write(" nodes ",nodes+qnodes);
 		write(" depth ",itdepth," pv");
 		for(int j = 0; j<pvindex[0]; j++)
@@ -120,7 +120,7 @@ void printpv(int score)
 			if(itdepth>7 && !searchParam.pon)
 			{
 				write("tellothers depth ",itdepth," score(cp) ",score);
-				write(" time(s*100) ",cast(int)((cast(double)(clock))-searchParam.starttime)/10);
+				write(" time(s*100) ",cast(int)((MonoTime.currTime()-MonoTime.zero()).total!"msecs"-searchParam.starttime)/10);
 				write(" nodes ",nodes+qnodes," pv=");
 				for(int j = 0; j<pvindex[0]; j++)
 				{
@@ -129,7 +129,7 @@ void printpv(int score)
 				writeln();
 			}
 			write(itdepth," ",score);
-			write(" ",cast(int)((cast(double)(clock))-searchParam.starttime)/10);
+			write(" ",((MonoTime.currTime()-MonoTime.zero()).total!"msecs"-searchParam.starttime)/10);
 			write(" ",nodes+qnodes);
 			for(int j = 0; j<pvindex[0]; j++)
 			{

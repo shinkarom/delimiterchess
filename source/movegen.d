@@ -24,13 +24,13 @@ void pushPawn(int from, int to, int flag)
 
 void knightMove(int f, int t, int xcol)
 {
-	if(p.board[t].typ == edge)
+	if(p.board[t].type == edge)
 		return;		
-	if(p.board[t].typ == ety)
+	if(p.board[t].type == empty)
 	{
 		pushMove(f, t, mNORM);
 	}	
-	else if(p.board[t].col == xcol)
+	else if(p.board[t].color == xcol)
 	{
 		pushMove(f, t, mCAP);
 	}	
@@ -39,16 +39,16 @@ void knightMove(int f, int t, int xcol)
 void slideMove(int f, int t, int xcol)
 {
 	int d = t-f;
-	if(p.board[t].typ == edge)
+	if(p.board[t].type == edge)
 		return;
 	do
 	{
-		if(p.board[t].typ == ety)
+		if(p.board[t].type == empty)
 		{
 			pushMove(f, t, mNORM);
 			t+=d;
 		}
-		else if(p.board[t].col == xcol)
+		else if(p.board[t].color == xcol)
 		{
 			pushMove(f, t, mCAP);
 			break;			
@@ -57,14 +57,14 @@ void slideMove(int f, int t, int xcol)
 		{
 			break;
 		}
-	} while(p.board[t].typ != edge);
+	} while(p.board[t].type != edge);
 }
 
 void knightMoveC(int f, int t, int xcol)
 {
-	if(p.board[t].typ == edge)
+	if(p.board[t].type == edge)
 		return;		
-	else if(p.board[t].col == xcol)
+	else if(p.board[t].color == xcol)
 	{
 		pushMove(f, t, mCAP);
 	}	
@@ -73,15 +73,15 @@ void knightMoveC(int f, int t, int xcol)
 void slideMoveC(int f, int t, int xcol)
 {
 	int d = t-f;
-	if(p.board[t].typ == edge)
+	if(p.board[t].type == edge)
 		return;
 	do
 	{
-		if(p.board[t].typ == ety)
+		if(p.board[t].type == empty)
 		{
 			t+=d;
 		}
-		else if(p.board[t].col == xcol)
+		else if(p.board[t].color == xcol)
 		{
 			pushMove(f, t, mCAP);
 			break;			
@@ -90,7 +90,7 @@ void slideMoveC(int f, int t, int xcol)
 		{
 			break;
 		}
-	} while(p.board[t].typ != edge);	
+	} while(p.board[t].type != edge);	
 }
 
 void moveGen()
@@ -99,16 +99,16 @@ void moveGen()
 	p.listc[p.ply+1] = p.listc[p.ply];
 	if(p.side == white)
 	{
-		for(int index = 0; index < p.pcenum; index++)
+		for(int index = 1; index <= p.pceNum; index++)
 		{
-			if(p.pcenumtosq[index] == 0)
+			if(p.pceNumToSq[index] == 0)
 				continue;
-			int sq = p.pcenumtosq[index];
-			switch(p.board[sq].typ)
+			int sq = p.pceNumToSq[index];
+			switch(p.board[sq].type)
 			{
 				case wP:
 					tsq = sq+13;
-					if(p.board[tsq].col == bpco)
+					if(p.board[tsq].color == bpco)
 					{
 						pushPawn(sq, tsq, mCAP);
 					}
@@ -117,7 +117,7 @@ void moveGen()
 						pushMove(sq, tsq, mPEP);
 					}
 					tsq = sq+11;
-					if(p.board[tsq].col == bpco)
+					if(p.board[tsq].color == bpco)
 					{
 						pushPawn(sq, tsq, mCAP);
 					}
@@ -126,10 +126,10 @@ void moveGen()
 						pushMove(sq, tsq, mPEP);
 					}		
 					tsq = sq+12;
-					if(p.board[tsq].typ == ety)
+					if(p.board[tsq].type == empty)
 					{
 						pushPawn(sq, tsq, mNORM);
-						if(sq < A3 && p.board[tsq+12].typ == ety)
+						if(sq < A3 && p.board[tsq+12].type == empty)
 						{
 							pushMove(sq, (tsq+12), mPST);
 						}
@@ -156,9 +156,9 @@ void moveGen()
 					knightMove(sq, sq-13, bpco);
 					if(sq == E1)
 					{
-						if(p.castleflags & 8)
+						if(p.castleflags & WKC)
 						{
-							if(p.board[H1].typ == wR && p.board[F1].typ == ety && p.board[G1].typ == ety)
+							if(p.board[H1].type == wR && p.board[F1].type == empty && p.board[G1].type == empty)
 							{
 								if(!isattacked(F1, black) && !isattacked(E1, black) && !isattacked(G1, black))
 								{
@@ -166,9 +166,9 @@ void moveGen()
 								}
 							}
 						}
-						if(p.castleflags & 4)
+						if(p.castleflags & WQC)
 						{
-							if(p.board[A1].typ == wR && p.board[D1].typ == ety && p.board[C1].typ == ety && p.board[B1].typ == ety)
+							if(p.board[A1].type == wR && p.board[D1].type == empty && p.board[C1].type == empty && p.board[B1].type == empty)
 							{
 								if(!isattacked(D1, black) && !isattacked(E1, black) && !isattacked(C1, black))
 								{
@@ -207,16 +207,16 @@ void moveGen()
 	}
 	else
 	{
-		for(int index = 0; index < p.pcenum; index++)
+		for(int index = 1; index <= p.pceNum; index++)
 		{
-			if(p.pcenumtosq[index] == 0)
+			if(p.pceNumToSq[index] == 0)
 				continue;
-			int sq = p.pcenumtosq[index];
-			switch(p.board[sq].typ)
+			int sq = p.pceNumToSq[index];
+			switch(p.board[sq].type)
 			{
 				case bP:
 					tsq = sq-13;
-					if(p.board[tsq].col == wpco)
+					if(p.board[tsq].color == wpco)
 					{
 						pushPawn(sq, tsq, mCAP);
 					}
@@ -225,7 +225,7 @@ void moveGen()
 						pushMove(sq, tsq, mPEP);
 					}
 					tsq = sq-11;
-					if(p.board[tsq].col == wpco)
+					if(p.board[tsq].color == wpco)
 					{
 						pushPawn(sq, tsq, mCAP);
 					}
@@ -234,10 +234,10 @@ void moveGen()
 						pushMove(sq, tsq, mPEP);
 					}		
 					tsq = sq-12;
-					if(p.board[tsq].typ == ety)
+					if(p.board[tsq].type == empty)
 					{
 						pushPawn(sq, tsq, mNORM);
-						if(sq > H6 && p.board[tsq-12].typ == ety)
+						if(sq > H6 && p.board[tsq-12].type == empty)
 						{
 							pushMove(sq, (tsq-12), mPST);
 						}
@@ -264,9 +264,9 @@ void moveGen()
 					knightMove(sq, sq-13, wpco);
 					if(sq == E8)
 					{
-						if(p.castleflags & 2)
+						if(p.castleflags & BKC)
 						{
-							if(p.board[H8].typ == bR && p.board[F8].typ == ety && p.board[G8].typ == ety)
+							if(p.board[H8].type == bR && p.board[F8].type == empty && p.board[G8].type == empty)
 							{
 								if(!isattacked(F8, white) && !isattacked(E8, white) && !isattacked(G8, white))
 								{
@@ -274,9 +274,9 @@ void moveGen()
 								}
 							}
 						}
-						if(p.castleflags & 1)
+						if(p.castleflags & BQC)
 						{
-							if(p.board[A8].typ == bR && p.board[D8].typ == ety && p.board[C8].typ == ety && p.board[B8].typ == ety)
+							if(p.board[A8].type == bR && p.board[D8].type == empty && p.board[C8].type == empty && p.board[B8].type == empty)
 							{
 								if(!isattacked(D8, white) && !isattacked(E8, white) && !isattacked(C8, white))
 								{
@@ -321,16 +321,16 @@ void capGen()
 	p.listc[p.ply+1] = p.listc[p.ply];
 	if(p.side == white)
 	{
-		for(int index = 1; index <= p.pcenum; index++)
+		for(int index = 1; index <= p.pceNum; index++)
 		{
-			if(p.pcenumtosq[index] == 0)
+			if(p.pceNumToSq[index] == 0)
 				continue;
-			int sq = p.pcenumtosq[index];
-			switch(p.board[sq].typ)
+			int sq = p.pceNumToSq[index];
+			switch(p.board[sq].type)
 			{
 				case wP:
 					tsq = sq+13;
-					if(p.board[tsq].col == bpco)
+					if(p.board[tsq].color == bpco)
 					{
 						pushPawn(sq, tsq, mCAP);
 					}
@@ -339,7 +339,7 @@ void capGen()
 						pushMove(sq, tsq, mPEP);
 					}
 					tsq = sq+11;
-					if(p.board[tsq].col == bpco)
+					if(p.board[tsq].color == bpco)
 					{
 						pushPawn(sq, tsq, mCAP);
 					}
@@ -397,16 +397,16 @@ void capGen()
 	}
 	else
 	{
-		for(int index = 1; index <= p.pcenum; index++)
+		for(int index = 1; index <= p.pceNum; index++)
 		{
-			if(p.pcenumtosq[index] == 0)
+			if(p.pceNumToSq[index] == 0)
 				continue;
-			int sq = p.pcenumtosq[index];
-			switch(p.board[sq].typ)
+			int sq = p.pceNumToSq[index];
+			switch(p.board[sq].type)
 			{
 				case bP:
 					tsq = sq-13;
-					if(p.board[tsq].col == wpco)
+					if(p.board[tsq].color == wpco)
 					{
 						pushPawn(sq, tsq, mCAP);
 					}
@@ -415,7 +415,7 @@ void capGen()
 						pushMove(sq, tsq, mPEP);
 					}
 					tsq = sq-11;
-					if(p.board[tsq].col == wpco)
+					if(p.board[tsq].color == wpco)
 					{
 						pushPawn(sq, tsq, mCAP);
 					}

@@ -1,6 +1,7 @@
+import core.time;
 import defines, data;
 
-double allocatetime()
+ulong allocatetime()
 {
 	if(searchParam.depth != -1)
 	{
@@ -38,7 +39,7 @@ double allocatetime()
 	}
 }
 
-double pondertime()
+ulong pondertime()
 {
 	if(searchParam.depth != -1)
 	{

@@ -52,12 +52,12 @@ void init_distancetable()
 void initeval()
 {
 	mymemset();
-	for(int index = 1; index <= p.pcenum; index++)
+	for(int index = 1; index <= p.pceNum; index++)
 	{
-		if(p.pcenumtosq[index] == 0)
+		if(p.pceNumToSq[index] == 0)
 			continue;
-		int sq = p.pcenumtosq[index];
-		switch(p.board[sq].typ)
+		int sq = p.pceNumToSq[index];
+		switch(p.board[sq].type)
 		{
 			case wR:
 				evalData.wRc++;
@@ -159,14 +159,14 @@ void midgameeval()
 		}
 	}
 	
-	for(int index = 0; index < p.pcenum; index++)
+	for(int index = 1; index <= p.pceNum; index++)
 	{
-		if(p.pcenumtosq[index] == 0)
+		if(p.pceNumToSq[index] == 0)
 			continue;
 			
-		int sq = p.pcenumtosq[index];
+		int sq = p.pceNumToSq[index];
 		
-		switch(p.board[sq].typ)
+		switch(p.board[sq].type)
 		{
 			case wP:
 				evalData.score[white][beg] += vP;
@@ -199,7 +199,7 @@ void midgameeval()
 				{
 					evalData.score[white][beg] += 8;
 					evalData.score[white][end] += 15;
-					if(evalData.score[black][files[sq]+1] == 0)
+					if(evalData.pawns[black][files[sq]+1] == 0)
 					{
 						evalData.score[white][beg] += 5;
 						evalData.score[white][end] += 10;
@@ -268,7 +268,7 @@ void midgameeval()
 				{
 					evalData.score[black][beg] += 8;
 					evalData.score[black][end] += 15;
-					if(evalData.score[white][files[sq]+1] == 0)
+					if(evalData.pawns[white][files[sq]+1] == 0)
 					{
 						evalData.score[black][beg] += 5;
 						evalData.score[black][end] += 10;
@@ -332,14 +332,14 @@ bool brseven()
 void development()
 {
 	int wdev = 0, bdev = 0;
-	if(p.board[C1].typ == wB) wdev++;
-	if(p.board[B1].typ == wN) wdev++;
-	if(p.board[F1].typ == wB) wdev++;
-	if(p.board[G1].typ == wN) wdev++;
-	if(p.board[C8].typ == bB) bdev++;
-	if(p.board[B8].typ == bN) bdev++;
-	if(p.board[F8].typ == bB) bdev++;
-	if(p.board[G8].typ == bN) bdev++;
+	if(p.board[C1].type == wB) wdev++;
+	if(p.board[B1].type == wN) wdev++;
+	if(p.board[F1].type == wB) wdev++;
+	if(p.board[G1].type == wN) wdev++;
+	if(p.board[C8].type == bB) bdev++;
+	if(p.board[B8].type == bN) bdev++;
+	if(p.board[F8].type == bB) bdev++;
+	if(p.board[G8].type == bN) bdev++;
 	
 	evalData.score[black][beg] -= developpenalty[bdev];
 	evalData.score[white][beg] -= developpenalty[wdev];
@@ -357,19 +357,19 @@ bool dobks()
 
 void blockedpawn()
 {
-	if(p.board[D2].typ == wP && p.board[D3].typ != ety)
+	if(p.board[D2].type == wP && p.board[D3].type != empty)
 	{
 		evalData.score[white][beg] -= 40;
 	}
-	if(p.board[E2].typ == wP && p.board[E3].typ != ety)
+	if(p.board[E2].type == wP && p.board[E3].type != empty)
 	{
 		evalData.score[white][beg] -= 40;
 	}
-	if(p.board[D7].typ == bP && p.board[D6].typ != ety)
+	if(p.board[D7].type == bP && p.board[D6].type != empty)
 	{
 		evalData.score[black][beg] -= 40;
 	}
-	if(p.board[E7].typ == bP && p.board[E6].typ != ety)
+	if(p.board[E7].type == bP && p.board[E6].type != empty)
 	{
 		evalData.score[black][beg] -= 40;
 	}
@@ -648,17 +648,17 @@ void wpp(int sq)
 	int rank = ranks[sq];
 	int mscore = mppawn[white][rank];
 	int escore = eppawn[white][rank];
-	if(p.board[sq+12].typ != ety)
+	if(p.board[sq+12].type != empty)
 	{
 		mscore >>= 1;
 		escore >>= 1;
 	}
-	if(p.board[sq+1].typ == wP || p.board[sq-11].typ == wP)
+	if(p.board[sq+1].type == wP || p.board[sq-11].type == wP)
 	{
 		mscore += mppawn[white][rank]>>2;
 		mscore += eppawn[white][rank]>>1;
 	}
-	if(p.board[sq-1].typ == wP || p.board[sq-13].typ == wP)
+	if(p.board[sq-1].type == wP || p.board[sq-13].type == wP)
 	{
 		mscore += mppawn[white][rank]>>2;
 		mscore += eppawn[white][rank]>>1;		
@@ -684,17 +684,17 @@ void bpp(int sq)
 	int rank = ranks[sq];
 	int mscore = mppawn[black][rank];
 	int escore = eppawn[black][rank];
-	if(p.board[sq+12].typ != ety)
+	if(p.board[sq+12].type != empty)
 	{
 		mscore >>= 1;
 		escore >>= 1;
 	}
-	if(p.board[sq+1].typ == bP || p.board[sq+13].typ == bP)
+	if(p.board[sq+1].type == bP || p.board[sq+13].type == bP)
 	{
 		mscore += mppawn[black][rank]>>2;
 		mscore += eppawn[black][rank]>>1;
 	}
-	if(p.board[sq-1].typ == wP || p.board[sq-11].typ == wP)
+	if(p.board[sq-1].type == wP || p.board[sq-11].type == wP)
 	{
 		mscore += mppawn[white][rank]>>2;
 		mscore += eppawn[white][rank]>>1;		
@@ -720,8 +720,7 @@ int wNsupport(int sq)
 	int score = SupN[sq];
 	if(score == 0)
 		return score;
-		writeln(sq+2);
-	if(evalData.pawn_set[black][files[sq+2]] <= ranks[sq] && evalData.pawn_set[black][files[sq]] <= ranks[sq])
+	if(evalData.pawn_set[black][files[sq]+2] <= ranks[sq] && evalData.pawn_set[black][files[sq]] <= ranks[sq])
 	{
 		if(evalData.bNc == 0)
 		{
@@ -743,7 +742,7 @@ int bNsupport(int sq)
 	int score = SupN[opp[sq]];
 	if(score == 0)
 		return score;
-	if(evalData.pawn_set[white][files[sq+2]] >= ranks[sq] && evalData.pawn_set[white][files[sq]] >= ranks[sq])
+	if(evalData.pawn_set[white][files[sq]+2] >= ranks[sq] && evalData.pawn_set[white][files[sq]] >= ranks[sq])
 	{
 		if(evalData.wNc == 0)
 		{
@@ -818,25 +817,25 @@ void wbishopmob(int sq)
 	int t, m = 0;
 	for(t = sq+11;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq+13;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq-11;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq-13;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
@@ -849,25 +848,25 @@ void bbishopmob(int sq)
 	int t, m = 0;
 	for(t = sq+11;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq+13;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq-11;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq-13;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
@@ -880,25 +879,25 @@ void wrookmob(int sq)
 	int t, m = 0;
 	for(t = sq+1;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq+12;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq-1;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq-12;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
@@ -910,25 +909,25 @@ void brookmob(int sq)
 	int t, m = 0;
 	for(t = sq+1;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq+12;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq-1;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq-12;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
@@ -940,49 +939,49 @@ void wqueenmob(int sq)
 	int t, m = 0;
 	for(t = sq+1;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq+12;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq+11;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq+13;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq-1;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq-12;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq-11;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq-13;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
@@ -994,49 +993,49 @@ void bqueenmob(int sq)
 	int t, m = 0;
 	for(t = sq+1;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq+12;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq+11;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq+13;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq-1;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq-12;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq-11;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
 	for(t = sq-13;; t+=1)
 	{
-		if(p.board[t].typ != ety)
+		if(p.board[t].type != empty)
 			break;
 		m++;
 	}
@@ -1046,21 +1045,21 @@ void bqueenmob(int sq)
 void wknightmob(int sq)
 {
 	int m = 0;
-	if(p.board[sq+25].typ == ety)
+	if(p.board[sq+25].type == empty)
 		m++;
-	if(p.board[sq+14].typ == ety)
+	if(p.board[sq+14].type == empty)
 		m++;
-	if(p.board[sq+10].typ == ety)
+	if(p.board[sq+10].type == empty)
 		m++;
-	if(p.board[sq+23].typ == ety)
+	if(p.board[sq+23].type == empty)
 		m++;
-	if(p.board[sq-25].typ == ety)
+	if(p.board[sq-25].type == empty)
 		m++;
-	if(p.board[sq-14].typ == ety)
+	if(p.board[sq-14].type == empty)
 		m++;
-	if(p.board[sq-10].typ == ety)
+	if(p.board[sq-10].type == empty)
 		m++;
-	if(p.board[sq-23].typ == ety)
+	if(p.board[sq-23].type == empty)
 		m++;
 	evalData.score[white][end] += m;
 }
@@ -1068,21 +1067,21 @@ void wknightmob(int sq)
 void bknightmob(int sq)
 {
 	int m = 0;
-	if(p.board[sq+25].typ == ety)
+	if(p.board[sq+25].type == empty)
 		m++;
-	if(p.board[sq+14].typ == ety)
+	if(p.board[sq+14].type == empty)
 		m++;
-	if(p.board[sq+10].typ == ety)
+	if(p.board[sq+10].type == empty)
 		m++;
-	if(p.board[sq+23].typ == ety)
+	if(p.board[sq+23].type == empty)
 		m++;
-	if(p.board[sq-25].typ == ety)
+	if(p.board[sq-25].type == empty)
 		m++;
-	if(p.board[sq-14].typ == ety)
+	if(p.board[sq-14].type == empty)
 		m++;
-	if(p.board[sq-10].typ == ety)
+	if(p.board[sq-10].type == empty)
 		m++;
-	if(p.board[sq-23].typ == ety)
+	if(p.board[sq-23].type == empty)
 		m++;
 	evalData.score[black][beg] += m;	
 }

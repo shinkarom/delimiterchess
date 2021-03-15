@@ -88,9 +88,9 @@ void writeboard()
 		log_file.writeln();
 		for(int f = 0; f<8; f++)
 		{
-			if(p.board[fileranktosquare(f,r)].typ != ety)
+			if(p.board[fileranktosquare(f,r)].type != empty)
 			{
-				log_file.writef(" %c ",piecetochar[p.board[fileranktosquare(f,r)].typ]);
+				log_file.writef(" %c ",piecetochar[p.board[fileranktosquare(f,r)].type]);
 			}
 			else
 			{

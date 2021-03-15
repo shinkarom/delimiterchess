@@ -3,6 +3,7 @@ import data, defines;
 
 void init_hash_tables()
 {
+	initHashCastleCombinations();
 	int elemSize = Hashelem.sizeof;
 	writeln("elem size = ",elemSize);
 	numelem *= 1000000;
@@ -11,6 +12,33 @@ void init_hash_tables()
 	TTable.length = 0;
 	TTable.length = numelem;
 	clearhash();
+}
+
+void initHashCastleCombinations()
+{
+	for(int kingK = 0; kingK <= 1; kingK++)
+	{
+		for(int kingQ = 0; kingQ <= 1; kingQ++)
+		{
+			for(int queenK = 0; queenK <= 1; queenK++)
+			{
+				for(int queenQ = 0; queenQ <= 1; queenQ++)
+				{
+					int index = (kingK<<3)|(kingQ<<2)|(queenK<<1)|(queenQ);
+					ulong value = 0;
+					if(kingK)
+						value ^= hashCastle[0];
+					if(kingQ)
+						value ^= hashCastle[1];
+					if(queenK)
+						value ^= hashCastle[2];
+					if(queenQ)
+						value ^= hashCastle[3];
+					hashCastleCombinations[index] = value;
+				}
+			}
+		}
+	}
 }
 
 void clearhash()
@@ -26,40 +54,50 @@ void clearhash()
 
 void fullhashkey()
 {
-	p.hashkey = 0;
-	for(int i= 0; i<144;i++)
-	{
-		if(p.board[i].typ == edge || p.board[i].typ == ety)
-			continue;
-		p.hashkey ^= hash_p[p.board[i].typ][i];
-	}
-	
-	p.hashkey ^= hash_s[p.side];
-	p.hashkey ^= hash_enp[p.en_pas];
-	p.hashkey ^= hash_ca[p.castleflags];
+	p.hashkey = generateHashKey();
 }
 
-void testhashkey()
+ulong generateHashKey()
 {
 	ulong hashkey = 0;
-		for(int i= 0; i<144;i++)
+	for(int i = A1; i<=H8;i++)
 	{
-		if(p.board[i].typ == edge || p.board[i].typ == ety)
+		if(p.board[i].type == edge || p.board[i].type == empty)
 			continue;
-		hashkey ^= hash_p[p.board[i].typ][i];
+		hashkey ^= hashPieces[64* p.board[i].type + 8 * ranks[i] + files[i]];
 	}
-	
-	hashkey ^= hash_s[p.side];
-	hashkey ^= hash_enp[p.en_pas];
-	hashkey ^= hash_ca[p.castleflags];
+	if(p.side == white)
+		hashkey ^= hashTurn;
+	if(p.en_pas != noenpas)
+	{
+		int squareNum = 8 * ranks[p.en_pas] + files[p.en_pas];
+		hashkey ^= hashEnPassant[files[p.en_pas]];
+	}
+	//hashkey ^= hashCastleCombinations[p.castleflags];
+	if(p.castleflags & WKC)
+		hashkey ^= hashCastle[0];
+	if(p.castleflags & WQC)
+		hashkey ^= hashCastle[1];
+	if(p.castleflags & BKC)
+		hashkey ^= hashCastle[2];
+	if(p.castleflags & BQC)
+		hashkey ^= hashCastle[3];
+	return hashkey;	
+}
+
+bool testhashkey()
+{
+	auto hashkey = generateHashKey();
 	
 	if(hashkey != p.hashkey)
 	{
-		writeln("corrupt key, board = ",p.hashkey,", should be ",hashkey);
+		writefln("corrupt key %X %X, difference %X",hashkey,p.hashkey,hashkey ^ p.hashkey);
 		/+
 		printboard();
 		+/
+		return false;
 	}
+	return true;
 }
 
 int probe_hash_table(int depth, Move move, ref bool nul, ref int score, int beta)

@@ -1,4 +1,4 @@
-import std.stdio, core.stdc.time;
+import std.stdio, core.time;
 import defines, data, utils, alloctime, eval;
 
 version (Posix)
@@ -94,9 +94,9 @@ bool checkinput()
 				searchParam.ponderhit = true;
 				searchParam.pon = false;
 				searchParam.inf = false;
-				double alloctime = allocatetime();
+				ulong alloctime = allocatetime();
 				if(alloctime<0) alloctime = 200;
-				searchParam.starttime = cast(double)(clock())+500;
+				searchParam.starttime = (MonoTime.currTime+msecs(500)-MonoTime.zero()).total!"msecs";
 				searchParam.stoptime = searchParam.starttime + alloctime;
 				return true;
 			}
@@ -113,7 +113,7 @@ bool checkinput()
 void checkup()
 {
 	checkinput();
-	if(cast(double)(clock()) >= searchParam.stoptime)
+	if((MonoTime.currTime-MonoTime.zero()).total!"msecs" >= searchParam.stoptime)
 	{
 		stopsearch = true;
 	}

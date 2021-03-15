@@ -47,15 +47,17 @@ int search(int alpha, int beta, int depth, bool nul)
 	else
 	{
 		check[p.ply] = 0;
-		if(p.pcenum>4 && nul && depth > PLY && !followpv)
+		if(p.pceNum>4 && nul && depth > PLY && !followpv)
 		{
 			int tep = p.en_pas;
-			p.hashkey ^= hash_s[p.side];
-			p.hashkey ^= hash_enp[p.en_pas];
+			p.hashkey ^= hashTurn;
+			if(p.en_pas != noenpas)
+				p.hashkey ^= hashEnPassant[files[p.en_pas]];
 			p.en_pas = noenpas;
 			p.side ^= 1;
-			p.hashkey ^= hash_s[p.side];
-			p.hashkey ^= hash_enp[p.en_pas];
+			p.hashkey ^= hashTurn;
+			if(p.en_pas != noenpas)
+				p.hashkey ^= hashEnPassant[files[p.en_pas]];
 			int ns;
 			if(depth > 7)
 			{
@@ -67,12 +69,14 @@ int search(int alpha, int beta, int depth, bool nul)
 			}
 			followpv = opv;
 			tep = p.en_pas;
-			p.hashkey ^= hash_s[p.side];
-			p.hashkey ^= hash_enp[p.en_pas];
+			p.hashkey ^= hashTurn;
+			if(p.en_pas != noenpas)
+				p.hashkey ^= hashEnPassant[files[p.en_pas]];
 			p.en_pas = tep;
 			p.side ^= 1;
-			p.hashkey ^= hash_s[p.side];
-			p.hashkey ^= hash_enp[p.en_pas];	
+			p.hashkey ^= hashTurn;
+			if(p.en_pas != noenpas)
+				p.hashkey ^= hashEnPassant[files[p.en_pas]];	
 			if(stopsearch)
 				return 0;
 			if(ns >= beta)

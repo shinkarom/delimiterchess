@@ -98,7 +98,7 @@ void scoreCapture(ref Move m)
 	{
 		int from = FROM(m.m);
 		int to = TO(m.m);
-		int val = vals[p.board[TO(m.m)].typ] - vals[p.board[FROM(m.m)].typ];
+		int val = vals[p.board[TO(m.m)].type] - vals[p.board[FROM(m.m)].type];
 		if(val >= 600)
 		{
 			m.score = WIN_CAPT1;
@@ -113,7 +113,7 @@ void scoreCapture(ref Move m)
 		}
 		else if(val == 0)
 		{
-			m.score = equalcap[p.board[FROM(m.m)].typ];
+			m.score = equalcap[p.board[FROM(m.m)].type];
 		}
 		else
 		{	
@@ -167,7 +167,7 @@ void order(ref Move hm)
 			else if (!scoreKiller(p.list[i]))
 			{
 				p.list[i].score = his_table[p.list[i].m & MOVEBITS];
-				int fromType = p.board[FROM(p.list[i].m)].typ;
+				int fromType = p.board[FROM(p.list[i].m)].type;
 				if(p.majors > 4)
 				{
 					p.list[i].score += returnMidtab(fromType, TO(p.list[i].m)) - returnMidtab(fromType, FROM(p.list[i].m));
@@ -209,7 +209,7 @@ void order(ref Move hm)
 			else if (!scoreKiller(p.list[i]))
 			{
 				p.list[i].score = his_table[p.list[i].m & MOVEBITS];
-				int fromType = p.board[FROM(p.list[i].m)].typ;
+				int fromType = p.board[FROM(p.list[i].m)].type;
 				if(p.majors > 4)
 				{
 					p.list[i].score += returnMidtab(fromType, TO(p.list[i].m)) - returnMidtab(fromType, FROM(p.list[i].m));
@@ -237,7 +237,7 @@ void qorder()
 		}
 		else
 		{
-			int val = vals[p.board[to].typ] - vals[p.board[from].typ];
+			int val = vals[p.board[to].type] - vals[p.board[from].type];
 			p.list[i].score = 10000 + val;
 			
 			if(val < 0)
@@ -259,7 +259,7 @@ int extraDepth(Move m)
 		nd+=48;
 		prom++;
 	}
-	if(p.board[to].typ == wP)
+	if(p.board[to].type == wP)
 	{
 		if(ranks[to] == 6)
 		{
@@ -272,7 +272,7 @@ int extraDepth(Move m)
 			pawnsix++;
 		}
 	}
-	if(p.board[to].typ == bP)
+	if(p.board[to].type == bP)
 	{
 		if(ranks[to] == 1)
 		{

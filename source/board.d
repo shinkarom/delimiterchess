@@ -6,12 +6,12 @@ void clearBoard()
 	{
 		if(ranks[sq]==-1 || files[sq]==-1)
 		{
-			p.board[sq].col = edge;
-			p.board[sq].typ =edge;
+			p.board[sq].color = edge;
+			p.board[sq].type = edge;
 			continue;
 		}
-		p.board[sq].col = npco;
-		p.board[sq].typ = ety;
+		p.board[sq].color = npco;
+		p.board[sq].type = empty;
 		continue;
 	}
 	p.material[0] = 0;
@@ -25,25 +25,25 @@ void initCastleBits()
 		switch(sq)
 		{
 			case A1:
-				castleBits[sq] = 11;
+				castleBits[sq] = ~WQC;
 				break;
 			case H1:
-				castleBits[sq] = 7;
+				castleBits[sq] = ~WKC;
 				break;
 			case A8:
-				castleBits[sq] = 14;
+				castleBits[sq] = ~BQC;
 				break;
 			case H8:
-				castleBits[sq] = 13;
+				castleBits[sq] = ~BKC;
 				break;
 			case E1:
-				castleBits[sq] = 3;
+				castleBits[sq] = ~(WKC | WQC);
 				break;
 			case E8:
-				castleBits[sq] = 12;
+				castleBits[sq] = ~(BKC | BQC);
 				break;	
 			default:
-				castleBits[sq] = 15;
+				castleBits[sq] = WKC | WQC | BKC | BQC;
 				break;
 		}
 	}
@@ -100,35 +100,35 @@ void initPieceLists()
 {
 	int sq, pce;
 	
-	p.pcenum = 0;
+	p.pceNum = 0;
 	
 	for(sq = 0; sq<144;sq++)
 	{
-		p.sqtopcenum[sq] = nopiece;
+		p.sqToPceNum[sq] = nopiece;
 	}
 	for(pce = 0;pce<17;pce++)
 	{
-		p.pcenumtosq[pce] = deadsquare;
+		p.pceNumToSq[pce] = deadsquare;
 	}
 	
 	p.majors = 0;
 	
 	for(sq = 0; sq<144;sq++)
 	{
-		if(p.board[sq].typ == edge)
+		if(p.board[sq].type == edge)
 		{
 			continue;
 		}
-		if(p.board[sq].typ != ety)
+		if(p.board[sq].type != empty)
 		{
-			if(p.board[sq].typ != wP && p.board[sq].typ != bP)
+			if(p.board[sq].type != wP && p.board[sq].type != bP)
 			{
 				p.majors++;
 			}
 			
-			p.pcenumtosq[p.pcenum] = sq;
-			p.sqtopcenum[sq] = p.pcenum;
-			p.pcenum++;
+			p.pceNum++;
+			p.pceNumToSq[p.pceNum] = sq;
+			p.sqToPceNum[sq] = p.pceNum;			
 		}
 	}
 }

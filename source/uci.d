@@ -47,8 +47,7 @@ void parseLine(string str)
 		if(spaceIndex != str.length)
 			command = str[0.. spaceIndex];
 		else 
-			command = str;
-		writeln("\"",command,"\"");		
+			command = str;	
 		switch(command)
 		{
 			case "isready":
@@ -61,7 +60,7 @@ void parseLine(string str)
 				parseOption(str[10..$]);
 				break;
 			case "ucinewgame":
-				setBoard(startfen);
+				setBoard(startFEN);
 				clearhash();
 				break;
 			case "go":
@@ -98,7 +97,7 @@ void parsePosition(string str)
 	}
 	else
 	{
-		setBoard(startfen);
+		setBoard(startFEN);
 	}
 
 	string moveString;
@@ -152,11 +151,11 @@ void parseGo(string str)
 				break;
 			case "binc":
 				i++;
-				searchParam.binc = to!double(arr[i]);
+				searchParam.binc = to!ulong(arr[i]);
 				break;
 			case "btime":
 				i++;
-				searchParam.btime = to!double(arr[i]);
+				searchParam.btime = to!ulong(arr[i]);
 				break;
 			case "depth":
 				i++;
@@ -170,7 +169,7 @@ void parseGo(string str)
 				break;
 			case "movetime":
 				i++;
-				searchParam.timepermove = to!double(arr[i]);
+				searchParam.timepermove = to!ulong(arr[i]);
 				break;
 			case "nodes":
 				break;
@@ -182,11 +181,11 @@ void parseGo(string str)
 				break;
 			case "winc":
 				i++;
-				searchParam.winc = to!double(arr[i]);
+				searchParam.winc = to!ulong(arr[i]);
 				break;
 			case "wtime":
 				i++;
-				searchParam.wtime = to!double(arr[i]);
+				searchParam.wtime = to!ulong(arr[i]);
 				break;
 			default:
 				break;
@@ -198,11 +197,11 @@ void parseGo(string str)
 
 void think()
 {
-	double allocatedtime = allocatetime();
+	ulong allocatedtime = allocatetime();
 	//writeln("allocated ",allocatedtime);
 	if(allocatedtime<0)
 		allocatedtime = 200;
-	searchParam.starttime = MonoTime.currTime.ticks;
+	searchParam.starttime = (MonoTime.currTime()-MonoTime.zero()).total!"msecs";
 	searchParam.stoptime = searchParam.starttime+allocatedtime;
 	if(logme)
 	{
