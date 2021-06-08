@@ -100,35 +100,19 @@ void parsePosition(string str)
 		setBoard(startFEN);
 	}
 
-	string moveString;
 	bool prom;
 	if(moves != "")
 	{
-		moves = moves[6..$];
-		while(moves.length >=4)
+		string[] moveArray = moves.split(" ")[1..$];
+		foreach(m; moveArray)
 		{
-			if(moves.length >= 5 && moves[4]!=' ')
-			{
-				moveString = moves[0..5];
-				moves = moves[5..$];
-			}
-			else
-			{
-				moveString = moves[0..4];
-				moves = moves[4..$];
-			}
-			int flag = understandmove(moveString, prom);
+			immutable flag = understandmove(m, prom);
 			if(flag == -1)
 			{
-				writestring("not understood "~moveString);
+				writestring("not understood "~m);
 				assert(flag != 0);
 			}
-			moves = moves[moveString.length..$];
-			while(moves.length>0 && moves[0]==' ')
-			{
-				moves = moves[1..$];
-			}
-		}
+		}		
 	}
 }
 

@@ -5,10 +5,10 @@ void init_hash_tables()
 {
 	initHashCastleCombinations();
 	int elemSize = Hashelem.sizeof;
-	writeln("elem size = ",elemSize);
+	//writeln("elem size = ",elemSize);
 	numelem *= 1000000;
 	numelem /= elemSize;
-	writeln("numelem = ",numelem);
+	//writeln("numelem = ",numelem);
 	TTable.length = 0;
 	TTable.length = numelem;
 	clearhash();

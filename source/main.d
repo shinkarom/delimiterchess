@@ -47,9 +47,9 @@ void main()
 			case "uci":
 				uciMode();
 				break;			
-			case "xboard":
-				xboardMode();
-				break;	
+			//case "xboard":
+			//	xboardMode();
+			//	break;	
 			case "moves":
 				moveGen();
 				printMoveList();

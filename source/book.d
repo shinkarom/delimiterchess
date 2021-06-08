@@ -71,7 +71,7 @@ bool book_init()
 		auto buf = wbookfile.rawRead(new BinEntry[1])[0];
 		whitebook ~= buf;
 	}
-	writeln("white book size = ",bookdata.whitelsize," bytes, with ",whitebook.length," entries");
+	//writeln("white book size = ",bookdata.whitelsize," bytes, with ",whitebook.length," entries");
 	
 	return true;
 }
