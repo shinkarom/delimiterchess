@@ -2,7 +2,7 @@ import std.stdio, std.format, std.string, std.algorithm.searching, std.array, st
 import data, defines, utils, log, alloctime, setboard, io, hash, calcm;
 
 const string[] uciStrings = [
-	"id name Delimiter " ~ versionId, "id author Roman Shynkarenko",
+	"id name " ~ engineName ~ " " ~ versionId, "id author Roman Shynkarenko",
 	"option name Hash type spin default 16 min 4 max 512",
 	"option name OwnBook type check default false",
 	"option name PawnStructure type spin default 128 min 12 max 256",
