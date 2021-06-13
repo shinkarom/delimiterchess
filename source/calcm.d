@@ -27,7 +27,7 @@ void calc()
 	int lastScore = 0;
 	if (p.listc[p.ply + 1] - p.listc[p.ply] == 1)
 		loopDepth = 5;
-	for (int itDepth = 1; itDepth <= loopDepth; itDepth++)
+	for (itDepth = 1; itDepth <= loopDepth; itDepth++)
 	{
 		followpv = true;
 		score = rootSearch(-10000, 10000, itDepth * PLY);
@@ -55,7 +55,7 @@ bool timeUp()
 
 bool timeCheck()
 {
-	if (itdepth < 6)
+	if (itDepth < 6)
 		return false;
 	ulong timeNow = (MonoTime.currTime() - MonoTime.zero()).total!"msecs";
 	ulong timeToLastPly = timeNow - searchParam.starttime;

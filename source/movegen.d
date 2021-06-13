@@ -110,7 +110,7 @@ void moveGen()
 			{
 			case wP:
 				tsq = sq + 13;
-				if (p.board[tsq].color == pieceColorBlack)
+				if (p.board[tsq].color == PieceColor.Black)
 				{
 					pushPawn(sq, tsq, mCAP);
 				}
@@ -119,7 +119,7 @@ void moveGen()
 					pushMove(sq, tsq, mPEP);
 				}
 				tsq = sq + 11;
-				if (p.board[tsq].color == pieceColorBlack)
+				if (p.board[tsq].color == PieceColor.Black)
 				{
 					pushPawn(sq, tsq, mCAP);
 				}
@@ -138,24 +138,24 @@ void moveGen()
 				}
 				break;
 			case wN:
-				knightMove(sq, sq + 14, pieceColorBlack);
-				knightMove(sq, sq + 10, pieceColorBlack);
-				knightMove(sq, sq + 25, pieceColorBlack);
-				knightMove(sq, sq + 23, pieceColorBlack);
-				knightMove(sq, sq - 14, pieceColorBlack);
-				knightMove(sq, sq - 10, pieceColorBlack);
-				knightMove(sq, sq - 25, pieceColorBlack);
-				knightMove(sq, sq - 23, pieceColorBlack);
+				knightMove(sq, sq + 14, PieceColor.Black);
+				knightMove(sq, sq + 10, PieceColor.Black);
+				knightMove(sq, sq + 25, PieceColor.Black);
+				knightMove(sq, sq + 23, PieceColor.Black);
+				knightMove(sq, sq - 14, PieceColor.Black);
+				knightMove(sq, sq - 10, PieceColor.Black);
+				knightMove(sq, sq - 25, PieceColor.Black);
+				knightMove(sq, sq - 23, PieceColor.Black);
 				break;
 			case wK:
-				knightMove(sq, sq + 1, pieceColorBlack);
-				knightMove(sq, sq + 12, pieceColorBlack);
-				knightMove(sq, sq + 11, pieceColorBlack);
-				knightMove(sq, sq + 13, pieceColorBlack);
-				knightMove(sq, sq - 1, pieceColorBlack);
-				knightMove(sq, sq - 12, pieceColorBlack);
-				knightMove(sq, sq - 11, pieceColorBlack);
-				knightMove(sq, sq - 13, pieceColorBlack);
+				knightMove(sq, sq + 1, PieceColor.Black);
+				knightMove(sq, sq + 12, PieceColor.Black);
+				knightMove(sq, sq + 11, PieceColor.Black);
+				knightMove(sq, sq + 13, PieceColor.Black);
+				knightMove(sq, sq - 1, PieceColor.Black);
+				knightMove(sq, sq - 12, PieceColor.Black);
+				knightMove(sq, sq - 11, PieceColor.Black);
+				knightMove(sq, sq - 13, PieceColor.Black);
 				if (sq == E1)
 				{
 					if (p.castleflags & WKC)
@@ -185,26 +185,26 @@ void moveGen()
 				}
 				break;
 			case wQ:
-				slideMove(sq, sq + 13, pieceColorBlack);
-				slideMove(sq, sq + 11, pieceColorBlack);
-				slideMove(sq, sq + 12, pieceColorBlack);
-				slideMove(sq, sq + 1, pieceColorBlack);
-				slideMove(sq, sq - 13, pieceColorBlack);
-				slideMove(sq, sq - 11, pieceColorBlack);
-				slideMove(sq, sq - 12, pieceColorBlack);
-				slideMove(sq, sq - 1, pieceColorBlack);
+				slideMove(sq, sq + 13, PieceColor.Black);
+				slideMove(sq, sq + 11, PieceColor.Black);
+				slideMove(sq, sq + 12, PieceColor.Black);
+				slideMove(sq, sq + 1, PieceColor.Black);
+				slideMove(sq, sq - 13, PieceColor.Black);
+				slideMove(sq, sq - 11, PieceColor.Black);
+				slideMove(sq, sq - 12, PieceColor.Black);
+				slideMove(sq, sq - 1, PieceColor.Black);
 				break;
 			case wB:
-				slideMove(sq, sq + 13, pieceColorBlack);
-				slideMove(sq, sq + 11, pieceColorBlack);
-				slideMove(sq, sq - 13, pieceColorBlack);
-				slideMove(sq, sq - 11, pieceColorBlack);
+				slideMove(sq, sq + 13, PieceColor.Black);
+				slideMove(sq, sq + 11, PieceColor.Black);
+				slideMove(sq, sq - 13, PieceColor.Black);
+				slideMove(sq, sq - 11, PieceColor.Black);
 				break;
 			case wR:
-				slideMove(sq, sq + 12, pieceColorBlack);
-				slideMove(sq, sq + 1, pieceColorBlack);
-				slideMove(sq, sq - 12, pieceColorBlack);
-				slideMove(sq, sq - 1, pieceColorBlack);
+				slideMove(sq, sq + 12, PieceColor.Black);
+				slideMove(sq, sq + 1, PieceColor.Black);
+				slideMove(sq, sq - 12, PieceColor.Black);
+				slideMove(sq, sq - 1, PieceColor.Black);
 				break;
 			default:
 				break;
@@ -222,7 +222,7 @@ void moveGen()
 			{
 			case bP:
 				tsq = sq - 13;
-				if (p.board[tsq].color == pieceColorWhite)
+				if (p.board[tsq].color == PieceColor.White)
 				{
 					pushPawn(sq, tsq, mCAP);
 				}
@@ -231,7 +231,7 @@ void moveGen()
 					pushMove(sq, tsq, mPEP);
 				}
 				tsq = sq - 11;
-				if (p.board[tsq].color == pieceColorWhite)
+				if (p.board[tsq].color == PieceColor.White)
 				{
 					pushPawn(sq, tsq, mCAP);
 				}
@@ -250,24 +250,24 @@ void moveGen()
 				}
 				break;
 			case bN:
-				knightMove(sq, sq + 14, pieceColorWhite);
-				knightMove(sq, sq + 10, pieceColorWhite);
-				knightMove(sq, sq + 25, pieceColorWhite);
-				knightMove(sq, sq + 23, pieceColorWhite);
-				knightMove(sq, sq - 14, pieceColorWhite);
-				knightMove(sq, sq - 10, pieceColorWhite);
-				knightMove(sq, sq - 25, pieceColorWhite);
-				knightMove(sq, sq - 23, pieceColorWhite);
+				knightMove(sq, sq + 14, PieceColor.White);
+				knightMove(sq, sq + 10, PieceColor.White);
+				knightMove(sq, sq + 25, PieceColor.White);
+				knightMove(sq, sq + 23, PieceColor.White);
+				knightMove(sq, sq - 14, PieceColor.White);
+				knightMove(sq, sq - 10, PieceColor.White);
+				knightMove(sq, sq - 25, PieceColor.White);
+				knightMove(sq, sq - 23, PieceColor.White);
 				break;
 			case bK:
-				knightMove(sq, sq + 1, pieceColorWhite);
-				knightMove(sq, sq + 12, pieceColorWhite);
-				knightMove(sq, sq + 11, pieceColorWhite);
-				knightMove(sq, sq + 13, pieceColorWhite);
-				knightMove(sq, sq - 1, pieceColorWhite);
-				knightMove(sq, sq - 12, pieceColorWhite);
-				knightMove(sq, sq - 11, pieceColorWhite);
-				knightMove(sq, sq - 13, pieceColorWhite);
+				knightMove(sq, sq + 1, PieceColor.White);
+				knightMove(sq, sq + 12, PieceColor.White);
+				knightMove(sq, sq + 11, PieceColor.White);
+				knightMove(sq, sq + 13, PieceColor.White);
+				knightMove(sq, sq - 1, PieceColor.White);
+				knightMove(sq, sq - 12, PieceColor.White);
+				knightMove(sq, sq - 11, PieceColor.White);
+				knightMove(sq, sq - 13, PieceColor.White);
 				if (sq == E8)
 				{
 					if (p.castleflags & BKC)
@@ -297,26 +297,26 @@ void moveGen()
 				}
 				break;
 			case bQ:
-				slideMove(sq, sq + 13, pieceColorWhite);
-				slideMove(sq, sq + 11, pieceColorWhite);
-				slideMove(sq, sq + 12, pieceColorWhite);
-				slideMove(sq, sq + 1, pieceColorWhite);
-				slideMove(sq, sq - 13, pieceColorWhite);
-				slideMove(sq, sq - 11, pieceColorWhite);
-				slideMove(sq, sq - 12, pieceColorWhite);
-				slideMove(sq, sq - 1, pieceColorWhite);
+				slideMove(sq, sq + 13, PieceColor.White);
+				slideMove(sq, sq + 11, PieceColor.White);
+				slideMove(sq, sq + 12, PieceColor.White);
+				slideMove(sq, sq + 1, PieceColor.White);
+				slideMove(sq, sq - 13, PieceColor.White);
+				slideMove(sq, sq - 11, PieceColor.White);
+				slideMove(sq, sq - 12, PieceColor.White);
+				slideMove(sq, sq - 1, PieceColor.White);
 				break;
 			case bB:
-				slideMove(sq, sq + 13, pieceColorWhite);
-				slideMove(sq, sq + 11, pieceColorWhite);
-				slideMove(sq, sq - 13, pieceColorWhite);
-				slideMove(sq, sq - 11, pieceColorWhite);
+				slideMove(sq, sq + 13, PieceColor.White);
+				slideMove(sq, sq + 11, PieceColor.White);
+				slideMove(sq, sq - 13, PieceColor.White);
+				slideMove(sq, sq - 11, PieceColor.White);
 				break;
 			case bR:
-				slideMove(sq, sq + 12, pieceColorWhite);
-				slideMove(sq, sq + 1, pieceColorWhite);
-				slideMove(sq, sq - 12, pieceColorWhite);
-				slideMove(sq, sq - 1, pieceColorWhite);
+				slideMove(sq, sq + 12, PieceColor.White);
+				slideMove(sq, sq + 1, PieceColor.White);
+				slideMove(sq, sq - 12, PieceColor.White);
+				slideMove(sq, sq - 1, PieceColor.White);
 				break;
 			default:
 				break;
@@ -340,7 +340,7 @@ void capGen()
 			{
 			case wP:
 				tsq = sq + 13;
-				if (p.board[tsq].color == pieceColorBlack)
+				if (p.board[tsq].color == PieceColor.Black)
 				{
 					pushPawn(sq, tsq, mCAP);
 				}
@@ -349,7 +349,7 @@ void capGen()
 					pushMove(sq, tsq, mPEP);
 				}
 				tsq = sq + 11;
-				if (p.board[tsq].color == pieceColorBlack)
+				if (p.board[tsq].color == PieceColor.Black)
 				{
 					pushPawn(sq, tsq, mCAP);
 				}
@@ -359,46 +359,46 @@ void capGen()
 				}
 				break;
 			case wN:
-				knightMoveC(sq, sq + 14, pieceColorBlack);
-				knightMoveC(sq, sq + 10, pieceColorBlack);
-				knightMoveC(sq, sq + 25, pieceColorBlack);
-				knightMoveC(sq, sq + 23, pieceColorBlack);
-				knightMoveC(sq, sq - 14, pieceColorBlack);
-				knightMoveC(sq, sq - 10, pieceColorBlack);
-				knightMoveC(sq, sq - 25, pieceColorBlack);
-				knightMoveC(sq, sq - 23, pieceColorBlack);
+				knightMoveC(sq, sq + 14, PieceColor.Black);
+				knightMoveC(sq, sq + 10, PieceColor.Black);
+				knightMoveC(sq, sq + 25, PieceColor.Black);
+				knightMoveC(sq, sq + 23, PieceColor.Black);
+				knightMoveC(sq, sq - 14, PieceColor.Black);
+				knightMoveC(sq, sq - 10, PieceColor.Black);
+				knightMoveC(sq, sq - 25, PieceColor.Black);
+				knightMoveC(sq, sq - 23, PieceColor.Black);
 				break;
 			case wK:
-				knightMoveC(sq, sq + 1, pieceColorBlack);
-				knightMoveC(sq, sq + 12, pieceColorBlack);
-				knightMoveC(sq, sq + 11, pieceColorBlack);
-				knightMoveC(sq, sq + 13, pieceColorBlack);
-				knightMoveC(sq, sq - 1, pieceColorBlack);
-				knightMoveC(sq, sq - 12, pieceColorBlack);
-				knightMoveC(sq, sq - 11, pieceColorBlack);
-				knightMoveC(sq, sq - 13, pieceColorBlack);
+				knightMoveC(sq, sq + 1, PieceColor.Black);
+				knightMoveC(sq, sq + 12, PieceColor.Black);
+				knightMoveC(sq, sq + 11, PieceColor.Black);
+				knightMoveC(sq, sq + 13, PieceColor.Black);
+				knightMoveC(sq, sq - 1, PieceColor.Black);
+				knightMoveC(sq, sq - 12, PieceColor.Black);
+				knightMoveC(sq, sq - 11, PieceColor.Black);
+				knightMoveC(sq, sq - 13, PieceColor.Black);
 				break;
 			case wQ:
-				slideMoveC(sq, sq + 13, pieceColorBlack);
-				slideMoveC(sq, sq + 11, pieceColorBlack);
-				slideMoveC(sq, sq + 12, pieceColorBlack);
-				slideMoveC(sq, sq + 1, pieceColorBlack);
-				slideMoveC(sq, sq - 13, pieceColorBlack);
-				slideMoveC(sq, sq - 11, pieceColorBlack);
-				slideMoveC(sq, sq - 12, pieceColorBlack);
-				slideMoveC(sq, sq - 1, pieceColorBlack);
+				slideMoveC(sq, sq + 13, PieceColor.Black);
+				slideMoveC(sq, sq + 11, PieceColor.Black);
+				slideMoveC(sq, sq + 12, PieceColor.Black);
+				slideMoveC(sq, sq + 1, PieceColor.Black);
+				slideMoveC(sq, sq - 13, PieceColor.Black);
+				slideMoveC(sq, sq - 11, PieceColor.Black);
+				slideMoveC(sq, sq - 12, PieceColor.Black);
+				slideMoveC(sq, sq - 1, PieceColor.Black);
 				break;
 			case wB:
-				slideMoveC(sq, sq + 13, pieceColorBlack);
-				slideMoveC(sq, sq + 11, pieceColorBlack);
-				slideMoveC(sq, sq - 13, pieceColorBlack);
-				slideMoveC(sq, sq - 11, pieceColorBlack);
+				slideMoveC(sq, sq + 13, PieceColor.Black);
+				slideMoveC(sq, sq + 11, PieceColor.Black);
+				slideMoveC(sq, sq - 13, PieceColor.Black);
+				slideMoveC(sq, sq - 11, PieceColor.Black);
 				break;
 			case wR:
-				slideMoveC(sq, sq + 12, pieceColorBlack);
-				slideMoveC(sq, sq + 1, pieceColorBlack);
-				slideMoveC(sq, sq - 12, pieceColorBlack);
-				slideMoveC(sq, sq - 1, pieceColorBlack);
+				slideMoveC(sq, sq + 12, PieceColor.Black);
+				slideMoveC(sq, sq + 1, PieceColor.Black);
+				slideMoveC(sq, sq - 12, PieceColor.Black);
+				slideMoveC(sq, sq - 1, PieceColor.Black);
 				break;
 			default:
 				break;
@@ -416,7 +416,7 @@ void capGen()
 			{
 			case bP:
 				tsq = sq - 13;
-				if (p.board[tsq].color == pieceColorWhite)
+				if (p.board[tsq].color == PieceColor.White)
 				{
 					pushPawn(sq, tsq, mCAP);
 				}
@@ -425,7 +425,7 @@ void capGen()
 					pushMove(sq, tsq, mPEP);
 				}
 				tsq = sq - 11;
-				if (p.board[tsq].color == pieceColorWhite)
+				if (p.board[tsq].color == PieceColor.White)
 				{
 					pushPawn(sq, tsq, mCAP);
 				}
@@ -435,46 +435,46 @@ void capGen()
 				}
 				break;
 			case bN:
-				knightMoveC(sq, sq + 14, pieceColorWhite);
-				knightMoveC(sq, sq + 10, pieceColorWhite);
-				knightMoveC(sq, sq + 25, pieceColorWhite);
-				knightMoveC(sq, sq + 23, pieceColorWhite);
-				knightMoveC(sq, sq - 14, pieceColorWhite);
-				knightMoveC(sq, sq - 10, pieceColorWhite);
-				knightMoveC(sq, sq - 25, pieceColorWhite);
-				knightMoveC(sq, sq - 23, pieceColorWhite);
+				knightMoveC(sq, sq + 14, PieceColor.White);
+				knightMoveC(sq, sq + 10, PieceColor.White);
+				knightMoveC(sq, sq + 25, PieceColor.White);
+				knightMoveC(sq, sq + 23, PieceColor.White);
+				knightMoveC(sq, sq - 14, PieceColor.White);
+				knightMoveC(sq, sq - 10, PieceColor.White);
+				knightMoveC(sq, sq - 25, PieceColor.White);
+				knightMoveC(sq, sq - 23, PieceColor.White);
 				break;
 			case bK:
-				knightMoveC(sq, sq + 1, pieceColorWhite);
-				knightMoveC(sq, sq + 12, pieceColorWhite);
-				knightMoveC(sq, sq + 11, pieceColorWhite);
-				knightMoveC(sq, sq + 13, pieceColorWhite);
-				knightMoveC(sq, sq - 1, pieceColorWhite);
-				knightMoveC(sq, sq - 12, pieceColorWhite);
-				knightMoveC(sq, sq - 11, pieceColorWhite);
-				knightMoveC(sq, sq - 13, pieceColorWhite);
+				knightMoveC(sq, sq + 1, PieceColor.White);
+				knightMoveC(sq, sq + 12, PieceColor.White);
+				knightMoveC(sq, sq + 11, PieceColor.White);
+				knightMoveC(sq, sq + 13, PieceColor.White);
+				knightMoveC(sq, sq - 1, PieceColor.White);
+				knightMoveC(sq, sq - 12, PieceColor.White);
+				knightMoveC(sq, sq - 11, PieceColor.White);
+				knightMoveC(sq, sq - 13, PieceColor.White);
 				break;
 			case bQ:
-				slideMoveC(sq, sq + 13, pieceColorWhite);
-				slideMoveC(sq, sq + 11, pieceColorWhite);
-				slideMoveC(sq, sq + 12, pieceColorWhite);
-				slideMoveC(sq, sq + 1, pieceColorWhite);
-				slideMoveC(sq, sq - 13, pieceColorWhite);
-				slideMoveC(sq, sq - 11, pieceColorWhite);
-				slideMoveC(sq, sq - 12, pieceColorWhite);
-				slideMoveC(sq, sq - 1, pieceColorWhite);
+				slideMoveC(sq, sq + 13, PieceColor.White);
+				slideMoveC(sq, sq + 11, PieceColor.White);
+				slideMoveC(sq, sq + 12, PieceColor.White);
+				slideMoveC(sq, sq + 1, PieceColor.White);
+				slideMoveC(sq, sq - 13, PieceColor.White);
+				slideMoveC(sq, sq - 11, PieceColor.White);
+				slideMoveC(sq, sq - 12, PieceColor.White);
+				slideMoveC(sq, sq - 1, PieceColor.White);
 				break;
 			case bB:
-				slideMoveC(sq, sq + 13, pieceColorWhite);
-				slideMoveC(sq, sq + 11, pieceColorWhite);
-				slideMoveC(sq, sq - 13, pieceColorWhite);
-				slideMoveC(sq, sq - 11, pieceColorWhite);
+				slideMoveC(sq, sq + 13, PieceColor.White);
+				slideMoveC(sq, sq + 11, PieceColor.White);
+				slideMoveC(sq, sq - 13, PieceColor.White);
+				slideMoveC(sq, sq - 11, PieceColor.White);
 				break;
 			case bR:
-				slideMoveC(sq, sq + 12, pieceColorWhite);
-				slideMoveC(sq, sq + 1, pieceColorWhite);
-				slideMoveC(sq, sq - 12, pieceColorWhite);
-				slideMoveC(sq, sq - 1, pieceColorWhite);
+				slideMoveC(sq, sq + 12, PieceColor.White);
+				slideMoveC(sq, sq + 1, PieceColor.White);
+				slideMoveC(sq, sq - 12, PieceColor.White);
+				slideMoveC(sq, sq - 1, PieceColor.White);
 				break;
 			default:
 				break;

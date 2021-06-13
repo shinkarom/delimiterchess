@@ -6,11 +6,11 @@ void clearBoard()
 	{
 		if (ranks[sq] == -1 || files[sq] == -1)
 		{
-			p.board[sq].color = edge;
+			p.board[sq].color = PieceColor.None;
 			p.board[sq].type = edge;
 			continue;
 		}
-		p.board[sq].color = pieceColorNone;
+		p.board[sq].color = PieceColor.None;
 		p.board[sq].type = empty;
 		continue;
 	}

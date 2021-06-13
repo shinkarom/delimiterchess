@@ -103,12 +103,12 @@ void printpv(int score)
 {
 	if (searchParam.ucimode)
 	{
-		write("info depth ", itdepth);
+		write("info depth ", itDepth);
 		write(" score cp ", score);
 		write(" time ", (MonoTime.currTime() - MonoTime.zero())
 				.total!"msecs" - searchParam.starttime);
 		write(" nodes ", nodes + qnodes);
-		write(" depth ", itdepth, " pv");
+		write(" depth ", itDepth, " pv");
 		for (int j = 0; j < pvindex[0]; j++)
 		{
 			write(" ", returnmove(pv[0][j]));
@@ -119,9 +119,9 @@ void printpv(int score)
 	{
 		if (searchParam.post)
 		{
-			if (itdepth > 7 && !searchParam.pon)
+			if (itDepth > 7 && !searchParam.pon)
 			{
-				write("tellothers depth ", itdepth, " score(cp) ", score);
+				write("tellothers depth ", itDepth, " score(cp) ", score);
 				write(" time(s*100) ", cast(int)((MonoTime.currTime() - MonoTime.zero())
 						.total!"msecs" - searchParam.starttime) / 10);
 				write(" nodes ", nodes + qnodes, " pv=");
@@ -131,7 +131,7 @@ void printpv(int score)
 				}
 				writeln();
 			}
-			write(itdepth, " ", score);
+			write(itDepth, " ", score);
 			write(" ", ((MonoTime.currTime() - MonoTime.zero())
 					.total!"msecs" - searchParam.starttime) / 10);
 			write(" ", nodes + qnodes);

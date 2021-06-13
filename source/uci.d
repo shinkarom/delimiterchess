@@ -11,6 +11,8 @@ const string[] uciStrings = [
 	"option name Ponder type check default true", "uciok"
 ];
 
+string[] autorunLines = ["position startpos", "go depth 4", "quit"];
+
 void uciMode()
 {
 	searchParam.cpon = true;
@@ -18,8 +20,6 @@ void uciMode()
 	searchParam.usebook = false;
 	foreach (s; uciStrings)
 		writeln(s);
-	//parseLine("position startpos moves b1c3 b8c6 g1f3 g8f6");
-	//parseLine("go depth 3");
 	uciLoop();
 }
 
@@ -182,8 +182,7 @@ void parseGo(string str)
 void think()
 {
 	ulong allocatedtime = allocateTime();
-	//writeln("allocated ",allocatedtime);
-	if (allocatedtime < 0)
+	if (allocatedtime == 0)
 		allocatedtime = 200;
 	searchParam.starttime = (MonoTime.currTime() - MonoTime.zero()).total!"msecs";
 	searchParam.stoptime = searchParam.starttime + allocatedtime;

@@ -31,11 +31,11 @@ bool isAttacked(int sq, int side)
 		tsq = sq + 1;
 		if (p.board[tsq].type == bK)
 			return true;
-		while (p.board[sq].type != edge)
+		while (p.board[tsq].type != edge)
 		{
 			if (p.board[tsq].type == bR || p.board[tsq].type == bQ)
 				return true;
-			if (p.board[tsq].color != pieceColorNone)
+			if (p.board[tsq].color != PieceColor.None)
 				break;
 			tsq += 1;
 		}
@@ -43,11 +43,11 @@ bool isAttacked(int sq, int side)
 		tsq = sq - 1;
 		if (p.board[tsq].type == bK)
 			return true;
-		while (p.board[sq].type != edge)
+		while (p.board[tsq].type != edge)
 		{
 			if (p.board[tsq].type == bR || p.board[tsq].type == bQ)
 				return true;
-			if (p.board[tsq].color != pieceColorNone)
+			if (p.board[tsq].color != PieceColor.None)
 				break;
 			tsq -= 1;
 		}
@@ -55,11 +55,11 @@ bool isAttacked(int sq, int side)
 		tsq = sq + 12;
 		if (p.board[tsq].type == bK)
 			return true;
-		while (p.board[sq].type != edge)
+		while (p.board[tsq].type != edge)
 		{
 			if (p.board[tsq].type == bR || p.board[tsq].type == bQ)
 				return true;
-			if (p.board[tsq].color != pieceColorNone)
+			if (p.board[tsq].color != PieceColor.None)
 				break;
 			tsq += 12;
 		}
@@ -67,11 +67,11 @@ bool isAttacked(int sq, int side)
 		tsq = sq - 12;
 		if (p.board[tsq].type == bK)
 			return true;
-		while (p.board[sq].type != edge)
+		while (p.board[tsq].type != edge)
 		{
 			if (p.board[tsq].type == bR || p.board[tsq].type == bQ)
 				return true;
-			if (p.board[tsq].color != pieceColorNone)
+			if (p.board[tsq].color != PieceColor.None)
 				break;
 			tsq -= 12;
 		}
@@ -79,11 +79,11 @@ bool isAttacked(int sq, int side)
 		tsq = sq + 13;
 		if (p.board[tsq].type == bK)
 			return true;
-		while (p.board[sq].type != edge)
+		while (p.board[tsq].type != edge)
 		{
 			if (p.board[tsq].type == bB || p.board[tsq].type == bQ)
 				return true;
-			if (p.board[tsq].color != pieceColorNone)
+			if (p.board[tsq].color != PieceColor.None)
 				break;
 			tsq += 13;
 		}
@@ -91,11 +91,11 @@ bool isAttacked(int sq, int side)
 		tsq = sq - 13;
 		if (p.board[tsq].type == bK)
 			return true;
-		while (p.board[sq].type != edge)
+		while (p.board[tsq].type != edge)
 		{
 			if (p.board[tsq].type == bB || p.board[tsq].type == bQ)
 				return true;
-			if (p.board[tsq].color != pieceColorNone)
+			if (p.board[tsq].color != PieceColor.None)
 				break;
 			tsq -= 13;
 		}
@@ -103,11 +103,11 @@ bool isAttacked(int sq, int side)
 		tsq = sq + 11;
 		if (p.board[tsq].type == bK)
 			return true;
-		while (p.board[sq].type != edge)
+		while (p.board[tsq].type != edge)
 		{
 			if (p.board[tsq].type == bB || p.board[tsq].type == bQ)
 				return true;
-			if (p.board[tsq].color != pieceColorNone)
+			if (p.board[tsq].color != PieceColor.None)
 				break;
 			tsq += 11;
 		}
@@ -115,11 +115,11 @@ bool isAttacked(int sq, int side)
 		tsq = sq - 11;
 		if (p.board[tsq].type == bK)
 			return true;
-		while (p.board[sq].type != edge)
+		while (p.board[tsq].type != edge)
 		{
 			if (p.board[tsq].type == bB || p.board[tsq].type == bQ)
 				return true;
-			if (p.board[tsq].color != pieceColorNone)
+			if (p.board[tsq].color != PieceColor.None)
 				break;
 			tsq -= 11;
 		}
@@ -152,11 +152,11 @@ bool isAttacked(int sq, int side)
 		tsq = sq + 1;
 		if (p.board[tsq].type == wK)
 			return true;
-		while (p.board[sq].type != edge)
+		while (p.board[tsq].type != edge)
 		{
 			if (p.board[tsq].type == wR || p.board[tsq].type == wQ)
 				return true;
-			if (p.board[tsq].color != pieceColorNone)
+			if (p.board[tsq].color != PieceColor.None)
 				break;
 			tsq += 1;
 		}
@@ -164,11 +164,11 @@ bool isAttacked(int sq, int side)
 		tsq = sq - 1;
 		if (p.board[tsq].type == wK)
 			return true;
-		while (p.board[sq].type != edge)
+		while (p.board[tsq].type != edge)
 		{
 			if (p.board[tsq].type == wR || p.board[tsq].type == wQ)
 				return true;
-			if (p.board[tsq].color != pieceColorNone)
+			if (p.board[tsq].color != PieceColor.None)
 				break;
 			tsq -= 1;
 		}
@@ -176,11 +176,11 @@ bool isAttacked(int sq, int side)
 		tsq = sq + 12;
 		if (p.board[tsq].type == wK)
 			return true;
-		while (p.board[sq].type != edge)
+		while (p.board[tsq].type != edge)
 		{
 			if (p.board[tsq].type == wR || p.board[tsq].type == wQ)
 				return true;
-			if (p.board[tsq].color != pieceColorNone)
+			if (p.board[tsq].color != PieceColor.None)
 				break;
 			tsq += 12;
 		}
@@ -188,11 +188,11 @@ bool isAttacked(int sq, int side)
 		tsq = sq - 12;
 		if (p.board[tsq].type == wK)
 			return true;
-		while (p.board[sq].type != edge)
+		while (p.board[tsq].type != edge)
 		{
 			if (p.board[tsq].type == wR || p.board[tsq].type == wQ)
 				return true;
-			if (p.board[tsq].color != pieceColorNone)
+			if (p.board[tsq].color != PieceColor.None)
 				break;
 			tsq -= 12;
 		}
@@ -200,11 +200,11 @@ bool isAttacked(int sq, int side)
 		tsq = sq + 13;
 		if (p.board[tsq].type == wK)
 			return true;
-		while (p.board[sq].type != edge)
+		while (p.board[tsq].type != edge)
 		{
 			if (p.board[tsq].type == wB || p.board[tsq].type == wQ)
 				return true;
-			if (p.board[tsq].color != pieceColorNone)
+			if (p.board[tsq].color != PieceColor.None)
 				break;
 			tsq += 13;
 		}
@@ -212,11 +212,11 @@ bool isAttacked(int sq, int side)
 		tsq = sq - 13;
 		if (p.board[tsq].type == wK)
 			return true;
-		while (p.board[sq].type != edge)
+		while (p.board[tsq].type != edge)
 		{
 			if (p.board[tsq].type == wB || p.board[tsq].type == wQ)
 				return true;
-			if (p.board[tsq].color != pieceColorNone)
+			if (p.board[tsq].color != PieceColor.None)
 				break;
 			tsq -= 13;
 		}
@@ -224,11 +224,11 @@ bool isAttacked(int sq, int side)
 		tsq = sq + 11;
 		if (p.board[tsq].type == wK)
 			return true;
-		while (p.board[sq].type != edge)
+		while (p.board[tsq].type != edge)
 		{
 			if (p.board[tsq].type == wB || p.board[tsq].type == wQ)
 				return true;
-			if (p.board[tsq].color != pieceColorNone)
+			if (p.board[tsq].color != PieceColor.None)
 				break;
 			tsq += 11;
 		}
@@ -236,11 +236,11 @@ bool isAttacked(int sq, int side)
 		tsq = sq - 11;
 		if (p.board[tsq].type == wK)
 			return true;
-		while (p.board[sq].type != edge)
+		while (p.board[tsq].type != edge)
 		{
 			if (p.board[tsq].type == wB || p.board[tsq].type == wQ)
 				return true;
-			if (p.board[tsq].color != pieceColorNone)
+			if (p.board[tsq].color != PieceColor.None)
 				break;
 			tsq -= 11;
 		}

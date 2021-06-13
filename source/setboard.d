@@ -21,76 +21,76 @@ void setBoard(string str)
 		{
 		case 'K':
 			p.board[index[sq]].type = wK;
-			p.board[index[sq]].color = pieceColorWhite;
+			p.board[index[sq]].color = PieceColor.White;
 			p.k[white] = index[sq];
 			WK++;
 			sq++;
 			break;
 		case 'Q':
 			p.board[index[sq]].type = wQ;
-			p.board[index[sq]].color = pieceColorWhite;
+			p.board[index[sq]].color = PieceColor.White;
 			p.material[white] += vQ;
 			sq++;
 			break;
 		case 'R':
 			p.board[index[sq]].type = wR;
-			p.board[index[sq]].color = pieceColorWhite;
+			p.board[index[sq]].color = PieceColor.White;
 			p.material[white] += vR;
 			sq++;
 			break;
 		case 'B':
 			p.board[index[sq]].type = wB;
-			p.board[index[sq]].color = pieceColorWhite;
+			p.board[index[sq]].color = PieceColor.White;
 			p.material[white] += vB;
 			sq++;
 			break;
 		case 'N':
 			p.board[index[sq]].type = wN;
-			p.board[index[sq]].color = pieceColorWhite;
+			p.board[index[sq]].color = PieceColor.White;
 			p.material[white] += vN;
 			sq++;
 			break;
 		case 'P':
 			p.board[index[sq]].type = wP;
-			p.board[index[sq]].color = pieceColorWhite;
+			p.board[index[sq]].color = PieceColor.White;
 			p.material[white] += vP;
 			sq++;
 			WP++;
 			break;
 		case 'k':
 			p.board[index[sq]].type = bK;
-			p.board[index[sq]].color = pieceColorBlack;
+			p.board[index[sq]].color = PieceColor.Black;
 			p.k[black] = index[sq];
 			BK++;
 			sq++;
 			break;
 		case 'q':
 			p.board[index[sq]].type = bQ;
-			p.board[index[sq]].color = pieceColorBlack;
+			p.board[index[sq]].color = PieceColor.Black;
 			p.material[black] += vQ;
 			sq++;
 			break;
 		case 'r':
 			p.board[index[sq]].type = bR;
-			p.board[index[sq]].color = pieceColorBlack;
+			p.board[index[sq]].color = PieceColor.Black;
 			p.material[black] += vR;
 			sq++;
 			break;
 		case 'b':
 			p.board[index[sq]].type = bB;
-			p.board[index[sq]].color = pieceColorBlack;
+			p.board[index[sq]].color = PieceColor.Black;
 			p.material[black] += vB;
 			sq++;
 			break;
 		case 'n':
 			p.board[index[sq]].type = bN;
-			p.board[index[sq]].color = pieceColorBlack;
+			p.board[index[sq]].color = PieceColor.Black;
 			p.material[black] += vN;
 			sq++;
 			break;
 		case 'p':
 			p.board[index[sq]].type = bP;
-			p.board[index[sq]].color = pieceColorBlack;
+			p.board[index[sq]].color = PieceColor.Black;
 			p.material[black] += vP;
 			sq++;
 			BP++;

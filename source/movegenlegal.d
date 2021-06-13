@@ -84,7 +84,7 @@ void moveGenLegal()
 			{
 			case wP:
 				tsq = sq + 13;
-				if (p.board[tsq].color == pieceColorBlack)
+				if (p.board[tsq].color == PieceColor.Black)
 				{
 					pushPawnLegal(sq, tsq, mCAP);
 				}
@@ -93,7 +93,7 @@ void moveGenLegal()
 					pushMoveLegal(sq, tsq, mPEP);
 				}
 				tsq = sq + 11;
-				if (p.board[tsq].color == pieceColorBlack)
+				if (p.board[tsq].color == PieceColor.Black)
 				{
 					pushPawnLegal(sq, tsq, mCAP);
 				}
@@ -112,24 +112,24 @@ void moveGenLegal()
 				}
 				break;
 			case wN:
-				knightMoveLegal(sq, sq + 14, pieceColorBlack);
-				knightMoveLegal(sq, sq + 10, pieceColorBlack);
-				knightMoveLegal(sq, sq + 25, pieceColorBlack);
-				knightMoveLegal(sq, sq + 23, pieceColorBlack);
-				knightMoveLegal(sq, sq - 14, pieceColorBlack);
-				knightMoveLegal(sq, sq - 10, pieceColorBlack);
-				knightMoveLegal(sq, sq - 25, pieceColorBlack);
-				knightMoveLegal(sq, sq - 23, pieceColorBlack);
+				knightMoveLegal(sq, sq + 14, PieceColor.Black);
+				knightMoveLegal(sq, sq + 10, PieceColor.Black);
+				knightMoveLegal(sq, sq + 25, PieceColor.Black);
+				knightMoveLegal(sq, sq + 23, PieceColor.Black);
+				knightMoveLegal(sq, sq - 14, PieceColor.Black);
+				knightMoveLegal(sq, sq - 10, PieceColor.Black);
+				knightMoveLegal(sq, sq - 25, PieceColor.Black);
+				knightMoveLegal(sq, sq - 23, PieceColor.Black);
 				break;
 			case wK:
-				knightMoveLegal(sq, sq + 1, pieceColorBlack);
-				knightMoveLegal(sq, sq + 12, pieceColorBlack);
-				knightMoveLegal(sq, sq + 11, pieceColorBlack);
-				knightMoveLegal(sq, sq + 13, pieceColorBlack);
-				knightMoveLegal(sq, sq - 1, pieceColorBlack);
-				knightMoveLegal(sq, sq - 12, pieceColorBlack);
-				knightMoveLegal(sq, sq - 11, pieceColorBlack);
-				knightMoveLegal(sq, sq - 13, pieceColorBlack);
+				knightMoveLegal(sq, sq + 1, PieceColor.Black);
+				knightMoveLegal(sq, sq + 12, PieceColor.Black);
+				knightMoveLegal(sq, sq + 11, PieceColor.Black);
+				knightMoveLegal(sq, sq + 13, PieceColor.Black);
+				knightMoveLegal(sq, sq - 1, PieceColor.Black);
+				knightMoveLegal(sq, sq - 12, PieceColor.Black);
+				knightMoveLegal(sq, sq - 11, PieceColor.Black);
+				knightMoveLegal(sq, sq - 13, PieceColor.Black);
 				if (sq == E1)
 				{
 					if (p.castleflags & 8)
@@ -159,26 +159,26 @@ void moveGenLegal()
 				}
 				break;
 			case wQ:
-				slideMoveLegal(sq, sq + 13, pieceColorBlack);
-				slideMoveLegal(sq, sq + 11, pieceColorBlack);
-				slideMoveLegal(sq, sq - 13, pieceColorBlack);
-				slideMoveLegal(sq, sq - 11, pieceColorBlack);
-				slideMoveLegal(sq, sq + 12, pieceColorBlack);
-				slideMoveLegal(sq, sq + 1, pieceColorBlack);
-				slideMoveLegal(sq, sq - 12, pieceColorBlack);
-				slideMoveLegal(sq, sq - 1, pieceColorBlack);
+				slideMoveLegal(sq, sq + 13, PieceColor.Black);
+				slideMoveLegal(sq, sq + 11, PieceColor.Black);
+				slideMoveLegal(sq, sq - 13, PieceColor.Black);
+				slideMoveLegal(sq, sq - 11, PieceColor.Black);
+				slideMoveLegal(sq, sq + 12, PieceColor.Black);
+				slideMoveLegal(sq, sq + 1, PieceColor.Black);
+				slideMoveLegal(sq, sq - 12, PieceColor.Black);
+				slideMoveLegal(sq, sq - 1, PieceColor.Black);
 				break;
 			case wB:
-				slideMoveLegal(sq, sq + 13, pieceColorBlack);
-				slideMoveLegal(sq, sq + 11, pieceColorBlack);
-				slideMoveLegal(sq, sq - 13, pieceColorBlack);
-				slideMoveLegal(sq, sq - 11, pieceColorBlack);
+				slideMoveLegal(sq, sq + 13, PieceColor.Black);
+				slideMoveLegal(sq, sq + 11, PieceColor.Black);
+				slideMoveLegal(sq, sq - 13, PieceColor.Black);
+				slideMoveLegal(sq, sq - 11, PieceColor.Black);
 				break;
 			case wR:
-				slideMoveLegal(sq, sq + 12, pieceColorBlack);
-				slideMoveLegal(sq, sq + 1, pieceColorBlack);
-				slideMoveLegal(sq, sq - 12, pieceColorBlack);
-				slideMoveLegal(sq, sq - 1, pieceColorBlack);
+				slideMoveLegal(sq, sq + 12, PieceColor.Black);
+				slideMoveLegal(sq, sq + 1, PieceColor.Black);
+				slideMoveLegal(sq, sq - 12, PieceColor.Black);
+				slideMoveLegal(sq, sq - 1, PieceColor.Black);
 				break;
 			default:
 				break;
@@ -197,7 +197,7 @@ void moveGenLegal()
 			{
 			case bP:
 				tsq = sq - 13;
-				if (p.board[tsq].color == pieceColorWhite)
+				if (p.board[tsq].color == PieceColor.White)
 				{
 					pushPawnLegal(sq, tsq, mCAP);
 				}
@@ -206,7 +206,7 @@ void moveGenLegal()
 					pushMoveLegal(sq, tsq, mPEP);
 				}
 				tsq = sq - 11;
-				if (p.board[tsq].color == pieceColorWhite)
+				if (p.board[tsq].color == PieceColor.White)
 				{
 					pushPawnLegal(sq, tsq, mCAP);
 				}
@@ -225,24 +225,24 @@ void moveGenLegal()
 				}
 				break;
 			case bN:
-				knightMoveLegal(sq, sq + 14, pieceColorWhite);
-				knightMoveLegal(sq, sq + 10, pieceColorWhite);
-				knightMoveLegal(sq, sq + 25, pieceColorWhite);
-				knightMoveLegal(sq, sq + 23, pieceColorWhite);
-				knightMoveLegal(sq, sq - 14, pieceColorWhite);
-				knightMoveLegal(sq, sq - 10, pieceColorWhite);
-				knightMoveLegal(sq, sq - 25, pieceColorWhite);
-				knightMoveLegal(sq, sq - 23, pieceColorWhite);
+				knightMoveLegal(sq, sq + 14, PieceColor.White);
+				knightMoveLegal(sq, sq + 10, PieceColor.White);
+				knightMoveLegal(sq, sq + 25, PieceColor.White);
+				knightMoveLegal(sq, sq + 23, PieceColor.White);
+				knightMoveLegal(sq, sq - 14, PieceColor.White);
+				knightMoveLegal(sq, sq - 10, PieceColor.White);
+				knightMoveLegal(sq, sq - 25, PieceColor.White);
+				knightMoveLegal(sq, sq - 23, PieceColor.White);
 				break;
 			case bK:
-				knightMoveLegal(sq, sq + 1, pieceColorWhite);
-				knightMoveLegal(sq, sq + 12, pieceColorWhite);
-				knightMoveLegal(sq, sq + 11, pieceColorWhite);
-				knightMoveLegal(sq, sq + 13, pieceColorWhite);
-				knightMoveLegal(sq, sq - 1, pieceColorWhite);
-				knightMoveLegal(sq, sq - 12, pieceColorWhite);
-				knightMoveLegal(sq, sq - 11, pieceColorWhite);
-				knightMoveLegal(sq, sq - 13, pieceColorWhite);
+				knightMoveLegal(sq, sq + 1, PieceColor.White);
+				knightMoveLegal(sq, sq + 12, PieceColor.White);
+				knightMoveLegal(sq, sq + 11, PieceColor.White);
+				knightMoveLegal(sq, sq + 13, PieceColor.White);
+				knightMoveLegal(sq, sq - 1, PieceColor.White);
+				knightMoveLegal(sq, sq - 12, PieceColor.White);
+				knightMoveLegal(sq, sq - 11, PieceColor.White);
+				knightMoveLegal(sq, sq - 13, PieceColor.White);
 				if (sq == E8)
 				{
 					if (p.castleflags & 2)
@@ -272,26 +272,26 @@ void moveGenLegal()
 				}
 				break;
 			case bQ:
-				slideMoveLegal(sq, sq + 13, pieceColorWhite);
-				slideMoveLegal(sq, sq + 11, pieceColorWhite);
-				slideMoveLegal(sq, sq - 13, pieceColorWhite);
-				slideMoveLegal(sq, sq - 11, pieceColorWhite);
-				slideMoveLegal(sq, sq + 12, pieceColorWhite);
-				slideMoveLegal(sq, sq + 1, pieceColorWhite);
-				slideMoveLegal(sq, sq - 12, pieceColorWhite);
-				slideMoveLegal(sq, sq - 1, pieceColorWhite);
+				slideMoveLegal(sq, sq + 13, PieceColor.White);
+				slideMoveLegal(sq, sq + 11, PieceColor.White);
+				slideMoveLegal(sq, sq - 13, PieceColor.White);
+				slideMoveLegal(sq, sq - 11, PieceColor.White);
+				slideMoveLegal(sq, sq + 12, PieceColor.White);
+				slideMoveLegal(sq, sq + 1, PieceColor.White);
+				slideMoveLegal(sq, sq - 12, PieceColor.White);
+				slideMoveLegal(sq, sq - 1, PieceColor.White);
 				break;
 			case bB:
-				slideMoveLegal(sq, sq + 13, pieceColorWhite);
-				slideMoveLegal(sq, sq + 11, pieceColorWhite);
-				slideMoveLegal(sq, sq - 13, pieceColorWhite);
-				slideMoveLegal(sq, sq - 11, pieceColorWhite);
+				slideMoveLegal(sq, sq + 13, PieceColor.White);
+				slideMoveLegal(sq, sq + 11, PieceColor.White);
+				slideMoveLegal(sq, sq - 13, PieceColor.White);
+				slideMoveLegal(sq, sq - 11, PieceColor.White);
 				break;
 			case bR:
-				slideMoveLegal(sq, sq + 12, pieceColorWhite);
-				slideMoveLegal(sq, sq + 1, pieceColorWhite);
-				slideMoveLegal(sq, sq - 12, pieceColorWhite);
-				slideMoveLegal(sq, sq - 1, pieceColorWhite);
+				slideMoveLegal(sq, sq + 12, PieceColor.White);
+				slideMoveLegal(sq, sq + 1, PieceColor.White);
+				slideMoveLegal(sq, sq - 12, PieceColor.White);
+				slideMoveLegal(sq, sq - 1, PieceColor.White);
 				break;
 			default:
 				break;
@@ -314,7 +314,7 @@ bool makeQuick(int m, ref Piece holdme)
 	p.board[to] = p.board[from];
 
 	p.board[from].type = empty;
-	p.board[from].color = pieceColorNone;
+	p.board[from].color = PieceColor.None;
 
 	if (p.side == white && p.board[to].type == wK)
 	{
@@ -379,28 +379,28 @@ bool makeQuick(int m, ref Piece holdme)
 			p.board[F1].type = p.board[H1].type;
 			p.board[H1].type = empty;
 			p.board[F1].color = p.board[H1].color;
-			p.board[H1].color = pieceColorNone;
+			p.board[H1].color = PieceColor.None;
 		}
 		if (to == C1)
 		{
 			p.board[D1].type = p.board[A1].type;
 			p.board[A1].type = empty;
 			p.board[D1].color = p.board[A1].color;
-			p.board[A1].color = pieceColorNone;
+			p.board[A1].color = PieceColor.None;
 		}
 		if (to == G8)
 		{
 			p.board[F8].type = p.board[H8].type;
 			p.board[H8].type = empty;
 			p.board[F8].color = p.board[H8].color;
-			p.board[H8].color = pieceColorNone;
+			p.board[H8].color = PieceColor.None;
 		}
 		if (to == C8)
 		{
 			p.board[D8].type = p.board[A8].type;
 			p.board[A8].type = empty;
 			p.board[D8].color = p.board[A8].color;
-			p.board[A8].color = pieceColorNone;
+			p.board[A8].color = PieceColor.None;
 		}
 	}
 	else if (flag & oPEP)
@@ -410,12 +410,12 @@ bool makeQuick(int m, ref Piece holdme)
 		if (p.side == white)
 		{
 			p.board[to - 12].type = empty;
-			p.board[to - 12].color = pieceColorNone;
+			p.board[to - 12].color = PieceColor.None;
 		}
 		else
 		{
 			p.board[to + 12].type = empty;
-			p.board[to + 12].color = pieceColorNone;
+			p.board[to + 12].color = PieceColor.None;
 		}
 	}
 	r = isAttacked(p.k[p.side], p.side ^ 1);
@@ -459,28 +459,28 @@ void takeQuick(int m, ref Piece holdme)
 			p.board[H1].type = p.board[F1].type;
 			p.board[F1].type = empty;
 			p.board[H1].color = p.board[F1].color;
-			p.board[F1].color = pieceColorNone;
+			p.board[F1].color = PieceColor.None;
 		}
 		if (to == C1)
 		{
 			p.board[A1].type = p.board[D1].type;
 			p.board[D1].type = empty;
 			p.board[A1].color = p.board[D1].color;
-			p.board[D1].color = pieceColorNone;
+			p.board[D1].color = PieceColor.None;
 		}
 		if (to == G8)
 		{
 			p.board[H8].type = p.board[F8].type;
 			p.board[F8].type = empty;
 			p.board[H8].color = p.board[F8].color;
-			p.board[F8].color = pieceColorNone;
+			p.board[F8].color = PieceColor.None;
 		}
 		if (to == C8)
 		{
 			p.board[A8].type = p.board[D8].type;
 			p.board[D8].type = empty;
 			p.board[A8].color = p.board[D8].color;
-			p.board[D8].color = pieceColorNone;
+			p.board[D8].color = PieceColor.None;
 		}
 	}
 	else if (flag & mPEP)
@@ -488,12 +488,12 @@ void takeQuick(int m, ref Piece holdme)
 		if (p.side == white)
 		{
 			p.board[to - 12].type = bP;
-			p.board[to - 12].color = pieceColorBlack;
+			p.board[to - 12].color = PieceColor.Black;
 		}
 		else
 		{
 			p.board[to + 12].type = wP;
-			p.board[to + 12].color = pieceColorWhite;
+			p.board[to + 12].color = PieceColor.White;
 		}
 	}
 }
@@ -530,7 +530,7 @@ bool makeLegalMove(Move m)
 	p.board[to].type = p.board[from].type;
 	p.board[to].color = p.board[from].color;
 	p.board[from].type = empty;
-	p.board[from].color = pieceColorNone;
+	p.board[from].color = PieceColor.None;
 
 	if (p.side == white && p.board[to].type == wK)
 	{
@@ -652,7 +652,7 @@ bool makeLegalMove(Move m)
 			p.board[F1].type = p.board[H1].type;
 			p.board[H1].type = empty;
 			p.board[F1].color = p.board[H1].color;
-			p.board[H1].color = pieceColorNone;
+			p.board[H1].color = PieceColor.None;
 
 			p.hashkey ^= hashPieces[64 * wR + 8 * ranks[H1] + files[H1]];
 			p.hashkey ^= hashPieces[64 * wR + 8 * ranks[F1] + files[F1]];
@@ -666,7 +666,7 @@ bool makeLegalMove(Move m)
 			p.board[D1].type = p.board[A1].type;
 			p.board[A1].type = empty;
 			p.board[D1].color = p.board[A1].color;
-			p.board[A1].color = pieceColorNone;
+			p.board[A1].color = PieceColor.None;
 
 			p.hashkey ^= hashPieces[64 * wR + 8 * ranks[A1] + files[A1]];
 			p.hashkey ^= hashPieces[64 * wR + 8 * ranks[D1] + files[D1]];
@@ -680,7 +680,7 @@ bool makeLegalMove(Move m)
 			p.board[F8].type = p.board[H8].type;
 			p.board[H8].type = empty;
 			p.board[F8].color = p.board[H8].color;
-			p.board[H8].color = pieceColorNone;
+			p.board[H8].color = PieceColor.None;
 
 			p.hashkey ^= hashPieces[64 * bR + 8 * ranks[H8] + files[H8]];
 			p.hashkey ^= hashPieces[64 * bR + 8 * ranks[F8] + files[F8]];
@@ -694,7 +694,7 @@ bool makeLegalMove(Move m)
 			p.board[D8].type = p.board[A8].type;
 			p.board[A8].type = empty;
 			p.board[D8].color = p.board[A8].color;
-			p.board[A8].color = pieceColorNone;
+			p.board[A8].color = PieceColor.None;
 
 			p.hashkey ^= hashPieces[64 * bR + 8 * ranks[A8] + files[A8]];
 			p.hashkey ^= hashPieces[64 * bR + 8 * ranks[D8] + files[D8]];
@@ -709,7 +709,7 @@ bool makeLegalMove(Move m)
 		if (p.side == white)
 		{
 			p.board[to - 12].type = empty;
-			p.board[to - 12].color = pieceColorNone;
+			p.board[to - 12].color = PieceColor.None;
 
 			p.hashkey ^= hashPieces[64 * bP + 8 * ranks[to - 12] + files[to - 12]];
 			p.material[black] -= vP;
@@ -721,7 +721,7 @@ bool makeLegalMove(Move m)
 		else
 		{
 			p.board[to + 12].type = empty;
-			p.board[to + 12].color = pieceColorNone;
+			p.board[to + 12].color = PieceColor.None;
 
 			p.hashkey ^= hashPieces[64 * wP + 8 * ranks[to + 12] + files[to + 12]];
 			p.material[white] -= vP;

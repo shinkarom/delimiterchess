@@ -18,7 +18,7 @@ immutable int noenpas = 200, nopiece = 0, deadsquare = 0, edge = 13;
 
 immutable int black = 0, white = 1;
 
-immutable int pieceColorWhite = 1, pieceColorBlack = 2, pieceColorNone = 3;
+enum PieceColor { White = 1, Black, None}
 
 immutable int vP = 90, vN = 325, vB = 325, vR = 500, vQ = 900, vK = 10000;
 
@@ -57,7 +57,7 @@ struct Move
 
 struct Piece
 {
-	int color;
+	PieceColor color;
 	int type;
 }
 

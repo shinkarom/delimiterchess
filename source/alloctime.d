@@ -1,4 +1,4 @@
-import core.time;
+import core.time, std.stdio;
 import defines, data;
 
 ulong allocateTime()
@@ -7,11 +7,11 @@ ulong allocateTime()
 	{
 		return 128000000;
 	}
-	if (searchParam.timepermove > -1)
+	if (searchParam.timepermove > 0)
 	{
 		return searchParam.timepermove - 200;
 	}
-	if (searchParam.wtime < 0 || searchParam.btime < 0 || searchParam.inf)
+	if (searchParam.wtime == 0 || searchParam.btime == 0 || searchParam.inf)
 	{
 		return 128000000;
 	}
@@ -49,7 +49,7 @@ ulong ponderTime()
 	{
 		return 128000000;
 	}
-	if (searchParam.timepermove > -1)
+	if (searchParam.timepermove > 0)
 	{
 		return 128000000;
 	}

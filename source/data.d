@@ -1,7 +1,6 @@
 import std.stdio, core.time;
 import defines;
 
-string[] autorunLines = ["position startpos", "go depth 4", "quit"];
 bool debugMode;
 
 File book_file, bookfile, wbookfile;
@@ -49,7 +48,7 @@ EvalData evalData;
 
 SearchParam searchParam;
 bool stopsearch;
-int itdepth;
+int itDepth;
 Move[48][48] pv;
 int[48] pvindex;
 Move[48] killer1;

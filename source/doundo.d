@@ -41,7 +41,7 @@ bool makeMove(Move m)
 
 	p.board[to] = p.board[from];
 	p.board[from].type = empty;
-	p.board[from].color = pieceColorNone;
+	p.board[from].color = PieceColor.None;
 
 	hist[histply].pList = p.sqToPceNum[to];
 
@@ -166,7 +166,7 @@ bool makeMove(Move m)
 			p.board[F1].type = p.board[H1].type;
 			p.board[H1].type = empty;
 			p.board[F1].color = p.board[H1].color;
-			p.board[H1].color = empty;
+			p.board[H1].color = PieceColor.None;
 
 			p.hashkey ^= hashPieces[64 * wR + ranks[H1] + files[H1]];
 			p.hashkey ^= hashPieces[64 * wR + ranks[F1] + files[F1]];
@@ -180,7 +180,7 @@ bool makeMove(Move m)
 			p.board[D1].type = p.board[A1].type;
 			p.board[A1].type = empty;
 			p.board[D1].color = p.board[A1].color;
-			p.board[A1].color = empty;
+			p.board[A1].color = PieceColor.None;
 
 			p.hashkey ^= hashPieces[64 * wR + 8 * ranks[A1] + files[A1]];
 			p.hashkey ^= hashPieces[64 * wR + 8 * ranks[D1] + files[D1]];
@@ -194,7 +194,7 @@ bool makeMove(Move m)
 			p.board[F8].type = p.board[H8].type;
 			p.board[H8].type = empty;
 			p.board[F8].color = p.board[H8].color;
-			p.board[H8].color = empty;
+			p.board[H8].color = PieceColor.None;
 
 			p.hashkey ^= hashPieces[64 * bR + 8 * ranks[H8] + files[H8]];
 			p.hashkey ^= hashPieces[64 * bR + 8 * ranks[F8] + files[F8]];
@@ -208,7 +208,7 @@ bool makeMove(Move m)
 			p.board[D8].type = p.board[A8].type;
 			p.board[A8].type = empty;
 			p.board[D8].color = p.board[A8].color;
-			p.board[A8].color = empty;
+			p.board[A8].color = PieceColor.None;
 
 			p.hashkey ^= hashPieces[64 * bR + 8 * ranks[A8] + files[A8]];
 			p.hashkey ^= hashPieces[64 * bR + 8 * ranks[D8] + files[D8]];
@@ -223,7 +223,7 @@ bool makeMove(Move m)
 		if (p.side == white)
 		{
 			p.board[to - 12].type = empty;
-			p.board[to - 12].color = pieceColorNone;
+			p.board[to - 12].color = PieceColor.None;
 
 			p.hashkey ^= hashPieces[64 * bP + 8 * ranks[to - 12] + files[to - 12]];
 			p.material[black] -= vP;
@@ -235,7 +235,7 @@ bool makeMove(Move m)
 		else
 		{
 			p.board[to + 12].type = empty;
-			p.board[to + 12].color = pieceColorNone;
+			p.board[to + 12].color = PieceColor.None;
 
 			p.hashkey ^= hashPieces[64 * wP + 8 * ranks[to + 12] + files[to + 12]];
 			p.material[white] -= vP;
@@ -335,7 +335,7 @@ void takeMove()
 			p.board[H1].type = p.board[F1].type;
 			p.board[F1].type = empty;
 			p.board[H1].color = p.board[F1].color;
-			p.board[F1].color = pieceColorNone;
+			p.board[F1].color = PieceColor.None;
 
 			p.sqToPceNum[H1] = p.sqToPceNum[F1];
 			p.sqToPceNum[F1] = 0;
@@ -346,7 +346,7 @@ void takeMove()
 			p.board[A1].type = p.board[D1].type;
 			p.board[D1].type = empty;
 			p.board[A1].color = p.board[D1].color;
-			p.board[D1].color = pieceColorNone;
+			p.board[D1].color = PieceColor.None;
 
 			p.sqToPceNum[A1] = p.sqToPceNum[D1];
 			p.sqToPceNum[D1] = 0;
@@ -357,7 +357,7 @@ void takeMove()
 			p.board[H8].type = p.board[F8].type;
 			p.board[F8].type = empty;
 			p.board[H8].color = p.board[F8].color;
-			p.board[F8].color = pieceColorNone;
+			p.board[F8].color = PieceColor.None;
 
 			p.sqToPceNum[H8] = p.sqToPceNum[F8];
 			p.sqToPceNum[F8] = 0;
@@ -368,7 +368,7 @@ void takeMove()
 			p.board[A8].type = p.board[D8].type;
 			p.board[D8].type = empty;
 			p.board[A8].color = p.board[D8].color;
-			p.board[D8].color = pieceColorNone;
+			p.board[D8].color = PieceColor.None;
 
 			p.sqToPceNum[A8] = p.sqToPceNum[D8];
 			p.sqToPceNum[D8] = 0;
@@ -380,7 +380,7 @@ void takeMove()
 		if (p.side == white)
 		{
 			p.board[to - 12].type = bP;
-			p.board[to - 12].color = pieceColorBlack;
+			p.board[to - 12].color = PieceColor.Black;
 			p.material[black] += vP;
 
 			p.sqToPceNum[to - 12] = hist[histply].pList;
@@ -390,7 +390,7 @@ void takeMove()
 		else
 		{
 			p.board[to + 12].type = wP;
-			p.board[to + 12].color = pieceColorWhite;
+			p.board[to + 12].color = PieceColor.White;
 			p.material[white] += vP;
 
 			p.sqToPceNum[to + 12] = hist[histply].pList;
