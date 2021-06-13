@@ -3,24 +3,24 @@ import data, defines, attack, setboard, io, hash, doundo, utils, perftm, calcm, 
 
 void iniFile()
 {
-	import std.file: exists;
-	
+	import std.file : exists;
+
 	numelem = 16;
-	
-	if(!exists("delimiter.ini"))
+
+	if (!exists("delimiter.ini"))
 		return;
-	
-	File ini = File("delimiter.ini","r");
+
+	File ini = File("delimiter.ini", "r");
 	int size;
-	ini.readf("%d",size);
+	ini.readf("%d", size);
 	numelem = size;
-	writeln("numelem set to ",numelem);
+	writeln("numelem set to ", numelem);
 	init_hash_tables();
 }
 
 void setTime(ulong t, ulong ot, int compside)
 {
-	if(compside==white)
+	if (compside == white)
 	{
 		searchParam.wtime = t;
 		searchParam.btime = ot;
@@ -28,16 +28,16 @@ void setTime(ulong t, ulong ot, int compside)
 	else
 	{
 		searchParam.btime = t;
-		searchParam.wtime = ot;		
+		searchParam.wtime = ot;
 	}
 }
 
 int repetition()
 {
 	int rep = 0;
-	for(int i = 0; i<histply; i++)
+	for (int i = 0; i < histply; i++)
 	{
-		if(hist[i].hashKey == p.hashkey)
+		if (hist[i].hashKey == p.hashkey)
 			rep++;
 	}
 	return rep;
@@ -45,49 +45,55 @@ int repetition()
 
 bool drawMaterial()
 {
-	gameeval();
-	if(evalData.wpawns || evalData.bpawns) return false;
-	if(evalData.wRc || evalData.wRc || evalData.wQc || evalData.bQc) return false;
-	if(evalData.wBc>1 || evalData.bBc>1) return false;
-	if(evalData.wNc && evalData.wBc) return false;
-	if(evalData.bNc && evalData.bBc) return false;
+	gameEval();
+	if (evalData.wpawns || evalData.bpawns)
+		return false;
+	if (evalData.wRc || evalData.bRc || evalData.wQc || evalData.bQc)
+		return false;
+	if (evalData.wBc > 1 || evalData.bBc > 1)
+		return false;
+	if (evalData.wNc && evalData.wBc)
+		return false;
+	if (evalData.bNc && evalData.bBc)
+		return false;
 	return true;
 }
 
 bool checkResult()
 {
-	if(p.fifty>100)
+	if (p.fifty > 100)
 	{
 		writeln("\n1/2-1/2 {fifty move rule}");
 		return true;
 	}
-	if(repetition()>=2)
+	if (repetition() >= 2)
 	{
 		writeln("\n1/2-1/2 {3-fold repetition}");
 		return true;
 	}
-	
+
 	moveGen();
-	
+
 	int played = 0;
-	
-	for(int i = p.listc[p.ply]; i<p.listc[p.ply+1]; i++)
+
+	for (int i = p.listc[p.ply]; i < p.listc[p.ply + 1]; i++)
 	{
-		if(makemove(p.list[i]))
+		if (makeMove(p.list[i]))
 		{
-			takemove();
+			takeMove();
 			continue;
 		}
-		
+
 		played++;
-		takemove();
+		takeMove();
 	}
-	if(played) return false;
-	bool inc = isattacked(p.k[p.side], p.side^1);
-	
-	if(inc)
+	if (played)
+		return false;
+	bool inc = isAttacked(p.k[p.side], p.side ^ 1);
+
+	if (inc)
 	{
-		if(p.side==white)
+		if (p.side == white)
 		{
 			writeln("\n0-1 {black mates}");
 			return true;
@@ -107,25 +113,25 @@ bool checkResult()
 
 void readInMove(string m)
 {
-	if(nopvmove(m))
+	if (nopvmove(m))
 	{
 		writeln("\nno pv move");
 		return;
 	}
 	string move_string;
 	bool prom;
-	if(m.length==4 || m[4]==' ')
+	if (m.length == 4 || m[4] == ' ')
 	{
-		move_string = m[0..4].idup;
+		move_string = m[0 .. 4].idup;
 	}
 	else
 	{
-		move_string = m[0..5].idup;
+		move_string = m[0 .. 5].idup;
 	}
 	int flag = understandmove(move_string, prom);
-	if(flag == -1)
+	if (flag == -1)
 	{
-		writeln("\nnot understood",m);
+		writeln("\nnot understood", m);
 		assert(flag != 0);
 	}
 }
@@ -133,31 +139,32 @@ void readInMove(string m)
 void xThink()
 {
 	import alloctime, core.stdc.time;
-	
+
 	ulong allocatedtime;
-	if(!searchParam.pon)
+	if (!searchParam.pon)
 	{
-		allocatedtime = allocatetime();
-		if(allocatedtime < 0) allocatedtime = 200;
-		searchParam.starttime = (MonoTime.currTime-MonoTime.zero()).total!"msecs";
+		allocatedtime = allocateTime();
+		if (allocatedtime < 0)
+			allocatedtime = 200;
+		searchParam.starttime = (MonoTime.currTime - MonoTime.zero()).total!"msecs";
 		searchParam.stoptime = searchParam.starttime + allocatedtime;
 	}
 	else
 	{
-		allocatedtime = (pondertime()*4)/3;
-		searchParam.starttime = (MonoTime.currTime-MonoTime.zero()).total!"msecs";
+		allocatedtime = (ponderTime() * 4) / 3;
+		searchParam.starttime = (MonoTime.currTime - MonoTime.zero()).total!"msecs";
 		searchParam.pontime = searchParam.starttime + allocatedtime;
 		searchParam.stoptime = searchParam.starttime + 128000000;
 	}
 	calc();
-	
-	if(!searchParam.pon)
+
+	if (!searchParam.pon)
 	{
-		makemove(best);
-		writeln("move=",returnmove(best));
-		if(searchParam.movestogo[p.side^1] != -1)
+		makeMove(best);
+		writeln("move=", returnmove(best));
+		if (searchParam.movestogo[p.side ^ 1] != -1)
 		{
-			searchParam.movestogo[p.side^1]--;
+			searchParam.movestogo[p.side ^ 1]--;
 		}
 		searchParam.ponfrom = deadsquare;
 		searchParam.ponto = deadsquare;
@@ -172,6 +179,7 @@ void xThink()
 void xboardMode()
 {
 	import core.stdc.time, std.string, std.uni, std.format;
+
 	immutable int noside = 2;
 
 	int mps, base, inc;
@@ -184,28 +192,31 @@ void xboardMode()
 	initSearchParam();
 	searchParam.xbmode = true;
 	searchParam.usebook = true;
-	while(true)
+	while (true)
 	{
-		if(drawMaterial)
+		if (drawMaterial)
 		{
 			writeln("\n1/2-1/2 (insufficient material)");
 		}
-		if(checkResult()) compside = noside;
-		if(compside == p.side)
+		if (checkResult())
+			compside = noside;
+		if (compside == p.side)
 		{
-			if(searchParam.xtime != -1)
+			if (searchParam.xtime != -1)
 			{
 				setTime(searchParam.xtime, searchParam.xotime, compside);
 			}
 			xThink();
-			if(checkResult()) compside = noside;
-			if(searchParam.movestogo[p.side^1]==0) searchParam.movestogo[p.side^1] = mps;
-			if(searchParam.cpon)
+			if (checkResult())
+				compside = noside;
+			if (searchParam.movestogo[p.side ^ 1] == 0)
+				searchParam.movestogo[p.side ^ 1] = mps;
+			if (searchParam.cpon)
 			{
 				searchParam.pon = true;
 				searchParam.inf = true;
 				xThink();
-				if((MonoTime.currTime()-MonoTime.zero()).total!"msecs" > searchParam.stoptime)
+				if ((MonoTime.currTime() - MonoTime.zero()).total!"msecs" > searchParam.stoptime)
 				{
 					writeln("pondertime was exceeded!");
 				}
@@ -214,162 +225,162 @@ void xboardMode()
 			}
 		}
 		string line = readln().strip().toLower();
-		if(line=="")
+		if (line == "")
 			continue;
 		formattedRead(line, "%s", command);
-		switch(command)
+		switch (command)
 		{
-			case "xboard":
-				break;
-			case "protover":
-				writeln("feature usermove=1");
-				writeln("feature ping=1");
-				writeln("feature setboard=1");
-				writeln("feature reuse=1");
-				writeln("feature colors=0");
-				writeln("feature name=0");
-				writeln("feature done=1");
-				writeln("feature ics=1");
-				break;
-			case "level":
-				initSearchParam();
-				formattedRead(line, "level %d %d %d",mps, base, inc);
-				if(mps)
-				{
-					searchParam.movestogo[white] = mps;
-					searchParam.movestogo[black] = mps;
-				}
-				if(inc)
-				{
-					searchParam.winc = inc*1000;
-					searchParam.binc = inc*1000;
-				}
-				searchParam.depth = -1;
-				break;
-			case "new":
-				setBoard(startFEN);
-				clearhash();
-				compside = black;
-				break;
-			case "perft":				
-				setBoard(startFEN);
-				clearhash();
-				compside = black;
-				perft(6);
-				break;	
-			case "quit":
-				exitAll();
-				return;
-			case "force":
-				compside = noside;
-				break;
-			case "go":
-				compside = p.side;
-				break;
-			case "pr":
-				/+
+		case "xboard":
+			break;
+		case "protover":
+			writeln("feature usermove=1");
+			writeln("feature ping=1");
+			writeln("feature setboard=1");
+			writeln("feature reuse=1");
+			writeln("feature colors=0");
+			writeln("feature name=0");
+			writeln("feature done=1");
+			writeln("feature ics=1");
+			break;
+		case "level":
+			initSearchParam();
+			formattedRead(line, "level %d %d %d", mps, base, inc);
+			if (mps)
+			{
+				searchParam.movestogo[white] = mps;
+				searchParam.movestogo[black] = mps;
+			}
+			if (inc)
+			{
+				searchParam.winc = inc * 1000;
+				searchParam.binc = inc * 1000;
+			}
+			searchParam.depth = -1;
+			break;
+		case "new":
+			setBoard(startFEN);
+			clearhash();
+			compside = black;
+			break;
+		case "perft":
+			setBoard(startFEN);
+			clearhash();
+			compside = black;
+			perft(6);
+			break;
+		case "quit":
+			exitAll();
+			return;
+		case "force":
+			compside = noside;
+			break;
+		case "go":
+			compside = p.side;
+			break;
+		case "pr":
+			/+
 				printboard();
 				+/
-				break;
-			case "sd":
-				int d;
-				formattedRead(line,"sd %d",d);
-				searchParam.depth = d;
-				break;
-			case "st":
-				int t;
-				formattedRead(line,"st %d",t);
-				searchParam.timepermove = t*1000;
-				searchParam.depth = -1;
-				break;
-			case "time":
-				int t;
-				formattedRead(line,"time %d",t);
-				searchParam.xtime = t*10;
-				searchParam.depth = -1;
-				break;	
-			case "otim":
-				int t;
-				formattedRead(line,"otim %d",t);
-				searchParam.xotime = t*10;
-				searchParam.depth = -1;
-				break;	
-			case "usermove":
-				readInMove(line[9..$]);
-				if(searchParam.movestogo[p.side^1]!=-1)
-				{
-					searchParam.movestogo[p.side^1]--;
-					if(searchParam.movestogo[p.side^1]==0)
-						searchParam.movestogo[p.side^1]=mps;
-				}
-				break;
-			case "ping":
-				int p;
-				formattedRead(line,"ping %d",p);
-				writeln("pong ",p);
-				break;
-			case "draw":
-				if(isdrawnp()==0)
-					writeln("offer draw");
-				break;
-			case "setboard":				
-				setBoard(line[9..$]);
-				/+
+			break;
+		case "sd":
+			int d;
+			formattedRead(line, "sd %d", d);
+			searchParam.depth = d;
+			break;
+		case "st":
+			int t;
+			formattedRead(line, "st %d", t);
+			searchParam.timepermove = t * 1000;
+			searchParam.depth = -1;
+			break;
+		case "time":
+			int t;
+			formattedRead(line, "time %d", t);
+			searchParam.xtime = t * 10;
+			searchParam.depth = -1;
+			break;
+		case "otim":
+			int t;
+			formattedRead(line, "otim %d", t);
+			searchParam.xotime = t * 10;
+			searchParam.depth = -1;
+			break;
+		case "usermove":
+			readInMove(line[9 .. $]);
+			if (searchParam.movestogo[p.side ^ 1] != -1)
+			{
+				searchParam.movestogo[p.side ^ 1]--;
+				if (searchParam.movestogo[p.side ^ 1] == 0)
+					searchParam.movestogo[p.side ^ 1] = mps;
+			}
+			break;
+		case "ping":
+			int p;
+			formattedRead(line, "ping %d", p);
+			writeln("pong ", p);
+			break;
+		case "draw":
+			if (isDrawnP() == 0)
+				writeln("offer draw");
+			break;
+		case "setboard":
+			setBoard(line[9 .. $]);
+			/+
 				printboard();
 				+/
-				break;
-			case "ics":
-				searchParam.ics = (line[4] != '-');
-				break;
-			case "hint":
-				break;
-			case "result":
-				break;
-			case "bk":
-				break;
-			case "white":
-				compside = white;
-				break;
-			case "black":
-				compside = black;
-				break;
-			case "remove":
-				if(histply>0)
+			break;
+		case "ics":
+			searchParam.ics = (line[4] != '-');
+			break;
+		case "hint":
+			break;
+		case "result":
+			break;
+		case "bk":
+			break;
+		case "white":
+			compside = white;
+			break;
+		case "black":
+			compside = black;
+			break;
+		case "remove":
+			if (histply > 0)
+			{
+				takeMove();
+				if (histply > 0)
 				{
-					takemove();
-					if(histply>0)
-					{
-						takemove();
-					}
+					takeMove();
 				}
-				break;
-			case "undo":
-				if(histply>0)
-				{
-					takemove();
-				}
-				break;
-			case "hard":
-				searchParam.cpon = true;
-				break;
-			case "easy":
-				searchParam.cpon = false;
-				break;
-			case "post":
-				searchParam.post = true;
-				break;
-			case "nopost":
-				searchParam.post = false;
-				break;
-			case "name":
-				break;
-			case "computer":
-				break;
-			case "random":
-				break;
-			default:
-				writeln("\nerror");
-				break;
+			}
+			break;
+		case "undo":
+			if (histply > 0)
+			{
+				takeMove();
+			}
+			break;
+		case "hard":
+			searchParam.cpon = true;
+			break;
+		case "easy":
+			searchParam.cpon = false;
+			break;
+		case "post":
+			searchParam.post = true;
+			break;
+		case "nopost":
+			searchParam.post = false;
+			break;
+		case "name":
+			break;
+		case "computer":
+			break;
+		case "random":
+			break;
+		default:
+			writeln("\nerror");
+			break;
 		}
 	}
 }

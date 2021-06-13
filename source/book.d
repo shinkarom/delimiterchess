@@ -50,7 +50,7 @@ void store(BinEntry[] full)
 	
 }
 
-bool book_init()
+bool bookInit()
 {
 	BinEntry move;
 	if(!exists("binbook.bin"))
@@ -76,12 +76,12 @@ bool book_init()
 	return true;
 }
 
-void book_close()
+void bookClose()
 {
 	wbookfile.close();
 }
 
-void makehash()
+void makeHash()
 {
 	if(!exists("gamelines.txt"))
 	{
@@ -110,7 +110,7 @@ void makehash()
 			if(i%10000==0)
 				write(" ",i);
 		}
-		parseopeningline(vbooklines[i]);
+		parseOpeningLine(vbooklines[i]);
 	}
 	writeln("total moves,",movestotal);
 	writeln("hash entry vector size = ",hashentries.length);
@@ -124,7 +124,7 @@ void makehash()
 	hashentries.length = 0;
 }
 
-void parseopeningline(string str)
+void parseOpeningLine(string str)
 {
 	string move_string;
 	int ptr = 0;
@@ -164,7 +164,7 @@ void parseopeningline(string str)
 	}
 }
 
-int wfindhashbookmove()
+int wFindHashBookMove()
 {
 	moveGen();
 	int[2] f = [-1, -1];

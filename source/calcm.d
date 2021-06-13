@@ -6,10 +6,10 @@ void calc()
 	int score = 0;
 	int loopDepth = 0;
 	int bk = -1;
-	if(!searchParam.inf && searchParam.usebook)
+	if (!searchParam.inf && searchParam.usebook)
 	{
-		bk = wfindhashbookmove();
-		if(bk != -1)
+		bk = wFindHashBookMove();
+		if (bk != -1)
 		{
 			best = p.list[bk];
 			writeln("tellothers Book move ", returnmove(p.list[bk]));
@@ -18,32 +18,32 @@ void calc()
 	}
 	p.ply = 0;
 	ponderMove = nomove;
-	if(searchParam.depth == -1)
+	if (searchParam.depth == -1)
 		loopDepth = 32;
 	else
 		loopDepth = searchParam.depth;
 	initSearch();
 	rootInit();
 	int lastScore = 0;
-	if(p.listc[p.ply+1]-p.listc[p.ply] == 1)
+	if (p.listc[p.ply + 1] - p.listc[p.ply] == 1)
 		loopDepth = 5;
-	for(int itDepth = 1; itDepth <= loopDepth; itDepth++)
-	{		
+	for (int itDepth = 1; itDepth <= loopDepth; itDepth++)
+	{
 		followpv = true;
-		score = rootSearch(-10000, 10000, itDepth*PLY);
+		score = rootSearch(-10000, 10000, itDepth * PLY);
 		best = pv[0][0];
 		ponderMove = pv[0][1];
-		if(timeUp())
+		if (timeUp())
 			return;
 		lastScore = score;
-		if(itDepth > 3)
+		if (itDepth > 3)
 			printpv(score);
-		for(int l = 0; l<48; l++)
+		for (int l = 0; l < 48; l++)
 		{
 			killerscore[l] = -10000;
 			killerscore2[l] = -10000;
 		}
-		if(timeCheck())
+		if (timeCheck())
 			stopsearch = true;
 	}
 }
@@ -55,12 +55,12 @@ bool timeUp()
 
 bool timeCheck()
 {
-	if(itdepth < 6)
+	if (itdepth < 6)
 		return false;
-	ulong timeNow = (MonoTime.currTime()-MonoTime.zero()).total!"msecs";
+	ulong timeNow = (MonoTime.currTime() - MonoTime.zero()).total!"msecs";
 	ulong timeToLastPly = timeNow - searchParam.starttime;
 	ulong timeForNextPly = timeToLastPly * 2;
-	if(timeForNextPly+timeNow > searchParam.stoptime)
+	if (timeForNextPly + timeNow > searchParam.stoptime)
 		return true;
 	return false;
 }
@@ -71,20 +71,20 @@ Move findHashMove(Move m)
 	bool fakeNull = false;
 	int fakeScore = 0;
 	int fbeta = 0;
-	
+
 	Move hashMove = nomove;
-	makemove(m);
+	makeMove(m);
 	fakeScore = probe_hash_table(fakeDepth, hashMove, fakeNull, fakeScore, fbeta);
-	if(nopvmove(returnmove(hashMove)))
+	if (nopvmove(returnmove(hashMove)))
 	{
 		moveGen();
 		order(nomove);
-		for(int i = p.listc[p.ply]; i<p.listc[p.ply+1]; i++)
+		for (int i = p.listc[p.ply]; i < p.listc[p.ply + 1]; i++)
 		{
 			pick(i);
-			if(makemove(p.list[i]))
+			if (makeMove(p.list[i]))
 			{
-				takemove();
+				takeMove();
 				continue;
 			}
 			else
@@ -95,8 +95,8 @@ Move findHashMove(Move m)
 			}
 		}
 	}
-	takemove();
-	
+	takeMove();
+
 	return hashMove;
 }
 
@@ -104,7 +104,7 @@ void initSearch()
 {
 	stopsearch = false;
 	nomove.m = 0;
-	for(int l = 0; l<48; l++)
+	for (int l = 0; l < 48; l++)
 	{
 		killerscore[l] = -10000;
 		killerscore2[l] = -10000;
@@ -113,16 +113,16 @@ void initSearch()
 		pvindex[l] = 0;
 		check[l] = 0;
 		red[l] = 0;
-		for(int j = 0; j<48; j++)
+		for (int j = 0; j < 48; j++)
 		{
 			pv[l][j] = nomove;
 		}
 	}
-	for(int k = 0; k<2; k++)
+	for (int k = 0; k < 2; k++)
 	{
-		for(int j = 0; j<144; j++)
+		for (int j = 0; j < 144; j++)
 		{
-			for(int l = 0; l<144; l++)
+			for (int l = 0; l < 144; l++)
 			{
 				history[j][l] = 0;
 				hisall[k][j][l] = 8192;
@@ -130,13 +130,13 @@ void initSearch()
 			}
 		}
 	}
-	for(int k = 0; k<MOVEBITS; k++)
+	for (int k = 0; k < MOVEBITS; k++)
 	{
 		his_table[k] = 0;
 	}
 	nodes = 0;
 	qnodes = 0;
-	fh = 0; 
+	fh = 0;
 	fhf = 0;
 	pvs = 0;
 	pvsh = 0;
@@ -144,7 +144,7 @@ void initSearch()
 	nullcut = 0;
 	hashprobe = 0;
 	hashhit = 0;
-	incheckext = 0; 
+	incheckext = 0;
 	wasincheck = 0;
 	matethrt = 0;
 	pawnfifth = 0;

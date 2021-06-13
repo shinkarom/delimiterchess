@@ -1,9 +1,10 @@
 import std.stdio, std.string, std.conv;
-import utils, defines, data, psqt, log, board, sort, interrupt, xboard, root, uci, hash, book, eval, perftm, debugit, movegen, setboard, io, doundo;
+import utils, defines, data, psqt, log, board, sort, interrupt, xboard, root,
+	uci, hash, book, eval, perftm, debugit, movegen, setboard, io, doundo;
 
 void main()
 {
-	scope(exit)
+	scope (exit)
 	{
 		closelog();
 	}
@@ -12,78 +13,78 @@ void main()
 	unbufferStreams();
 	numelem = 32;
 	initCastleBits();
-	init_distancetable();
-	init_hash_tables();	
+	initDistanceTable();
+	init_hash_tables();
 	logme = false;
 	openlog();
-	
+
 	eo.passedPawn = 176;
 	eo.kingSafety = 128;
 	eo.pawnStructure = 96;
-	
+
 	searchParam.xbmode = false;
 	searchParam.ucimode = false;
 	searchParam.ics = false;
 	searchParam.cpon = false;
-	
-	book_init();
-	
+
+	bookInit();
+
 	setBoard(startFEN);
 	//printBoard();
-	if(debugMode)
+	if (debugMode)
 	{
-		//setBoard("7K/7p/7k/8/8/8/8/8 w - - 1 1 "); //should have some moves
+		//setBoard("r1bqkb1r/pppppppp/2n2n2/8/8/2N2N2/PPPPPPPP/R1BQKB1R w KQkq - 4 3 ");
 		//printBoard();
-		//perftfile(2);
+		//perft(3);
 		uciMode();
 	}
-	while(true)
+	while (true)
 	{
 		string line = readln().strip().idup();
 		string[] tokens = line.split(" ");
 		string command = tokens[0];
-		switch(command)
+		switch (command)
 		{
-			case "uci":
-				uciMode();
-				break;			
+		case "uci":
+			uciMode();
+			break;
 			//case "xboard":
 			//	xboardMode();
 			//	break;	
-			case "moves":
-				moveGen();
-				printMoveList();
-				break;
-			case "suite":
-				perftfile(to!int(tokens[1]));
-				break;
-			case "perft":
-				int d = to!int(tokens[1]);
-				perft(d);
-				break;
-			case "undo":
-				takemove();
+		case "moves":
+			moveGen();
+			printMoveList();
+			break;
+		case "suite":
+			perftFile(to!int(tokens[1]));
+			break;
+		case "perft":
+			int d = to!int(tokens[1]);
+			perft(d);
+			break;
+		case "undo":
+			takeMove();
+			printBoard();
+			break;
+		case "print":
+			printBoard();
+			break;
+		case "quit":
+			exitAll();
+			break;
+		default:
+			bool prom;
+			auto flag = understandmove(command, prom);
+			if (flag != -1)
+			{
 				printBoard();
-				break;
-			case "print":
-				printBoard();
-				break;
-			case "quit":			
-				exitAll();
-				break;
-			default:
-				bool prom;
-				auto flag = understandmove(command, prom);
-				if(flag != -1)
-				{
-					printBoard();
-				}
-				else 
-				{
-					writeln("\nunknown command ",command);
-					writeln("use 'uci' or 'quit'");
-				}
-				break;
+			}
+			else
+			{
+				writeln("\nunknown command ", command);
+				writeln("use 'uci' or 'quit'");
+			}
+			break;
 		}
-	}	
+	}
 }

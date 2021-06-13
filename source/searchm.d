@@ -6,39 +6,39 @@ int search(int alpha, int beta, int depth, bool nul)
 	int inc = 0;
 	Move hashmove = nomove;
 	int old_alpha = alpha;
-	
-	if(((nodes+qnodes)&2047)==0)
+
+	if (((nodes + qnodes) & 2047) == 0)
 		checkup();
-	if(stopsearch)
+	if (stopsearch)
 		return 0;
-	if(p.ply && isrep())
+	if (p.ply && isRep())
 		return 0;
-	if(p.ply>31)
-		return gameeval();
+	if (p.ply > 31)
+		return gameEval();
 	nodes++;
 	pvindex[p.ply] = p.ply;
 	hflag = probe_hash_table(depth, hashmove, nul, hashscore, beta);
-	switch(hflag)
+	switch (hflag)
 	{
-		case EXACT:
+	case EXACT:
+		return hashscore;
+	case UPPER:
+		if (hashscore <= alpha)
 			return hashscore;
-		case UPPER:
-			if(hashscore<=alpha)
-				return hashscore;
-			else
-				break;
-		case LOWER:
-			if(hashscore >= beta)
-				return hashscore;
-			else
-				break;
-		default:
+		else
 			break;
+	case LOWER:
+		if (hashscore >= beta)
+			return hashscore;
+		else
+			break;
+	default:
+		break;
 	}
 	int extend = 0;
-	inc = isattacked(p.k[p.side], p.side^1);
+	inc = isAttacked(p.k[p.side], p.side ^ 1);
 	bool opv = followpv;
-	if(inc)
+	if (inc)
 	{
 		extend = PLY;
 		check[p.ply] = 1;
@@ -47,132 +47,131 @@ int search(int alpha, int beta, int depth, bool nul)
 	else
 	{
 		check[p.ply] = 0;
-		if(p.pceNum>4 && nul && depth > PLY && !followpv)
+		if (p.pceNum > 4 && nul && depth > PLY && !followpv)
 		{
 			int tep = p.en_pas;
 			p.hashkey ^= hashTurn;
-			if(p.en_pas != noenpas)
+			if (p.en_pas != noenpas)
 				p.hashkey ^= hashEnPassant[files[p.en_pas]];
 			p.en_pas = noenpas;
 			p.side ^= 1;
 			p.hashkey ^= hashTurn;
-			if(p.en_pas != noenpas)
+			if (p.en_pas != noenpas)
 				p.hashkey ^= hashEnPassant[files[p.en_pas]];
 			int ns;
-			if(depth > 7)
+			if (depth > 7)
 			{
-				ns = -search(-beta, -beta+1, depth-4*PLY, false);
+				ns = -search(-beta, -beta + 1, depth - 4 * PLY, false);
 			}
 			else
 			{
-				ns = -search(-beta, -beta+1, depth-3*PLY, false);
+				ns = -search(-beta, -beta + 1, depth - 3 * PLY, false);
 			}
 			followpv = opv;
 			tep = p.en_pas;
 			p.hashkey ^= hashTurn;
-			if(p.en_pas != noenpas)
+			if (p.en_pas != noenpas)
 				p.hashkey ^= hashEnPassant[files[p.en_pas]];
 			p.en_pas = tep;
 			p.side ^= 1;
 			p.hashkey ^= hashTurn;
-			if(p.en_pas != noenpas)
-				p.hashkey ^= hashEnPassant[files[p.en_pas]];	
-			if(stopsearch)
+			if (p.en_pas != noenpas)
+				p.hashkey ^= hashEnPassant[files[p.en_pas]];
+			if (stopsearch)
 				return 0;
-			if(ns >= beta)
+			if (ns >= beta)
 			{
 				return beta;
 			}
-			if(ns < -9900)
+			if (ns < -9900)
 			{
 				extend = PLY;
 			}
 		}
 	}
-	
-	if(depth < PLY && !extend)
+
+	if (depth < PLY && !extend)
 	{
 		return quies(alpha, beta);
 	}
-	
-	if(!hashmove.m)
+
+	if (!hashmove.m)
 		hashmove = pv[p.ply][0];
 
 	moveGen();
 
-	
 	order(hashmove);
-	
+
 	int played = 0;
 	int nd = 0;
-	int iend = p.listc[p.ply+1]-1;
+	int iend = p.listc[p.ply + 1] - 1;
 	Move bestmove = nomove;
 	int bestscore = -10001;
-	for(int i = p.listc[p.ply]; i< p.listc[p.ply+1]; i++)
+	for (int i = p.listc[p.ply]; i < p.listc[p.ply + 1]; i++)
 	{
 		pick(i);
-		if(makemove(p.list[i]))
+		if (makeMove(p.list[i]))
 		{
-			takemove();
+			takeMove();
 			continue;
 		}
 		played++;
-		if(i==iend && played == 1)
+		if (i == iend && played == 1)
 		{
 			extend = PLY;
 			single++;
 		}
-		if(!extend)
+		if (!extend)
 		{
 			nd = extraDepth(p.list[i]);
 		}
-		if(played == 1)
+		if (played == 1)
 		{
 			score = -search(-beta, -alpha, depth - PLY + extend + nd, true);
 		}
 		else
 		{
-			score = -search(-alpha-1, -alpha, depth - PLY + extend + nd, true);
+			score = -search(-alpha - 1, -alpha, depth - PLY + extend + nd, true);
 			pvs++;
-			if(score>alpha && score<beta)
+			if (score > alpha && score < beta)
 			{
 				pvsh++;
 				score = -search(-beta, -alpha, depth - PLY + extend + nd, true);
 			}
 		}
-		takemove();
-		if(stopsearch)
+		takeMove();
+		if (stopsearch)
 			return 0;
-		if(score>bestscore)
+		if (score > bestscore)
 		{
 			bestscore = score;
 			bestmove = p.list[i];
-			
-			if(score > alpha)
+
+			if (score > alpha)
 			{
 				alpha = score;
 				updateHistory(p.list[i], depth);
-				if(score>=beta)
+				if (score >= beta)
 				{
-					if(played == 1)
+					if (played == 1)
 						fhf++;
 					fh++;
 					updateKillers(p.list[i], score);
 					store_hash(depth, score, LOWER, nul, bestmove);
 					return beta;
 				}
-				
+
 				pv[p.ply][p.ply] = p.list[i];
-				for(int j = p.ply+1; j<pvindex[p.ply+1]; j++)
-					pv[p.ply][j] = pv[p.ply+1][j];
-				pvindex[p.ply] = pvindex[p.ply+1];
+				for (int j = p.ply + 1; j < pvindex[p.ply + 1]; j++)
+					pv[p.ply][j] = pv[p.ply + 1][j];
+				pvindex[p.ply] = pvindex[p.ply + 1];
 			}
 		}
 	}
-	
-	if(played == 0)
+
+	if (played == 0)
 	{
-		if(inc)
+		if (inc)
 		{
 			return -10000 + p.ply;
 		}
@@ -181,7 +180,7 @@ int search(int alpha, int beta, int depth, bool nul)
 			return 0;
 		}
 	}
-	if(alpha > old_alpha)
+	if (alpha > old_alpha)
 	{
 		store_hash(depth, bestscore, EXACT, nul, bestmove);
 	}
@@ -189,11 +188,11 @@ int search(int alpha, int beta, int depth, bool nul)
 	{
 		store_hash(depth, alpha, UPPER, nul, bestmove);
 	}
-	
+
 	return alpha;
 }
 
-int firstquies(int alpha, int beta)
+int firstQuies(int alpha, int beta)
 {
 	return alpha;
 }
@@ -201,48 +200,48 @@ int firstquies(int alpha, int beta)
 int quies(int alpha, int beta)
 {
 	int score;
-	if(((nodes + qnodes) & 2047) == 0)
+	if (((nodes + qnodes) & 2047) == 0)
 		checkup();
-	if(stopsearch)
+	if (stopsearch)
 		return 0;
 	qnodes++;
-	if(p.ply > 31)
-		return gameeval();
+	if (p.ply > 31)
+		return gameEval();
 	pvindex[p.ply] = p.ply;
-	score = gameeval();
-	if(score >= beta)
+	score = gameEval();
+	if (score >= beta)
 		return beta;
-	if(score > alpha)
+	if (score > alpha)
 		alpha = score;
 
 	capGen();
 
 	qorder();
-	for(int i = p.listc[p.ply]; i < p.listc[p.ply+1]; i++)
+	for (int i = p.listc[p.ply]; i < p.listc[p.ply + 1]; i++)
 	{
 		pick(i);
-		if(makemove(p.list[i]))
+		if (makeMove(p.list[i]))
 		{
-			takemove();
+			takeMove();
 			continue;
 		}
 		score = -quies(-beta, -alpha);
-		takemove();
-		if(stopsearch)
+		takeMove();
+		if (stopsearch)
 			return 0;
-		if(score > alpha)
+		if (score > alpha)
 		{
 			alpha = score;
-			if(score >= beta)
+			if (score >= beta)
 				return beta;
 			pv[p.ply][p.ply] = p.list[i];
-			for(int j = p.ply+1; j < pvindex[p.ply+1]; j++)
+			for (int j = p.ply + 1; j < pvindex[p.ply + 1]; j++)
 			{
-				pv[p.ply][j] = pv[p.ply+1][j];
+				pv[p.ply][j] = pv[p.ply + 1][j];
 			}
-			pvindex[p.ply] = pvindex[p.ply+1];
+			pvindex[p.ply] = pvindex[p.ply + 1];
 		}
-	}	
+	}
 	return alpha;
 }
 
@@ -250,9 +249,9 @@ void pick(int from)
 {
 	int bs = -1000000;
 	int bi = from;
-	for(int i = from; i<p.listc[p.ply+1]; i++)
+	for (int i = from; i < p.listc[p.ply + 1]; i++)
 	{
-		if(p.list[i].score > bs)
+		if (p.list[i].score > bs)
 		{
 			bs = p.list[i].score;
 			bi = i;
@@ -263,15 +262,14 @@ void pick(int from)
 	p.list[bi] = g;
 }
 
-bool isrep()
+bool isRep()
 {
-	if(p.fifty > 101)
+	if (p.fifty > 101)
 		return true;
-	for(int i = 0; i < histply; i++)
+	for (int i = 0; i < histply; i++)
 	{
-		if(hist[i].hashKey == p.hashkey)
+		if (hist[i].hashKey == p.hashkey)
 			return true;
 	}
-
 	return false;
 }

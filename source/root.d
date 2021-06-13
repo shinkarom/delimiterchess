@@ -11,39 +11,39 @@ void rootInit()
 }
 
 void rootMoveList()
-{	
+{
 	moveGen();
 }
 
 void scoreRootMoves()
 {
 	int now = p.ply;
-	for(int i = p.listc[now]; i<p.listc[now+1]; i++)
-	{		
+	for (int i = p.listc[now]; i < p.listc[now + 1]; i++)
+	{
 		auto f = FROM(p.list[i].m);
 		auto t = TO(p.list[i].m);
-		if(makemove(p.list[i]))
+		if (makeMove(p.list[i]))
 		{
-			takemove();
+			takeMove();
 			continue;
 		}
 		p.list[i].score = -quies(-10000, 10000);
-		takemove();	
+		takeMove();
 	}
 }
 
 void rootSort()
 {
 	int now = p.ply;
-	for(int i = p.listc[now]; i<p.listc[now+1];i++)
+	for (int i = p.listc[now]; i < p.listc[now + 1]; i++)
 	{
-		for(int j = p.listc[now]; j< p.listc[now+1]-1; j++)
+		for (int j = p.listc[now]; j < p.listc[now + 1] - 1; j++)
 		{
-			if(p.list[j+1].score > p.list[j].score)
+			if (p.list[j + 1].score > p.list[j].score)
 			{
 				Move temp = p.list[j];
-				p.list[j] = p.list[j+1];
-				p.list[j+1] = temp;
+				p.list[j] = p.list[j + 1];
+				p.list[j + 1] = temp;
 			}
 		}
 	}
@@ -55,62 +55,65 @@ int rootSearch(int alpha, int beta, int depth)
 	int inc = 0;
 	int oalpha = alpha;
 	pvindex[p.ply] = p.ply;
-	
+
 	order(nomove);
 	int played = 0;
 	int bestscore = -10001;
 	Move bestmove;
 	import std.stdio;
-	for(int i = p.listc[p.ply]; i<p.listc[p.ply+1];i++)
-	{	
+
+	for (int i = p.listc[p.ply]; i < p.listc[p.ply + 1]; i++)
+	{
 		pick(i);
-		if(makemove(p.list[i]))
+		if (makeMove(p.list[i]))
 		{
-			takemove();
+			takeMove();
 			continue;
 		}
-		if(isattacked(p.k[p.side],p.side^1))
+		if (isAttacked(p.k[p.side], p.side ^ 1))
 		{
 			inc = PLY;
 		}
 		played++;
-		if(played==1)
+		if (played == 1)
 		{
-			score = -search(-beta, -alpha, depth-PLY+inc, true);
+			score = -search(-beta, -alpha, depth - PLY + inc, true);
 		}
 		else
 		{
-			score = -search(-alpha-1, -alpha, depth-PLY+inc, true);
+			score = -search(-alpha - 1, -alpha, depth - PLY + inc, true);
 			pvs++;
-			if(score > alpha && score < beta)
+			if (score > alpha && score < beta)
 			{
 				pvsh++;
-				score = -search(-beta,-alpha, depth-PLY+inc, true);
+				score = -search(-beta, -alpha, depth - PLY + inc, true);
 			}
 		}
-		takemove();
+		takeMove();
 		inc = 0;
-		
-		if(stopsearch) return 0;
-		
-		if(score>bestscore)
+
+		if (stopsearch)
+			return 0;
+
+		if (score > bestscore)
 		{
 			bestscore = score;
 			bestmove = p.list[i];
-			
-			if(score>alpha)
+
+			if (score > alpha)
 			{
 				alpha = score;
 				pv[p.ply][p.ply] = p.list[i];
-				for(int j = p.ply+1; j<pvindex[p.ply+1]; j++)
+				for (int j = p.ply + 1; j < pvindex[p.ply + 1]; j++)
 				{
-					pv[p.ply][j] = pv[p.ply+1][j];
+					pv[p.ply][j] = pv[p.ply + 1][j];
 				}
-				pvindex[p.ply] = pvindex[p.ply+1];
-				
-				if(score >= beta)
+				pvindex[p.ply] = pvindex[p.ply + 1];
+
+				if (score >= beta)
 				{
-					if(played == 1) fhf++;
+					if (played == 1)
+						fhf++;
 					fh++;
 					return score;
 				}
@@ -118,9 +121,9 @@ int rootSearch(int alpha, int beta, int depth)
 		}
 	}
 
-	if(played == 0)
+	if (played == 0)
 	{
-		if(inc)
+		if (inc)
 		{
 			return -10000 + p.ply;
 		}

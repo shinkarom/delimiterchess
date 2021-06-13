@@ -1,19 +1,19 @@
 import core.stdc.time, std.stdio, std.algorithm.searching, std.format, std.conv, std.string, core.time;
 import data, defines, doundo, hash, io, setboard, movegen;
 
-long actnodes;
+long actNodes;
 bool target;
-long[100] rootnodes;
+long[100] rootNodes;
 
 long perft(int depth, bool silent = false)
 {
 	p.ply = 0;
 	auto s = cast(double)(clock());
-	rootnodes = 0;
-	long nodes = goroot(depth);
+	rootNodes = 0;
+	long nodes = goRoot(depth);
 	auto f = cast(double)(clock());
 	if(!silent)
-		writeln(nodes,", actnodes ",actnodes, " time ",(f-s)/1000);
+		writeln(nodes,", actnodes ",actNodes, " time ",(f-s)/1000);
 	return nodes;
 }
 
@@ -26,22 +26,22 @@ long go(int depth)
 	for(int i  = p.listc[p.ply]; i < p.listc[p.ply+1]; i++)
 	{
 		//writeln(returnmove(p.list[i])," there is on depth ",depth);
-		if(makemove(p.list[i]))
+		if(makeMove(p.list[i]))
 		{
 			//writeln("move ",returnmove(p.list[i])," depth ",depth," unavailable");
-			takemove();
+			takeMove();
 			continue;
 		}
 		//writeln("move ",returnmove(p.list[i])," depth ",depth);
 		testhashkey();
 			
 		nodes += go(depth-1);
-		takemove();
+		takeMove();
 	}
 	return nodes;
 }
 
-long goshow(int depth)
+long goShow(int depth)
 {
 	if(depth == 0)
 		return 1;
@@ -49,21 +49,21 @@ long goshow(int depth)
 	moveGen();
 	for(int i  = p.listc[p.ply]; i < p.listc[p.ply+1]; i++)
 	{
-		if(makemove(p.list[i]))
+		if(makeMove(p.list[i]))
 		{
-			takemove();
+			takeMove();
 			continue;
 		}
 		//writeln("making ",returnmove(p.list[i]));
 		testhashkey();
 			
 		nodes += go(depth-1);
-		takemove();
+		takeMove();
 	}
 	return nodes;	
 }
 
-long goroot(int depth)
+long goRoot(int depth)
 {
 	if(depth == 0)
 		return 1;
@@ -73,17 +73,17 @@ long goroot(int depth)
 	//long oldnodes = 0;
 	for(int i  = p.listc[p.ply]; i < p.listc[p.ply+1]; i++)
 	{
-		if(makemove(p.list[i]))
+		if(makeMove(p.list[i]))
 		{
 			//writeln("root move ",returnmove(p.list[i])," depth ",depth," unavailable");
-			takemove();
+			takeMove();
 			continue;
 		}
 		//writeln("root move ",returnmove(p.list[i]));
 		testhashkey();
 			
 		nodes += go(depth-1);
-		takemove();
+		takeMove();
 		
 		//rootnodes[i] = actnodes - oldnodes;
 		//writeln(returnmove(p.list[i])," ",rootnodes[i]);
@@ -92,7 +92,7 @@ long goroot(int depth)
 	return nodes;	
 }
 
-void perftfile(int depth)
+void perftFile(int depth)
 {
 	long targetScore;
 	

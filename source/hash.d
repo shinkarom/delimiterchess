@@ -4,7 +4,7 @@ import data, defines;
 void init_hash_tables()
 {
 	initHashCastleCombinations();
-	int elemSize = Hashelem.sizeof;
+	int elemSize = HashElem.sizeof;
 	//writeln("elem size = ",elemSize);
 	numelem *= 1000000;
 	numelem /= elemSize;
@@ -16,23 +16,23 @@ void init_hash_tables()
 
 void initHashCastleCombinations()
 {
-	for(int kingK = 0; kingK <= 1; kingK++)
+	for (int kingK = 0; kingK <= 1; kingK++)
 	{
-		for(int kingQ = 0; kingQ <= 1; kingQ++)
+		for (int kingQ = 0; kingQ <= 1; kingQ++)
 		{
-			for(int queenK = 0; queenK <= 1; queenK++)
+			for (int queenK = 0; queenK <= 1; queenK++)
 			{
-				for(int queenQ = 0; queenQ <= 1; queenQ++)
+				for (int queenQ = 0; queenQ <= 1; queenQ++)
 				{
-					int index = (kingK<<3)|(kingQ<<2)|(queenK<<1)|(queenQ);
+					int index = (kingK << 3) | (kingQ << 2) | (queenK << 1) | (queenQ);
 					ulong value = 0;
-					if(kingK)
+					if (kingK)
 						value ^= hashCastle[0];
-					if(kingQ)
+					if (kingQ)
 						value ^= hashCastle[1];
-					if(queenK)
+					if (queenK)
 						value ^= hashCastle[2];
-					if(queenQ)
+					if (queenQ)
 						value ^= hashCastle[3];
 					hashCastleCombinations[index] = value;
 				}
@@ -43,7 +43,7 @@ void initHashCastleCombinations()
 
 void clearhash()
 {
-	for(int i = 0; i<numelem; i++)
+	for (int i = 0; i < numelem; i++)
 	{
 		TTable[i].hashkey = 0;
 		TTable[i].depth = 0;
@@ -60,38 +60,38 @@ void fullhashkey()
 ulong generateHashKey()
 {
 	ulong hashkey = 0;
-	for(int i = A1; i<=H8;i++)
+	for (int i = A1; i <= H8; i++)
 	{
-		if(p.board[i].type == edge || p.board[i].type == empty)
+		if (p.board[i].type == edge || p.board[i].type == empty)
 			continue;
-		hashkey ^= hashPieces[64* p.board[i].type + 8 * ranks[i] + files[i]];
+		hashkey ^= hashPieces[64 * p.board[i].type + 8 * ranks[i] + files[i]];
 	}
-	if(p.side == white)
+	if (p.side == white)
 		hashkey ^= hashTurn;
-	if(p.en_pas != noenpas)
+	if (p.en_pas != noenpas)
 	{
 		int squareNum = 8 * ranks[p.en_pas] + files[p.en_pas];
 		hashkey ^= hashEnPassant[files[p.en_pas]];
 	}
 	//hashkey ^= hashCastleCombinations[p.castleflags];
-	if(p.castleflags & WKC)
+	if (p.castleflags & WKC)
 		hashkey ^= hashCastle[0];
-	if(p.castleflags & WQC)
+	if (p.castleflags & WQC)
 		hashkey ^= hashCastle[1];
-	if(p.castleflags & BKC)
+	if (p.castleflags & BKC)
 		hashkey ^= hashCastle[2];
-	if(p.castleflags & BQC)
+	if (p.castleflags & BQC)
 		hashkey ^= hashCastle[3];
-	return hashkey;	
+	return hashkey;
 }
 
 bool testhashkey()
 {
 	auto hashkey = generateHashKey();
-	
-	if(hashkey != p.hashkey)
+
+	if (hashkey != p.hashkey)
 	{
-		writefln("corrupt key %X %X, difference %X",hashkey,p.hashkey,hashkey ^ p.hashkey);
+		writefln("corrupt key %X %X, difference %X", hashkey, p.hashkey, hashkey ^ p.hashkey);
 		/+
 		printboard();
 		+/
@@ -103,16 +103,16 @@ bool testhashkey()
 int probe_hash_table(int depth, Move move, ref bool nul, ref int score, int beta)
 {
 	hashprobe++;
-	Hashelem probe2;
+	HashElem probe2;
 	int flag = NOFLAG;
 	probe2 = TTable[p.hashkey % numelem];
-	if(probe2.hashkey == p.hashkey)
+	if (probe2.hashkey == p.hashkey)
 	{
 		move.m = probe2.move;
 		hashhit++;
 		score = probe2.score;
-		
-		if(probe2.depth >= depth)
+
+		if (probe2.depth >= depth)
 		{
 			flag = probe2.flag;
 			nul = probe2.nul;
@@ -126,7 +126,7 @@ int probe_hash_table(int depth, Move move, ref bool nul, ref int score, int beta
 void store_hash(int depth, int score, int flag, bool nul, Move move)
 {
 	auto index = p.hashkey % numelem;
-	if(depth >= TTable[index].depth)
+	if (depth >= TTable[index].depth)
 	{
 		TTable[index].hashkey = p.hashkey;
 		TTable[index].depth = depth;
