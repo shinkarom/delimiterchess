@@ -1,7 +1,8 @@
 import core.time;
 
 immutable string engineName = "Delimiter";
-immutable string versionId = "0.1";
+immutable string engineVersion = "0.1.1";
+immutable string engineAuthor = "Roman Shynkarenko";
 
 immutable int bP = 0, wP = 1, bN = 2, wN = 3, bB = 4, wB = 5, bR = 6, wR = 7,
 	bQ = 8, wQ = 9, bK = 10, wK = 11, empty = 12;
@@ -150,7 +151,7 @@ struct SearchParam
 	ulong xtime;
 	ulong xotime;
 	int inf;
-	int[2] movestogo;
+	uint[2] movestogo;
 	ulong timepermove;
 	ulong starttime;
 	ulong stoptime;

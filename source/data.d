@@ -40,6 +40,8 @@ char[8] brdfiles = "abcdefgh";
 HashElem[] TTable;
 int numelem;
 
+string bookFile = "binbook.bin";
+
 int[16] vals = [
    0, 100, 100, 300, 300, 300, 300, 500, 500, 900, 900, 10000, 10000, 0, 0, 0
 ];
@@ -447,15 +449,15 @@ ulong[16] hashCastleCombinations;
 void initSearchParam()
 {
    searchParam.depth = -1;
-   searchParam.winc = -1;
-   searchParam.binc = -1;
-   searchParam.wtime = -1;
-   searchParam.btime = -1;
-   searchParam.xtime = -1;
-   searchParam.xotime = -1;
-   searchParam.movestogo[white] = -1;
-   searchParam.movestogo[black] = -1;
-   searchParam.timepermove = -1;
+   searchParam.winc = 0;
+   searchParam.binc = 0;
+   searchParam.wtime = 0;
+   searchParam.btime = 0;
+   searchParam.xtime = 0;
+   searchParam.xotime = 0;
+   searchParam.movestogo[white] = 0;
+   searchParam.movestogo[black] = 0;
+   searchParam.timepermove = 0;
    searchParam.starttime = 0;
    searchParam.stoptime = 0;
    searchParam.inf = false;

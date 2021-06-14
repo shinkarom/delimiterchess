@@ -53,12 +53,12 @@ void store(BinEntry[] full)
 bool bookInit()
 {
 	BinEntry move;
-	if(!exists("binbook.bin"))
+	if(!exists(bookFile))
 	{
-		writeln("no binbook.bin!!");
+		writeln("no "~bookFile~"!!");
 		return false;
 	}
-	wbookfile = File("binbook.bin","rb");
+	wbookfile = File(bookFile,"rb");
 	
 	wbookfile.seek(0, SEEK_END);
 	bookdata.whitelsize = wbookfile.tell();

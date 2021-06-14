@@ -2,16 +2,17 @@ import std.stdio, std.format, std.string, std.algorithm.searching, std.array, st
 import data, defines, utils, log, alloctime, setboard, io, hash, calcm;
 
 const string[] uciStrings = [
-	"id name " ~ engineName ~ " " ~ versionId, "id author Roman Shynkarenko",
+	"id name " ~ engineName ~ " " ~ engineVersion, "id author " ~ engineAuthor,
 	"option name Hash type spin default 16 min 4 max 512",
 	"option name OwnBook type check default false",
+	"option name BookFile type string default binbook.bin",
 	"option name PawnStructure type spin default 128 min 12 max 256",
 	"option name KingSafety type spin default 128 min 12 max 256",
 	"option name PassedPawn type spin default 128 min 12 max 256",
 	"option name Ponder type check default true", "uciok"
 ];
 
-string[] autorunLines = ["position startpos", "go depth 4", "quit"];
+string[] autorunLines = ["position startpos", "go wtime 60000 btime 60000 winc 1000 binc 1000", "quit"];
 
 void uciMode()
 {
@@ -184,6 +185,7 @@ void think()
 	ulong allocatedtime = allocateTime();
 	if (allocatedtime == 0)
 		allocatedtime = 200;
+	//writeln("allocated ",allocatedtime);
 	searchParam.starttime = (MonoTime.currTime() - MonoTime.zero()).total!"msecs";
 	searchParam.stoptime = searchParam.starttime + allocatedtime;
 	if (logme)
@@ -227,6 +229,12 @@ void parseOption(string str)
 			searchParam.usebook = true;
 		else if (value == "false")
 			searchParam.usebook = false;
+		break;
+	case "BookFile":
+		if (value == "")
+			bookFile = "binbook.bin";
+		else
+			bookFile = value;
 		break;
 	case "KingSafety":
 		eo.kingSafety = to!int(value);
