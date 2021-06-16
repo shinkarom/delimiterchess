@@ -59,65 +59,65 @@ void initEval()
 		if (p.pceNumToSq[index] == 0)
 			continue;
 		int sq = p.pceNumToSq[index];
-		switch (p.board[sq].type)
+		switch (p.board[sq])
 		{
-		case wR:
+		case SquareType.wR:
 			evalData.wRc++;
 			evalData.wmajors++;
 			break;
-		case wN:
+		case SquareType.wN:
 			evalData.wNc++;
 			evalData.wmajors++;
 			break;
-		case wB:
+		case SquareType.wB:
 			evalData.wBc++;
 			evalData.wmajors++;
 			evalData.wBsq = sq;
 			break;
-		case wQ:
+		case SquareType.wQ:
 			evalData.wQc++;
 			evalData.wmajors++;
 			break;
-		case wK:
+		case SquareType.wK:
 			break;
-		case wP:
+		case SquareType.wP:
 			int f = files[sq] + 1;
-			if (evalData.pawn_set[white][f] > ranks[sq])
+			if (evalData.pawn_set[Side.White][f] > ranks[sq])
 			{
-				evalData.pawn_set[white][f] = ranks[sq];
+				evalData.pawn_set[Side.White][f] = ranks[sq];
 			}
 			evalData.wpawns++;
-			evalData.pawns[white][f]++;
-			evalData.pawnbits[white] += pbit[ranks[sq]];
+			evalData.pawns[Side.White][f]++;
+			evalData.pawnbits[Side.White] += pbit[ranks[sq]];
 			break;
-		case bR:
+		case SquareType.bR:
 			evalData.bRc++;
 			evalData.bmajors++;
 			break;
-		case bN:
+		case SquareType.bN:
 			evalData.bNc++;
 			evalData.bmajors++;
 			break;
-		case bB:
+		case SquareType.bB:
 			evalData.bBc++;
 			evalData.bmajors++;
 			evalData.bBsq = sq;
 			break;
-		case bQ:
+		case SquareType.bQ:
 			evalData.bQc++;
 			evalData.bmajors++;
 			break;
-		case bK:
+		case SquareType.bK:
 			break;
-		case bP:
+		case SquareType.bP:
 			int f = files[sq] + 1;
-			if (evalData.pawn_set[black][f] > ranks[sq])
+			if (evalData.pawn_set[Side.Black][f] > ranks[sq])
 			{
-				evalData.pawn_set[black][f] = ranks[sq];
+				evalData.pawn_set[Side.Black][f] = ranks[sq];
 			}
 			evalData.bpawns++;
-			evalData.pawns[black][f]++;
-			evalData.pawnbits[black] += pbit[ranks[sq]];
+			evalData.pawns[Side.Black][f]++;
+			evalData.pawnbits[Side.Black] += pbit[ranks[sq]];
 			break;
 		default:
 			break;
@@ -135,10 +135,10 @@ int gameEval()
 	if (phase < 0)
 		phase = 0;
 	phase = (phase * 256 + (24 * 2)) / 24;
-	int send = evalData.score[white][end] - evalData.score[black][end];
-	int sbeg = evalData.score[white][beg] - evalData.score[black][beg];
+	int send = evalData.score[Side.White][end] - evalData.score[Side.Black][end];
+	int sbeg = evalData.score[Side.White][beg] - evalData.score[Side.Black][beg];
 	int score = ((sbeg * (256 - phase)) + (send * phase)) / 256;
-	if (p.side == white)
+	if (p.side == Side.White)
 	{
 		return score;
 	}
@@ -154,10 +154,10 @@ void midgameEval()
 	{
 		if (!isDrawnP())
 		{
-			evalData.score[white][beg] = 0;
-			evalData.score[white][end] = 0;
-			evalData.score[black][beg] = 0;
-			evalData.score[black][end] = 0;
+			evalData.score[Side.White][beg] = 0;
+			evalData.score[Side.White][end] = 0;
+			evalData.score[Side.Black][beg] = 0;
+			evalData.score[Side.Black][end] = 0;
 		}
 	}
 
@@ -168,144 +168,144 @@ void midgameEval()
 
 		int sq = p.pceNumToSq[index];
 
-		switch (p.board[sq].type)
+		switch (p.board[sq])
 		{
-		case wP:
-			evalData.score[white][beg] += vP;
-			evalData.score[white][beg] += Pawn[sq];
-			evalData.score[white][end] += vP;
+		case SquareType.wP:
+			evalData.score[Side.White][beg] += vP;
+			evalData.score[Side.White][beg] += Pawn[sq];
+			evalData.score[Side.White][end] += vP;
 			whitePawnsStructure(sq);
 			break;
-		case wN:
-			evalData.score[white][beg] += vN;
-			evalData.score[white][beg] += Knight[sq];
-			evalData.score[white][end] += vN;
-			evalData.score[white][end] += eKnight[sq];
-			evalData.score[white][beg] += wNSupport(sq);
+		case SquareType.wN:
+			evalData.score[Side.White][beg] += vN;
+			evalData.score[Side.White][beg] += Knight[sq];
+			evalData.score[Side.White][end] += vN;
+			evalData.score[Side.White][end] += eKnight[sq];
+			evalData.score[Side.White][beg] += wNSupport(sq);
 			wKnightMob(sq);
 			break;
-		case wB:
-			evalData.score[white][beg] += vB;
-			evalData.score[white][beg] += Bishop[sq];
-			evalData.score[white][end] += vB;
-			evalData.score[white][end] += eBishop[sq];
+		case SquareType.wB:
+			evalData.score[Side.White][beg] += vB;
+			evalData.score[Side.White][beg] += Bishop[sq];
+			evalData.score[Side.White][end] += vB;
+			evalData.score[Side.White][end] += eBishop[sq];
 			wBishopMob(sq);
 			break;
-		case wR:
-			evalData.score[white][beg] += vR;
-			evalData.score[white][beg] += Rook[sq];
-			evalData.score[white][end] += vR;
+		case SquareType.wR:
+			evalData.score[Side.White][beg] += vR;
+			evalData.score[Side.White][beg] += Rook[sq];
+			evalData.score[Side.White][end] += vR;
 			wRookTrapped(sq);
 			wRookMob(sq);
-			if (evalData.pawns[white][files[sq] + 1] == 0)
+			if (evalData.pawns[Side.White][files[sq] + 1] == 0)
 			{
-				evalData.score[white][beg] += 8;
-				evalData.score[white][end] += 15;
-				if (evalData.pawns[black][files[sq] + 1] == 0)
+				evalData.score[Side.White][beg] += 8;
+				evalData.score[Side.White][end] += 15;
+				if (evalData.pawns[Side.Black][files[sq] + 1] == 0)
 				{
-					evalData.score[white][beg] += 5;
-					evalData.score[white][end] += 10;
+					evalData.score[Side.White][beg] += 5;
+					evalData.score[Side.White][end] += 10;
 				}
-				if (abs(files[sq] - files[p.k[black]]) <= 1)
+				if (abs(files[sq] - files[p.k[Side.Black]]) <= 1)
 				{
-					evalData.score[white][beg] += 8;
-					if (files[sq] == files[p.k[black]])
+					evalData.score[Side.White][beg] += 8;
+					if (files[sq] == files[p.k[Side.Black]])
 					{
-						evalData.score[white][beg] += 8;
+						evalData.score[Side.White][beg] += 8;
 					}
 				}
 			}
 			if (ranks[sq] == 6 && wrSeven())
 			{
-				evalData.score[white][beg] += 10;
-				evalData.score[white][end] += 20;
+				evalData.score[Side.White][beg] += 10;
+				evalData.score[Side.White][end] += 20;
 			}
 			break;
-		case wQ:
-			evalData.score[white][beg] += vQ;
-			evalData.score[white][end] += vQ;
+		case SquareType.wQ:
+			evalData.score[Side.White][beg] += vQ;
+			evalData.score[Side.White][end] += vQ;
 			wQueenMob(sq);
 			if (ranks[sq] == 6 && wrSeven())
 			{
-				evalData.score[white][beg] += 5;
-				evalData.score[white][end] += 10;
+				evalData.score[Side.White][beg] += 5;
+				evalData.score[Side.White][end] += 10;
 			}
 			break;
-		case wK:
-			evalData.score[white][beg] += KingMid[sq];
-			evalData.score[white][end] += KingEnd[sq];
+		case SquareType.wK:
+			evalData.score[Side.White][beg] += KingMid[sq];
+			evalData.score[Side.White][end] += KingEnd[sq];
 			if (doWks())
 			{
-				evalData.score[white][beg] += whiteKingSafety(sq);
+				evalData.score[Side.White][beg] += whiteKingSafety(sq);
 			}
 			break;
-		case bP:
-			evalData.score[black][beg] += vP;
-			evalData.score[black][beg] += Pawn[opp[sq]];
-			evalData.score[black][end] += vP;
+		case SquareType.bP:
+			evalData.score[Side.Black][beg] += vP;
+			evalData.score[Side.Black][beg] += Pawn[opp[sq]];
+			evalData.score[Side.Black][end] += vP;
 			blackPawnsStructure(sq);
 			break;
-		case bN:
-			evalData.score[black][beg] += vN;
-			evalData.score[black][beg] += Knight[opp[sq]];
-			evalData.score[black][end] += vN;
-			evalData.score[black][end] += eKnight[opp[sq]];
-			evalData.score[black][beg] += bNSupport(sq);
+		case SquareType.bN:
+			evalData.score[Side.Black][beg] += vN;
+			evalData.score[Side.Black][beg] += Knight[opp[sq]];
+			evalData.score[Side.Black][end] += vN;
+			evalData.score[Side.Black][end] += eKnight[opp[sq]];
+			evalData.score[Side.Black][beg] += bNSupport(sq);
 			bKnightMob(sq);
 			break;
-		case bB:
-			evalData.score[black][beg] += vB;
-			evalData.score[black][beg] += Bishop[opp[sq]];
-			evalData.score[black][end] += vB;
-			evalData.score[black][end] += eBishop[opp[sq]];
+		case SquareType.bB:
+			evalData.score[Side.Black][beg] += vB;
+			evalData.score[Side.Black][beg] += Bishop[opp[sq]];
+			evalData.score[Side.Black][end] += vB;
+			evalData.score[Side.Black][end] += eBishop[opp[sq]];
 			bBishopMob(sq);
 			break;
-		case bR:
-			evalData.score[black][beg] += vR;
-			evalData.score[black][beg] += Rook[opp[sq]];
-			evalData.score[black][end] += vR;
+		case SquareType.bR:
+			evalData.score[Side.Black][beg] += vR;
+			evalData.score[Side.Black][beg] += Rook[opp[sq]];
+			evalData.score[Side.Black][end] += vR;
 			bRookTrapped(sq);
 			bRookMob(sq);
-			if (evalData.pawns[black][files[sq] + 1] == 0)
+			if (evalData.pawns[Side.Black][files[sq] + 1] == 0)
 			{
-				evalData.score[black][beg] += 8;
-				evalData.score[black][end] += 15;
-				if (evalData.pawns[white][files[sq] + 1] == 0)
+				evalData.score[Side.Black][beg] += 8;
+				evalData.score[Side.Black][end] += 15;
+				if (evalData.pawns[Side.White][files[sq] + 1] == 0)
 				{
-					evalData.score[black][beg] += 5;
-					evalData.score[black][end] += 10;
+					evalData.score[Side.Black][beg] += 5;
+					evalData.score[Side.Black][end] += 10;
 				}
-				if (abs(files[sq] - files[p.k[white]]) <= 1)
+				if (abs(files[sq] - files[p.k[Side.White]]) <= 1)
 				{
-					evalData.score[black][beg] += 8;
-					if (files[sq] == files[p.k[white]])
+					evalData.score[Side.Black][beg] += 8;
+					if (files[sq] == files[p.k[Side.White]])
 					{
-						evalData.score[black][beg] += 8;
+						evalData.score[Side.Black][beg] += 8;
 					}
 				}
 			}
 			if (ranks[sq] == 1 && brSeven())
 			{
-				evalData.score[black][beg] += 10;
-				evalData.score[black][end] += 20;
+				evalData.score[Side.Black][beg] += 10;
+				evalData.score[Side.Black][end] += 20;
 			}
 			break;
-		case bQ:
-			evalData.score[black][beg] += vQ;
-			evalData.score[black][end] += vQ;
+		case SquareType.bQ:
+			evalData.score[Side.Black][beg] += vQ;
+			evalData.score[Side.Black][end] += vQ;
 			bQueenMob(sq);
 			if (ranks[sq] == 1 && brSeven())
 			{
-				evalData.score[black][beg] += 5;
-				evalData.score[black][end] += 10;
+				evalData.score[Side.Black][beg] += 5;
+				evalData.score[Side.Black][end] += 10;
 			}
 			break;
-		case bK:
-			evalData.score[black][beg] += KingMid[opp[sq]];
-			evalData.score[black][end] += KingEnd[opp[sq]];
+		case SquareType.bK:
+			evalData.score[Side.Black][beg] += KingMid[opp[sq]];
+			evalData.score[Side.Black][end] += KingEnd[opp[sq]];
 			if (doBks())
 			{
-				evalData.score[black][beg] += blackKingSafety(sq);
+				evalData.score[Side.Black][beg] += blackKingSafety(sq);
 			}
 			break;
 		default:
@@ -315,7 +315,7 @@ void midgameEval()
 	development();
 	blockedPawn();
 	bishopPair();
-	if (abs(files[p.k[white]] - files[p.k[black]]) > 2)
+	if (abs(files[p.k[Side.White]] - files[p.k[Side.Black]]) > 2)
 	{
 		pawnStorm();
 	}
@@ -323,36 +323,36 @@ void midgameEval()
 
 bool wrSeven()
 {
-	return (64 & evalData.pawnbits[black]) || (ranks[p.k[black]] == 7);
+	return (64 & evalData.pawnbits[Side.Black]) || (ranks[p.k[Side.Black]] == 7);
 }
 
 bool brSeven()
 {
-	return (2 & evalData.pawnbits[white]) || (ranks[p.k[white]] == 0);
+	return (2 & evalData.pawnbits[Side.White]) || (ranks[p.k[Side.White]] == 0);
 }
 
 void development()
 {
 	int wdev = 0, bdev = 0;
-	if (p.board[C1].type == wB)
+	if (p.board[C1] == SquareType.wB)
 		wdev++;
-	if (p.board[B1].type == wN)
+	if (p.board[B1] == SquareType.wN)
 		wdev++;
-	if (p.board[F1].type == wB)
+	if (p.board[F1] == SquareType.wB)
 		wdev++;
-	if (p.board[G1].type == wN)
+	if (p.board[G1] == SquareType.wN)
 		wdev++;
-	if (p.board[C8].type == bB)
+	if (p.board[C8] == SquareType.bB)
 		bdev++;
-	if (p.board[B8].type == bN)
+	if (p.board[B8] == SquareType.bN)
 		bdev++;
-	if (p.board[F8].type == bB)
+	if (p.board[F8] == SquareType.bB)
 		bdev++;
-	if (p.board[G8].type == bN)
+	if (p.board[G8] == SquareType.bN)
 		bdev++;
 
-	evalData.score[black][beg] -= developpenalty[bdev];
-	evalData.score[white][beg] -= developpenalty[wdev];
+	evalData.score[Side.Black][beg] -= developpenalty[bdev];
+	evalData.score[Side.White][beg] -= developpenalty[wdev];
 }
 
 bool doWks()
@@ -367,21 +367,21 @@ bool doBks()
 
 void blockedPawn()
 {
-	if (p.board[D2].type == wP && p.board[D3].type != empty)
+	if (p.board[D2] == SquareType.wP && p.board[D3] != SquareType.Empty)
 	{
-		evalData.score[white][beg] -= 40;
+		evalData.score[Side.White][beg] -= 40;
 	}
-	if (p.board[E2].type == wP && p.board[E3].type != empty)
+	if (p.board[E2] == SquareType.wP && p.board[E3] != SquareType.Empty)
 	{
-		evalData.score[white][beg] -= 40;
+		evalData.score[Side.White][beg] -= 40;
 	}
-	if (p.board[D7].type == bP && p.board[D6].type != empty)
+	if (p.board[D7] == SquareType.bP && p.board[D6] != SquareType.Empty)
 	{
-		evalData.score[black][beg] -= 40;
+		evalData.score[Side.Black][beg] -= 40;
 	}
-	if (p.board[E7].type == bP && p.board[E6].type != empty)
+	if (p.board[E7] == SquareType.bP && p.board[E6] != SquareType.Empty)
 	{
-		evalData.score[black][beg] -= 40;
+		evalData.score[Side.Black][beg] -= 40;
 	}
 }
 
@@ -389,16 +389,16 @@ void wRookTrapped(int sq)
 {
 	if (sq == H1 || sq == G1)
 	{
-		if (p.k[white] == F1 || p.k[white] == G1)
+		if (p.k[Side.White] == F1 || p.k[Side.White] == G1)
 		{
-			evalData.score[white][beg] -= 70;
+			evalData.score[Side.White][beg] -= 70;
 		}
 	}
 	else if (sq == A1 || sq == B1)
 	{
-		if (p.k[white] == C1 || p.k[white] == B1)
+		if (p.k[Side.White] == C1 || p.k[Side.White] == B1)
 		{
-			evalData.score[white][beg] -= 70;
+			evalData.score[Side.White][beg] -= 70;
 		}
 	}
 }
@@ -407,16 +407,16 @@ void bRookTrapped(int sq)
 {
 	if (sq == H8 || sq == G8)
 	{
-		if (p.k[black] == F8 || p.k[black] == G8)
+		if (p.k[Side.Black] == F8 || p.k[Side.Black] == G8)
 		{
-			evalData.score[black][beg] -= 70;
+			evalData.score[Side.Black][beg] -= 70;
 		}
 	}
 	else if (sq == A8 || sq == B8)
 	{
-		if (p.k[black] == C8 || p.k[black] == B8)
+		if (p.k[Side.Black] == C8 || p.k[Side.Black] == B8)
 		{
-			evalData.score[black][beg] -= 70;
+			evalData.score[Side.Black][beg] -= 70;
 		}
 	}
 }
@@ -425,13 +425,13 @@ void bishopPair()
 {
 	if (evalData.wBc == 2)
 	{
-		evalData.score[white][beg] += 50;
-		evalData.score[white][end] += 50;
+		evalData.score[Side.White][beg] += 50;
+		evalData.score[Side.White][end] += 50;
 	}
 	if (evalData.bBc == 2)
 	{
-		evalData.score[black][beg] += 50;
-		evalData.score[black][end] += 50;
+		evalData.score[Side.Black][beg] += 50;
+		evalData.score[Side.Black][end] += 50;
 	}
 }
 
@@ -450,11 +450,11 @@ int whiteKingSafety(int sq)
 	{
 		if (fpen < 21)
 			ourscore -= 25;
-		if (evalData.pawns[white][file] == 0)
+		if (evalData.pawns[Side.White][file] == 0)
 		{
 			ourscore -= 10;
 		}
-		if (evalData.pawns[black][file] == 0)
+		if (evalData.pawns[Side.Black][file] == 0)
 		{
 			ourscore -= 10;
 		}
@@ -481,11 +481,11 @@ int blackKingSafety(int sq)
 	{
 		if (fpen < 21)
 			ourscore -= 25;
-		if (evalData.pawns[white][file] == 0)
+		if (evalData.pawns[Side.White][file] == 0)
 		{
 			ourscore -= 10;
 		}
-		if (evalData.pawns[black][file] == 0)
+		if (evalData.pawns[Side.Black][file] == 0)
 		{
 			ourscore -= 10;
 		}
@@ -500,9 +500,9 @@ int blackKingSafety(int sq)
 int whitePawnCover(int file, int rank)
 {
 	int ourscore = 0;
-	if (evalData.pawns[white][file] && rank < evalData.pawn_set[white][file] - rank)
+	if (evalData.pawns[Side.White][file] && rank < evalData.pawn_set[Side.White][file] - rank)
 	{
-		ourscore -= kpdist[evalData.pawn_set[white][file] - rank];
+		ourscore -= kpdist[evalData.pawn_set[Side.White][file] - rank];
 	}
 	else
 	{
@@ -514,9 +514,9 @@ int whitePawnCover(int file, int rank)
 int blackPawnCover(int file, int rank)
 {
 	int ourscore = 0;
-	if (evalData.pawns[black][file] && rank < evalData.pawn_set[white][file] - rank)
+	if (evalData.pawns[Side.Black][file] && rank < evalData.pawn_set[Side.White][file] - rank)
 	{
-		ourscore -= kpdist[evalData.pawn_set[white][file] - rank];
+		ourscore -= kpdist[evalData.pawn_set[Side.White][file] - rank];
 	}
 	else
 	{
@@ -527,30 +527,30 @@ int blackPawnCover(int file, int rank)
 
 void pawnStorm()
 {
-	int wkf = files[p.k[white]] + 1;
-	int bkf = files[p.k[black]] + 1;
+	int wkf = files[p.k[Side.White]] + 1;
+	int bkf = files[p.k[Side.Black]] + 1;
 
-	evalData.score[white][beg] += wstorm[evalData.pawn_set[white][bkf - 1]];
-	evalData.score[white][beg] += wstorm[evalData.pawn_set[white][bkf]];
-	evalData.score[white][beg] += wstorm[evalData.pawn_set[white][bkf + 1]];
+	evalData.score[Side.White][beg] += wstorm[evalData.pawn_set[Side.White][bkf - 1]];
+	evalData.score[Side.White][beg] += wstorm[evalData.pawn_set[Side.White][bkf]];
+	evalData.score[Side.White][beg] += wstorm[evalData.pawn_set[Side.White][bkf + 1]];
 
-	evalData.score[black][beg] += bstorm[evalData.pawn_set[black][bkf - 1]];
-	evalData.score[black][beg] += bstorm[evalData.pawn_set[black][bkf]];
-	evalData.score[black][beg] += bstorm[evalData.pawn_set[black][bkf + 1]];
+	evalData.score[Side.Black][beg] += bstorm[evalData.pawn_set[Side.Black][bkf - 1]];
+	evalData.score[Side.Black][beg] += bstorm[evalData.pawn_set[Side.Black][bkf]];
+	evalData.score[Side.Black][beg] += bstorm[evalData.pawn_set[Side.Black][bkf + 1]];
 
-	if (evalData.pawns[black][wkf] == 0)
-		evalData.score[black][beg] += 15;
-	if (evalData.pawns[black][wkf - 1] == 0)
-		evalData.score[black][beg] += 12;
-	if (evalData.pawns[black][wkf + 1] == 0)
-		evalData.score[black][beg] += 12;
+	if (evalData.pawns[Side.Black][wkf] == 0)
+		evalData.score[Side.Black][beg] += 15;
+	if (evalData.pawns[Side.Black][wkf - 1] == 0)
+		evalData.score[Side.Black][beg] += 12;
+	if (evalData.pawns[Side.Black][wkf + 1] == 0)
+		evalData.score[Side.Black][beg] += 12;
 
-	if (evalData.pawns[white][bkf] == 0)
-		evalData.score[white][beg] += 15;
-	if (evalData.pawns[white][bkf - 1] == 0)
-		evalData.score[white][beg] += 12;
-	if (evalData.pawns[white][bkf + 1] == 0)
-		evalData.score[white][beg] += 12;
+	if (evalData.pawns[Side.White][bkf] == 0)
+		evalData.score[Side.White][beg] += 15;
+	if (evalData.pawns[Side.White][bkf - 1] == 0)
+		evalData.score[Side.White][beg] += 12;
+	if (evalData.pawns[Side.White][bkf + 1] == 0)
+		evalData.score[Side.White][beg] += 12;
 }
 
 void whitePawnsStructure(int sq)
@@ -561,23 +561,23 @@ void whitePawnsStructure(int sq)
 	int escore = 0;
 	int mscore = 0;
 
-	if (evalData.pawns[white][file] > 1)
+	if (evalData.pawns[Side.White][file] > 1)
 	{
 		mscore -= 4;
 		escore -= 8;
-		evalData.defects[white]++;
+		evalData.defects[Side.White]++;
 	}
 
-	if (evalData.pawn_set[white][file - 1] > rank && evalData.pawn_set[white][file + 1] > rank)
+	if (evalData.pawn_set[Side.White][file - 1] > rank && evalData.pawn_set[Side.White][file + 1] > rank)
 	{
 		if (rank > 1)
 		{
 			mscore -= 10;
 			escore -= 20;
 		}
-		evalData.defects[white]++;
+		evalData.defects[Side.White]++;
 		b = 1;
-		if (evalData.pawns[white][file - 1] == 0 && evalData.pawns[white][file + 1] == 0)
+		if (evalData.pawns[Side.White][file - 1] == 0 && evalData.pawns[Side.White][file + 1] == 0)
 		{
 			if (rank > 1)
 			{
@@ -587,20 +587,20 @@ void whitePawnsStructure(int sq)
 			i = 1;
 		}
 	}
-	if (evalData.pawns[black][file] == 0)
+	if (evalData.pawns[Side.Black][file] == 0)
 	{
 		if (b)
 			mscore -= 10;
 		if (i)
 			mscore -= 10;
 	}
-	if (evalData.pawn_set[black][file - 1] <= rank
-			&& evalData.pawn_set[black][file] < rank && evalData.pawn_set[black][file + 1] <= rank)
+	if (evalData.pawn_set[Side.Black][file - 1] <= rank
+			&& evalData.pawn_set[Side.Black][file] < rank && evalData.pawn_set[Side.Black][file + 1] <= rank)
 	{
 		wpp(sq);
 	}
-	evalData.score[white][beg] += (mscore * eo.pawnStructure) / 128;
-	evalData.score[white][end] += (escore * eo.pawnStructure) / 128;
+	evalData.score[Side.White][beg] += (mscore * eo.pawnStructure) / 128;
+	evalData.score[Side.White][end] += (escore * eo.pawnStructure) / 128;
 }
 
 void blackPawnsStructure(int sq)
@@ -611,23 +611,23 @@ void blackPawnsStructure(int sq)
 	int escore = 0;
 	int mscore = 0;
 
-	if (evalData.pawns[black][file] > 1)
+	if (evalData.pawns[Side.Black][file] > 1)
 	{
 		mscore -= 4;
 		escore -= 8;
-		evalData.defects[black]++;
+		evalData.defects[Side.Black]++;
 	}
 
-	if (evalData.pawn_set[black][file - 1] < rank && evalData.pawn_set[black][file + 1] < rank)
+	if (evalData.pawn_set[Side.Black][file - 1] < rank && evalData.pawn_set[Side.Black][file + 1] < rank)
 	{
 		if (rank < 6)
 		{
 			mscore -= 10;
 			escore -= 20;
 		}
-		evalData.defects[black]++;
+		evalData.defects[Side.Black]++;
 		b = 1;
-		if (evalData.pawns[black][file - 1] == 0 && evalData.pawns[black][file + 1] == 0)
+		if (evalData.pawns[Side.Black][file - 1] == 0 && evalData.pawns[Side.Black][file + 1] == 0)
 		{
 			if (rank < 6)
 			{
@@ -637,92 +637,92 @@ void blackPawnsStructure(int sq)
 			i = 1;
 		}
 	}
-	if (evalData.pawns[white][file] == 0)
+	if (evalData.pawns[Side.White][file] == 0)
 	{
 		if (b)
 			mscore -= 10;
 		if (i)
 			mscore -= 10;
 	}
-	if (evalData.pawn_set[white][file - 1] >= rank
-			&& evalData.pawn_set[white][file] > rank && evalData.pawn_set[white][file + 1] >= rank)
+	if (evalData.pawn_set[Side.White][file - 1] >= rank
+			&& evalData.pawn_set[Side.White][file] > rank && evalData.pawn_set[Side.White][file + 1] >= rank)
 	{
 		bpp(sq);
 	}
-	evalData.score[black][beg] += (mscore * eo.pawnStructure) / 128;
-	evalData.score[black][end] += (escore * eo.pawnStructure) / 128;
+	evalData.score[Side.Black][beg] += (mscore * eo.pawnStructure) / 128;
+	evalData.score[Side.Black][end] += (escore * eo.pawnStructure) / 128;
 }
 
 void wpp(int sq)
 {
 	int rank = ranks[sq];
-	int mscore = mppawn[white][rank];
-	int escore = eppawn[white][rank];
-	if (p.board[sq + 12].type != empty)
+	int mscore = mppawn[Side.White][rank];
+	int escore = eppawn[Side.White][rank];
+	if (p.board[sq + 12] != SquareType.Empty)
 	{
 		mscore >>= 1;
 		escore >>= 1;
 	}
-	if (p.board[sq + 1].type == wP || p.board[sq - 11].type == wP)
+	if (p.board[sq + 1] == SquareType.wP || p.board[sq - 11] == SquareType.wP)
 	{
-		mscore += mppawn[white][rank] >> 2;
-		mscore += eppawn[white][rank] >> 1;
+		mscore += mppawn[Side.White][rank] >> 2;
+		mscore += eppawn[Side.White][rank] >> 1;
 	}
-	if (p.board[sq - 1].type == wP || p.board[sq - 13].type == wP)
+	if (p.board[sq - 1] == SquareType.wP || p.board[sq - 13] == SquareType.wP)
 	{
-		mscore += mppawn[white][rank] >> 2;
-		mscore += eppawn[white][rank] >> 1;
+		mscore += mppawn[Side.White][rank] >> 2;
+		mscore += eppawn[Side.White][rank] >> 1;
 	}
-	mscore += kmdppawn[distancetable[p.k[white]][sq]] >> 2;
-	mscore -= kmdppawn[distancetable[p.k[black]][sq]] >> 2;
-	escore += kmdppawn[distancetable[p.k[white]][sq]] >> 2;
-	escore -= kmdppawn[distancetable[p.k[black]][sq]] >> 2;
+	mscore += kmdppawn[distancetable[p.k[Side.White]][sq]] >> 2;
+	mscore -= kmdppawn[distancetable[p.k[Side.Black]][sq]] >> 2;
+	escore += kmdppawn[distancetable[p.k[Side.White]][sq]] >> 2;
+	escore -= kmdppawn[distancetable[p.k[Side.Black]][sq]] >> 2;
 	if (evalData.bmajors == 0)
 	{
 		int psq = sq + (7 - ranks[sq]) * 12;
-		if (distancetable[p.k[black]][psq] > distancetable[sq][psq])
+		if (distancetable[p.k[Side.Black]][psq] > distancetable[sq][psq])
 		{
 			escore += 800;
 		}
 	}
-	evalData.score[white][beg] += (mscore * eo.passedPawn) / 128;
-	evalData.score[white][end] += (escore * eo.passedPawn) / 128;
+	evalData.score[Side.White][beg] += (mscore * eo.passedPawn) / 128;
+	evalData.score[Side.White][end] += (escore * eo.passedPawn) / 128;
 }
 
 void bpp(int sq)
 {
 	int rank = ranks[sq];
-	int mscore = mppawn[black][rank];
-	int escore = eppawn[black][rank];
-	if (p.board[sq + 12].type != empty)
+	int mscore = mppawn[Side.Black][rank];
+	int escore = eppawn[Side.Black][rank];
+	if (p.board[sq + 12] != SquareType.Empty)
 	{
 		mscore >>= 1;
 		escore >>= 1;
 	}
-	if (p.board[sq + 1].type == bP || p.board[sq + 13].type == bP)
+	if (p.board[sq + 1] == SquareType.bP || p.board[sq + 13] == SquareType.bP)
 	{
-		mscore += mppawn[black][rank] >> 2;
-		mscore += eppawn[black][rank] >> 1;
+		mscore += mppawn[Side.Black][rank] >> 2;
+		mscore += eppawn[Side.Black][rank] >> 1;
 	}
-	if (p.board[sq - 1].type == wP || p.board[sq - 11].type == wP)
+	if (p.board[sq - 1] == SquareType.wP || p.board[sq - 11] == SquareType.wP)
 	{
-		mscore += mppawn[white][rank] >> 2;
-		mscore += eppawn[white][rank] >> 1;
+		mscore += mppawn[Side.White][rank] >> 2;
+		mscore += eppawn[Side.White][rank] >> 1;
 	}
-	mscore += kmdppawn[distancetable[p.k[black]][sq]] >> 2;
-	mscore -= kmdppawn[distancetable[p.k[white]][sq]] >> 2;
-	escore += kmdppawn[distancetable[p.k[black]][sq]] >> 2;
-	escore -= kmdppawn[distancetable[p.k[white]][sq]] >> 2;
+	mscore += kmdppawn[distancetable[p.k[Side.Black]][sq]] >> 2;
+	mscore -= kmdppawn[distancetable[p.k[Side.White]][sq]] >> 2;
+	escore += kmdppawn[distancetable[p.k[Side.Black]][sq]] >> 2;
+	escore -= kmdppawn[distancetable[p.k[Side.White]][sq]] >> 2;
 	if (evalData.wmajors == 0)
 	{
 		int psq = sq - (ranks[sq] * 12);
-		if (distancetable[p.k[white]][psq] > distancetable[sq][psq])
+		if (distancetable[p.k[Side.White]][psq] > distancetable[sq][psq])
 		{
 			escore += 800;
 		}
 	}
-	evalData.score[black][beg] += (mscore * eo.passedPawn) / 128;
-	evalData.score[black][end] += (escore * eo.passedPawn) / 128;
+	evalData.score[Side.Black][beg] += (mscore * eo.passedPawn) / 128;
+	evalData.score[Side.Black][end] += (escore * eo.passedPawn) / 128;
 }
 
 int wNSupport(int sq)
@@ -730,8 +730,8 @@ int wNSupport(int sq)
 	int score = SupN[sq];
 	if (score == 0)
 		return score;
-	if (evalData.pawn_set[black][files[sq] + 2] <= ranks[sq]
-			&& evalData.pawn_set[black][files[sq]] <= ranks[sq])
+	if (evalData.pawn_set[Side.Black][files[sq] + 2] <= ranks[sq]
+			&& evalData.pawn_set[Side.Black][files[sq]] <= ranks[sq])
 	{
 		if (evalData.bNc == 0)
 		{
@@ -753,8 +753,8 @@ int bNSupport(int sq)
 	int score = SupN[opp[sq]];
 	if (score == 0)
 		return score;
-	if (evalData.pawn_set[white][files[sq] + 2] >= ranks[sq]
-			&& evalData.pawn_set[white][files[sq]] >= ranks[sq])
+	if (evalData.pawn_set[Side.White][files[sq] + 2] >= ranks[sq]
+			&& evalData.pawn_set[Side.White][files[sq]] >= ranks[sq])
 	{
 		if (evalData.wNc == 0)
 		{
@@ -831,30 +831,30 @@ void wBishopMob(int sq)
 	int t, m = 0;
 	for (t = sq + 11;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq + 13;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq - 11;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq - 13;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
-	evalData.score[white][beg] += m;
-	evalData.score[white][end] += m * 2;
+	evalData.score[Side.White][beg] += m;
+	evalData.score[Side.White][end] += m * 2;
 }
 
 void bBishopMob(int sq)
@@ -862,30 +862,30 @@ void bBishopMob(int sq)
 	int t, m = 0;
 	for (t = sq + 11;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq + 13;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq - 11;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq - 13;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
-	evalData.score[black][beg] += m;
-	evalData.score[black][end] += m * 2;
+	evalData.score[Side.Black][beg] += m;
+	evalData.score[Side.Black][end] += m * 2;
 }
 
 void wRookMob(int sq)
@@ -893,29 +893,29 @@ void wRookMob(int sq)
 	int t, m = 0;
 	for (t = sq + 1;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq + 12;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq - 1;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq - 12;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
-	evalData.score[white][end] += m * 2;
+	evalData.score[Side.White][end] += m * 2;
 }
 
 void bRookMob(int sq)
@@ -923,29 +923,29 @@ void bRookMob(int sq)
 	int t, m = 0;
 	for (t = sq + 1;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq + 12;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq - 1;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq - 12;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
-	evalData.score[black][end] += m * 2;
+	evalData.score[Side.Black][end] += m * 2;
 }
 
 void wQueenMob(int sq)
@@ -953,53 +953,53 @@ void wQueenMob(int sq)
 	int t, m = 0;
 	for (t = sq + 1;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq + 12;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq + 11;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq + 13;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq - 1;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq - 12;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq - 11;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq - 13;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
-	evalData.score[white][end] += m * 2;
+	evalData.score[Side.White][end] += m * 2;
 }
 
 void bQueenMob(int sq)
@@ -1007,97 +1007,97 @@ void bQueenMob(int sq)
 	int t, m = 0;
 	for (t = sq + 1;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq + 12;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq + 11;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq + 13;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq - 1;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq - 12;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq - 11;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
 	for (t = sq - 13;; t += 1)
 	{
-		if (p.board[t].type != empty)
+		if (p.board[t] != SquareType.Empty)
 			break;
 		m++;
 	}
-	evalData.score[black][end] += m * 2;
+	evalData.score[Side.Black][end] += m * 2;
 }
 
 void wKnightMob(int sq)
 {
 	int m = 0;
-	if (p.board[sq + 25].type == empty)
+	if (p.board[sq + 25] == SquareType.Empty)
 		m++;
-	if (p.board[sq + 14].type == empty)
+	if (p.board[sq + 14] == SquareType.Empty)
 		m++;
-	if (p.board[sq + 10].type == empty)
+	if (p.board[sq + 10] == SquareType.Empty)
 		m++;
-	if (p.board[sq + 23].type == empty)
+	if (p.board[sq + 23] == SquareType.Empty)
 		m++;
-	if (p.board[sq - 25].type == empty)
+	if (p.board[sq - 25] == SquareType.Empty)
 		m++;
-	if (p.board[sq - 14].type == empty)
+	if (p.board[sq - 14] == SquareType.Empty)
 		m++;
-	if (p.board[sq - 10].type == empty)
+	if (p.board[sq - 10] == SquareType.Empty)
 		m++;
-	if (p.board[sq - 23].type == empty)
+	if (p.board[sq - 23] == SquareType.Empty)
 		m++;
-	evalData.score[white][end] += m;
+	evalData.score[Side.White][end] += m;
 }
 
 void bKnightMob(int sq)
 {
 	int m = 0;
-	if (p.board[sq + 25].type == empty)
+	if (p.board[sq + 25] == SquareType.Empty)
 		m++;
-	if (p.board[sq + 14].type == empty)
+	if (p.board[sq + 14] == SquareType.Empty)
 		m++;
-	if (p.board[sq + 10].type == empty)
+	if (p.board[sq + 10] == SquareType.Empty)
 		m++;
-	if (p.board[sq + 23].type == empty)
+	if (p.board[sq + 23] == SquareType.Empty)
 		m++;
-	if (p.board[sq - 25].type == empty)
+	if (p.board[sq - 25] == SquareType.Empty)
 		m++;
-	if (p.board[sq - 14].type == empty)
+	if (p.board[sq - 14] == SquareType.Empty)
 		m++;
-	if (p.board[sq - 10].type == empty)
+	if (p.board[sq - 10] == SquareType.Empty)
 		m++;
-	if (p.board[sq - 23].type == empty)
+	if (p.board[sq - 23] == SquareType.Empty)
 		m++;
-	evalData.score[black][beg] += m;
+	evalData.score[Side.Black][beg] += m;
 }
 
 void myMemset()

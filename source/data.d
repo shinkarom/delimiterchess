@@ -455,8 +455,8 @@ void initSearchParam()
    searchParam.btime = 0;
    searchParam.xtime = 0;
    searchParam.xotime = 0;
-   searchParam.movestogo[white] = 0;
-   searchParam.movestogo[black] = 0;
+   searchParam.movestogo[Side.White] = 0;
+   searchParam.movestogo[Side.Black] = 0;
    searchParam.timepermove = 0;
    searchParam.starttime = 0;
    searchParam.stoptime = 0;

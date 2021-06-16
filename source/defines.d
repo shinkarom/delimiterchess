@@ -4,8 +4,12 @@ immutable string engineName = "Delimiter";
 immutable string engineVersion = "0.1.1";
 immutable string engineAuthor = "Roman Shynkarenko";
 
-immutable int bP = 0, wP = 1, bN = 2, wN = 3, bB = 4, wB = 5, bR = 6, wR = 7,
-	bQ = 8, wQ = 9, bK = 10, wK = 11, empty = 12;
+enum SquareType { bP = 0, wP, bN, wN, bB, wB, bR, wR, bQ, wQ, bK, wK, Empty, Edge }
+enum Side { Black, White, None }
+
+immutable Side[14] SquareTypeColor = [Side.Black, Side.White, Side.Black, Side.White, Side.Black, Side.White, 
+Side.Black, Side.White, Side.Black, Side.White, Side.Black, Side.White, Side. None, Side.None];
+
 immutable int WKC = 8, WQC = 4, BKC = 2, BQC = 1;
 immutable int NOFLAG = 0, LOWER = 1, UPPER = 2, EXACT = 3;
 immutable int A1 = 26, B1 = 27, C1 = 28, D1 = 29, E1 = 30, F1 = 31, G1 = 32,
@@ -16,11 +20,7 @@ immutable int A1 = 26, B1 = 27, C1 = 28, D1 = 29, E1 = 30, F1 = 31, G1 = 32,
 	D6 = 89, E6 = 90, F6 = 91, G6 = 92, H6 = 93, A7 = 98, B7 = 99, C7 = 100,
 	D7 = 101, E7 = 102, F7 = 103, G7 = 104, H7 = 105, A8 = 110, B8 = 111, C8 = 112,
 	D8 = 113, E8 = 114, F8 = 115, G8 = 116, H8 = 117;
-immutable int noenpas = 200, nopiece = 0, deadsquare = 0, edge = 13;
-
-immutable int black = 0, white = 1;
-
-enum PieceColor { White = 1, Black, None}
+immutable int noenpas = 200, nopiece = 0, deadsquare = 0;
 
 immutable int vP = 90, vN = 325, vB = 325, vR = 500, vQ = 900, vK = 10000;
 
@@ -30,17 +30,17 @@ immutable int mCA = 0x20000, mPST = 0x40000, mPEP = 0x180000, mCAP = 0x100000,
 	mPQ = 0x600000, mPR = 0xa00000, mPB = 0x1200000, mPN = 0x2200000,
 	mNORM = 0x10000, mProm = 0x200000;
 
-pure int TO(int x)
+pure int getTo(int x)
 {
 	return x & 0xff;
 }
 
-pure int FROM(int x)
+pure int getFrom(int x)
 {
 	return (x & 0xff00) >> 8;
 }
 
-pure int FLAG(int x)
+pure int getFlag(int x)
 {
 	return x & 0xfff0000;
 }
@@ -57,18 +57,12 @@ struct Move
 	int score;
 }
 
-struct Piece
-{
-	PieceColor color;
-	int type;
-}
-
 struct Hist
 {
 	int data;
 	int enPas;
 	ulong hashKey;
-	Piece captured;
+	SquareType captured;
 	int castleFlags;
 	int pListEp;
 	int pList;
@@ -90,14 +84,14 @@ struct Position
 	int majors;
 	int castleflags;
 	int fifty;
-	int side;
+	Side side;
 	int en_pas;
 	int ply;
 	int[2] material;
 	ulong hashkey;
 	Move[9600] list;
 	int[512] listc;
-	Piece[144] board;
+	SquareType[144] board;
 	int[2] k;
 }
 

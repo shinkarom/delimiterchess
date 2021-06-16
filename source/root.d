@@ -20,8 +20,8 @@ void scoreRootMoves()
 	int now = p.ply;
 	for (int i = p.listc[now]; i < p.listc[now + 1]; i++)
 	{
-		auto f = FROM(p.list[i].m);
-		auto t = TO(p.list[i].m);
+		auto f = getFrom(p.list[i].m);
+		auto t = getTo(p.list[i].m);
 		if (makeMove(p.list[i]))
 		{
 			takeMove();

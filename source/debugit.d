@@ -8,7 +8,7 @@ void printBoard()
 		for (int j = 2; j < 10; j++)
 		{
 			int k = i * 12 + j;
-			write(piecetochar[p.board[k].type]);
+			write(piecetochar[p.board[k]]);
 		}
 		write("\t");
 		switch (i)
@@ -20,7 +20,7 @@ void printBoard()
 			writef("Fresh hash: %X", generateHashKey());
 			break;
 		case 7:
-			write("Side to move: ", p.side == white ? "w" : "b");
+			write("Side to move: ", p.side == Side.White ? "w" : "b");
 			break;
 		case 6:
 			writef("Ply number: %d", p.ply);
@@ -61,7 +61,7 @@ void debugPceNumToSq()
 	for (int index = 1; index <= p.pceNum; index++)
 	{
 		auto sq = p.pceNumToSq[index];
-		writef("%s (%d) ", piecetochar[p.board[sq].type], sq);
+		writef("%s (%d) ", piecetochar[p.board[sq]], sq);
 	}
 	writeln();
 }

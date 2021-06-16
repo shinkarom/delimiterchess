@@ -3,123 +3,123 @@ import data, defines;
 bool isAttacked(int sq, int side)
 {
 	int tsq;
-	if (side == black)
+	if (side == Side.Black)
 	{
 		//black pawns
-		if (p.board[sq + 13].type == bP)
+		if (p.board[sq + 13] == SquareType.bP)
 			return true;
-		if (p.board[sq + 11].type == bP)
+		if (p.board[sq + 11] == SquareType.bP)
 			return true;
 		//black knights
-		if (p.board[sq + 14].type == bN)
+		if (p.board[sq + 14] == SquareType.bN)
 			return true;
-		if (p.board[sq + 10].type == bN)
+		if (p.board[sq + 10] == SquareType.bN)
 			return true;
-		if (p.board[sq + 25].type == bN)
+		if (p.board[sq + 25] == SquareType.bN)
 			return true;
-		if (p.board[sq + 23].type == bN)
+		if (p.board[sq + 23] == SquareType.bN)
 			return true;
-		if (p.board[sq - 14].type == bN)
+		if (p.board[sq - 14] == SquareType.bN)
 			return true;
-		if (p.board[sq - 10].type == bN)
+		if (p.board[sq - 10] == SquareType.bN)
 			return true;
-		if (p.board[sq - 25].type == bN)
+		if (p.board[sq - 25] == SquareType.bN)
 			return true;
-		if (p.board[sq - 23].type == bN)
+		if (p.board[sq - 23] == SquareType.bN)
 			return true;
 		//rooks and queens and king
 		tsq = sq + 1;
-		if (p.board[tsq].type == bK)
+		if (p.board[tsq] == SquareType.bK)
 			return true;
-		while (p.board[tsq].type != edge)
+		while (p.board[tsq] != SquareType.Edge)
 		{
-			if (p.board[tsq].type == bR || p.board[tsq].type == bQ)
+			if (p.board[tsq] == SquareType.bR || p.board[tsq] == SquareType.bQ)
 				return true;
-			if (p.board[tsq].color != PieceColor.None)
+			if (SquareTypeColor[p.board[tsq]] != Side.None)
 				break;
 			tsq += 1;
 		}
 
 		tsq = sq - 1;
-		if (p.board[tsq].type == bK)
+		if (p.board[tsq] == SquareType.bK)
 			return true;
-		while (p.board[tsq].type != edge)
+		while (p.board[tsq] != SquareType.Edge)
 		{
-			if (p.board[tsq].type == bR || p.board[tsq].type == bQ)
+			if (p.board[tsq] == SquareType.bR || p.board[tsq] == SquareType.bQ)
 				return true;
-			if (p.board[tsq].color != PieceColor.None)
+			if (SquareTypeColor[p.board[tsq]] != Side.None)
 				break;
 			tsq -= 1;
 		}
 
 		tsq = sq + 12;
-		if (p.board[tsq].type == bK)
+		if (p.board[tsq] == SquareType.bK)
 			return true;
-		while (p.board[tsq].type != edge)
+		while (p.board[tsq] != SquareType.Edge)
 		{
-			if (p.board[tsq].type == bR || p.board[tsq].type == bQ)
+			if (p.board[tsq] == SquareType.bR || p.board[tsq] == SquareType.bQ)
 				return true;
-			if (p.board[tsq].color != PieceColor.None)
+			if (SquareTypeColor[p.board[tsq]] != Side.None)
 				break;
 			tsq += 12;
 		}
 
 		tsq = sq - 12;
-		if (p.board[tsq].type == bK)
+		if (p.board[tsq] == SquareType.bK)
 			return true;
-		while (p.board[tsq].type != edge)
+		while (p.board[tsq] != SquareType.Edge)
 		{
-			if (p.board[tsq].type == bR || p.board[tsq].type == bQ)
+			if (p.board[tsq] == SquareType.bR || p.board[tsq] == SquareType.bQ)
 				return true;
-			if (p.board[tsq].color != PieceColor.None)
+			if (SquareTypeColor[p.board[tsq]] != Side.None)
 				break;
 			tsq -= 12;
 		}
 		//bishops and queens
 		tsq = sq + 13;
-		if (p.board[tsq].type == bK)
+		if (p.board[tsq] == SquareType.bK)
 			return true;
-		while (p.board[tsq].type != edge)
+		while (p.board[tsq] != SquareType.Edge)
 		{
-			if (p.board[tsq].type == bB || p.board[tsq].type == bQ)
+			if (p.board[tsq] == SquareType.bB || p.board[tsq] == SquareType.bQ)
 				return true;
-			if (p.board[tsq].color != PieceColor.None)
+			if (SquareTypeColor[p.board[tsq]] != Side.None)
 				break;
 			tsq += 13;
 		}
 
 		tsq = sq - 13;
-		if (p.board[tsq].type == bK)
+		if (p.board[tsq] == SquareType.bK)
 			return true;
-		while (p.board[tsq].type != edge)
+		while (p.board[tsq] != SquareType.Edge)
 		{
-			if (p.board[tsq].type == bB || p.board[tsq].type == bQ)
+			if (p.board[tsq] == SquareType.bB || p.board[tsq] == SquareType.bQ)
 				return true;
-			if (p.board[tsq].color != PieceColor.None)
+			if (SquareTypeColor[p.board[tsq]] != Side.None)
 				break;
 			tsq -= 13;
 		}
 
 		tsq = sq + 11;
-		if (p.board[tsq].type == bK)
+		if (p.board[tsq] == SquareType.bK)
 			return true;
-		while (p.board[tsq].type != edge)
+		while (p.board[tsq] != SquareType.Edge)
 		{
-			if (p.board[tsq].type == bB || p.board[tsq].type == bQ)
+			if (p.board[tsq] == SquareType.bB || p.board[tsq] == SquareType.bQ)
 				return true;
-			if (p.board[tsq].color != PieceColor.None)
+			if (SquareTypeColor[p.board[tsq]] != Side.None)
 				break;
 			tsq += 11;
 		}
 
 		tsq = sq - 11;
-		if (p.board[tsq].type == bK)
+		if (p.board[tsq] == SquareType.bK)
 			return true;
-		while (p.board[tsq].type != edge)
+		while (p.board[tsq] != SquareType.Edge)
 		{
-			if (p.board[tsq].type == bB || p.board[tsq].type == bQ)
+			if (p.board[tsq] == SquareType.bB || p.board[tsq] == SquareType.bQ)
 				return true;
-			if (p.board[tsq].color != PieceColor.None)
+			if (SquareTypeColor[p.board[tsq]] != Side.None)
 				break;
 			tsq -= 11;
 		}
@@ -127,120 +127,120 @@ bool isAttacked(int sq, int side)
 	else
 	{
 		//white pawns
-		if (p.board[sq - 13].type == wP)
+		if (p.board[sq - 13] == SquareType.wP)
 			return true;
-		if (p.board[sq - 11].type == wP)
+		if (p.board[sq - 11] == SquareType.wP)
 			return true;
 		//black knights
-		if (p.board[sq + 14].type == wN)
+		if (p.board[sq + 14] == SquareType.wN)
 			return true;
-		if (p.board[sq + 10].type == wN)
+		if (p.board[sq + 10] == SquareType.wN)
 			return true;
-		if (p.board[sq + 25].type == wN)
+		if (p.board[sq + 25] == SquareType.wN)
 			return true;
-		if (p.board[sq + 23].type == wN)
+		if (p.board[sq + 23] == SquareType.wN)
 			return true;
-		if (p.board[sq - 14].type == wN)
+		if (p.board[sq - 14] == SquareType.wN)
 			return true;
-		if (p.board[sq - 10].type == wN)
+		if (p.board[sq - 10] == SquareType.wN)
 			return true;
-		if (p.board[sq - 25].type == wN)
+		if (p.board[sq - 25] == SquareType.wN)
 			return true;
-		if (p.board[sq - 23].type == wN)
+		if (p.board[sq - 23] == SquareType.wN)
 			return true;
 		//rooks and queens and king
 		tsq = sq + 1;
-		if (p.board[tsq].type == wK)
+		if (p.board[tsq] == SquareType.wK)
 			return true;
-		while (p.board[tsq].type != edge)
+		while (p.board[tsq] != SquareType.Edge)
 		{
-			if (p.board[tsq].type == wR || p.board[tsq].type == wQ)
+			if (p.board[tsq] == SquareType.wR || p.board[tsq] == SquareType.wQ)
 				return true;
-			if (p.board[tsq].color != PieceColor.None)
+			if (SquareTypeColor[p.board[tsq]] != Side.None)
 				break;
 			tsq += 1;
 		}
 
 		tsq = sq - 1;
-		if (p.board[tsq].type == wK)
+		if (p.board[tsq] == SquareType.wK)
 			return true;
-		while (p.board[tsq].type != edge)
+		while (p.board[tsq] != SquareType.Edge)
 		{
-			if (p.board[tsq].type == wR || p.board[tsq].type == wQ)
+			if (p.board[tsq] == SquareType.wR || p.board[tsq] == SquareType.wQ)
 				return true;
-			if (p.board[tsq].color != PieceColor.None)
+			if (SquareTypeColor[p.board[tsq]] != Side.None)
 				break;
 			tsq -= 1;
 		}
 
 		tsq = sq + 12;
-		if (p.board[tsq].type == wK)
+		if (p.board[tsq] == SquareType.wK)
 			return true;
-		while (p.board[tsq].type != edge)
+		while (p.board[tsq] != SquareType.Edge)
 		{
-			if (p.board[tsq].type == wR || p.board[tsq].type == wQ)
+			if (p.board[tsq] == SquareType.wR || p.board[tsq] == SquareType.wQ)
 				return true;
-			if (p.board[tsq].color != PieceColor.None)
+			if (SquareTypeColor[p.board[tsq]] != Side.None)
 				break;
 			tsq += 12;
 		}
 
 		tsq = sq - 12;
-		if (p.board[tsq].type == wK)
+		if (p.board[tsq] == SquareType.wK)
 			return true;
-		while (p.board[tsq].type != edge)
+		while (p.board[tsq] != SquareType.Edge)
 		{
-			if (p.board[tsq].type == wR || p.board[tsq].type == wQ)
+			if (p.board[tsq] == SquareType.wR || p.board[tsq] == SquareType.wQ)
 				return true;
-			if (p.board[tsq].color != PieceColor.None)
+			if (SquareTypeColor[p.board[tsq]] != Side.None)
 				break;
 			tsq -= 12;
 		}
 		//bishops and queens
 		tsq = sq + 13;
-		if (p.board[tsq].type == wK)
+		if (p.board[tsq] == SquareType.wK)
 			return true;
-		while (p.board[tsq].type != edge)
+		while (p.board[tsq] != SquareType.Edge)
 		{
-			if (p.board[tsq].type == wB || p.board[tsq].type == wQ)
+			if (p.board[tsq] == SquareType.wB || p.board[tsq] == SquareType.wQ)
 				return true;
-			if (p.board[tsq].color != PieceColor.None)
+			if (SquareTypeColor[p.board[tsq]] != Side.None)
 				break;
 			tsq += 13;
 		}
 
 		tsq = sq - 13;
-		if (p.board[tsq].type == wK)
+		if (p.board[tsq] == SquareType.wK)
 			return true;
-		while (p.board[tsq].type != edge)
+		while (p.board[tsq] != SquareType.Edge)
 		{
-			if (p.board[tsq].type == wB || p.board[tsq].type == wQ)
+			if (p.board[tsq] == SquareType.wB || p.board[tsq] == SquareType.wQ)
 				return true;
-			if (p.board[tsq].color != PieceColor.None)
+			if (SquareTypeColor[p.board[tsq]] != Side.None)
 				break;
 			tsq -= 13;
 		}
 
 		tsq = sq + 11;
-		if (p.board[tsq].type == wK)
+		if (p.board[tsq] == SquareType.wK)
 			return true;
-		while (p.board[tsq].type != edge)
+		while (p.board[tsq] != SquareType.Edge)
 		{
-			if (p.board[tsq].type == wB || p.board[tsq].type == wQ)
+			if (p.board[tsq] == SquareType.wB || p.board[tsq] == SquareType.wQ)
 				return true;
-			if (p.board[tsq].color != PieceColor.None)
+			if (SquareTypeColor[p.board[tsq]] != Side.None)
 				break;
 			tsq += 11;
 		}
 
 		tsq = sq - 11;
-		if (p.board[tsq].type == wK)
+		if (p.board[tsq] == SquareType.wK)
 			return true;
-		while (p.board[tsq].type != edge)
+		while (p.board[tsq] != SquareType.Edge)
 		{
-			if (p.board[tsq].type == wB || p.board[tsq].type == wQ)
+			if (p.board[tsq] == SquareType.wB || p.board[tsq] == SquareType.wQ)
 				return true;
-			if (p.board[tsq].color != PieceColor.None)
+			if (SquareTypeColor[p.board[tsq]] != Side.None)
 				break;
 			tsq -= 11;
 		}

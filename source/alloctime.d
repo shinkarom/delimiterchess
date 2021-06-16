@@ -17,7 +17,7 @@ ulong allocateTime()
 	}
 	if (searchParam.movestogo[p.side] > 0)
 	{
-		if (p.side == black)
+		if (p.side == Side.Black)
 		{
 			return ((searchParam.btime + (
 					searchParam.binc * searchParam.movestogo[p.side])) / searchParam.movestogo[p.side]
@@ -32,7 +32,7 @@ ulong allocateTime()
 	}
 	else
 	{
-		if (p.side == black)
+		if (p.side == Side.Black)
 		{
 			return (searchParam.btime / 30 + searchParam.binc);
 		}
@@ -55,7 +55,7 @@ ulong ponderTime()
 	}
 	if (searchParam.movestogo[p.side] > 0)
 	{
-		if (p.side == black)
+		if (p.side == Side.Black)
 		{
 			return ((searchParam.btime + (
 					searchParam.binc * searchParam.movestogo[p.side])) / searchParam.movestogo[p.side]
@@ -70,7 +70,7 @@ ulong ponderTime()
 	}
 	else
 	{
-		if (p.side == black)
+		if (p.side == Side.Black)
 		{
 			return (searchParam.btime / 30 + searchParam.binc);
 		}

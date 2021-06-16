@@ -62,11 +62,11 @@ ulong generateHashKey()
 	ulong hashkey = 0;
 	for (int i = A1; i <= H8; i++)
 	{
-		if (p.board[i].type == edge || p.board[i].type == empty)
+		if (p.board[i] == SquareType.Edge || p.board[i] == SquareType.Empty)
 			continue;
-		hashkey ^= hashPieces[64 * p.board[i].type + 8 * ranks[i] + files[i]];
+		hashkey ^= hashPieces[64 * p.board[i] + 8 * ranks[i] + files[i]];
 	}
-	if (p.side == white)
+	if (p.side == Side.White)
 		hashkey ^= hashTurn;
 	if (p.en_pas != noenpas)
 	{

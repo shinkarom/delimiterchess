@@ -20,78 +20,66 @@ void setBoard(string str)
 		switch (str[ptr])
 		{
 		case 'K':
-			p.board[index[sq]].type = wK;
-			p.board[index[sq]].color = PieceColor.White;
-			p.k[white] = index[sq];
+			p.board[index[sq]] = SquareType.wK;
+			p.k[Side.White] = index[sq];
 			WK++;
 			sq++;
 			break;
 		case 'Q':
-			p.board[index[sq]].type = wQ;
-			p.board[index[sq]].color = PieceColor.White;
-			p.material[white] += vQ;
+			p.board[index[sq]] = SquareType.wQ;
+			p.material[Side.White] += vQ;
 			sq++;
 			break;
 		case 'R':
-			p.board[index[sq]].type = wR;
-			p.board[index[sq]].color = PieceColor.White;
-			p.material[white] += vR;
+			p.board[index[sq]] = SquareType.wR;
+			p.material[Side.White] += vR;
 			sq++;
 			break;
 		case 'B':
-			p.board[index[sq]].type = wB;
-			p.board[index[sq]].color = PieceColor.White;
-			p.material[white] += vB;
+			p.board[index[sq]] = SquareType.wB;
+			p.material[Side.White] += vB;
 			sq++;
 			break;
 		case 'N':
-			p.board[index[sq]].type = wN;
-			p.board[index[sq]].color = PieceColor.White;
-			p.material[white] += vN;
+			p.board[index[sq]] = SquareType.wN;
+			p.material[Side.White] += vN;
 			sq++;
 			break;
 		case 'P':
-			p.board[index[sq]].type = wP;
-			p.board[index[sq]].color = PieceColor.White;
-			p.material[white] += vP;
+			p.board[index[sq]] = SquareType.wP;
+			p.material[Side.White] += vP;
 			sq++;
 			WP++;
 			break;
 		case 'k':
-			p.board[index[sq]].type = bK;
-			p.board[index[sq]].color = PieceColor.Black;
-			p.k[black] = index[sq];
+			p.board[index[sq]] = SquareType.bK;
+			p.k[Side.Black] = index[sq];
 			BK++;
 			sq++;
 			break;
 		case 'q':
-			p.board[index[sq]].type = bQ;
-			p.board[index[sq]].color = PieceColor.Black;
-			p.material[black] += vQ;
+			p.board[index[sq]] = SquareType.bQ;
+			p.material[Side.Black] += vQ;
 			sq++;
 			break;
 		case 'r':
-			p.board[index[sq]].type = bR;
-			p.board[index[sq]].color = PieceColor.Black;
-			p.material[black] += vR;
+			p.board[index[sq]] = SquareType.bR;
+			p.material[Side.Black] += vR;
 			sq++;
 			break;
 		case 'b':
-			p.board[index[sq]].type = bB;
-			p.board[index[sq]].color = PieceColor.Black;
-			p.material[black] += vB;
+			p.board[index[sq]] = SquareType.bB;
+			p.material[Side.Black] += vB;
 			sq++;
 			break;
 		case 'n':
-			p.board[index[sq]].type = bN;
-			p.board[index[sq]].color = PieceColor.Black;
-			p.material[black] += vN;
+			p.board[index[sq]] = SquareType.bN;
+			p.material[Side.Black] += vN;
 			sq++;
 			break;
 		case 'p':
-			p.board[index[sq]].type = bP;
-			p.board[index[sq]].color = PieceColor.Black;
-			p.material[black] += vP;
+			p.board[index[sq]] = SquareType.bP;
+			p.material[Side.Black] += vP;
 			sq++;
 			BP++;
 			break;
@@ -138,9 +126,9 @@ void setBoard(string str)
 	while (str[ptr] == ' ')
 		ptr++;
 	if (str[ptr] == 'w')
-		p.side = white;
+		p.side = Side.White;
 	else if (str[ptr] == 'b')
-		p.side = black;
+		p.side = Side.Black;
 
 	ptr++;
 	while (str[ptr] == ' ')

@@ -6,12 +6,10 @@ void clearBoard()
 	{
 		if (ranks[sq] == -1 || files[sq] == -1)
 		{
-			p.board[sq].color = PieceColor.None;
-			p.board[sq].type = edge;
+			p.board[sq] = SquareType.Edge;
 			continue;
 		}
-		p.board[sq].color = PieceColor.None;
-		p.board[sq].type = empty;
+		p.board[sq] = SquareType.Empty;
 		continue;
 	}
 	p.material[0] = 0;
@@ -131,13 +129,13 @@ void initPieceLists()
 
 	for (sq = 0; sq < 144; sq++)
 	{
-		if (p.board[sq].type == edge)
+		if (p.board[sq] == SquareType.Edge)
 		{
 			continue;
 		}
-		if (p.board[sq].type != empty)
+		if (p.board[sq] != SquareType.Empty)
 		{
-			if (p.board[sq].type != wP && p.board[sq].type != bP)
+			if (p.board[sq] != SquareType.wP && p.board[sq] != SquareType.bP)
 			{
 				p.majors++;
 			}

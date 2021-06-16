@@ -46,24 +46,24 @@ void updateKillers(Move move, int score)
 
 bool scoreKiller(ref Move m)
 {
-	int from = FROM(m.m);
-	int to = TO(m.m);
-	if (from == FROM(killer1[p.ply].m) && to == TO(killer1[p.ply].m))
+	int from = getFrom(m.m);
+	int to = getTo(m.m);
+	if (from == getFrom(killer1[p.ply].m) && to == getTo(killer1[p.ply].m))
 	{
 		m.score = KILLER1;
 		return true;
 	}
-	else if (from == FROM(p.ply && killer1[p.ply - 1].m) && to == TO(killer1[p.ply - 1].m))
+	else if (from == getFrom(p.ply && killer1[p.ply - 1].m) && to == getTo(killer1[p.ply - 1].m))
 	{
 		m.score = KILLER1_PLY;
 		return true;
 	}
-	else if (from == FROM(killer2[p.ply].m) && to == TO(killer2[p.ply].m))
+	else if (from == getFrom(killer2[p.ply].m) && to == getTo(killer2[p.ply].m))
 	{
 		m.score = KILLER2;
 		return true;
 	}
-	else if (from == FROM(p.ply && killer2[p.ply - 1].m) && to == TO(killer2[p.ply - 1].m))
+	else if (from == getFrom(p.ply && killer2[p.ply - 1].m) && to == getTo(killer2[p.ply - 1].m))
 	{
 		m.score = KILLER2_PLY;
 		return true;
@@ -103,9 +103,9 @@ void scoreCapture(ref Move m)
 	}
 	else
 	{
-		int from = FROM(m.m);
-		int to = TO(m.m);
-		int val = vals[p.board[TO(m.m)].type] - vals[p.board[FROM(m.m)].type];
+		int from = getFrom(m.m);
+		int to = getTo(m.m);
+		int val = vals[p.board[getTo(m.m)]] - vals[p.board[getFrom(m.m)]];
 		if (val >= 600)
 		{
 			m.score = WIN_CAPT1;
@@ -120,7 +120,7 @@ void scoreCapture(ref Move m)
 		}
 		else if (val == 0)
 		{
-			m.score = equalcap[p.board[FROM(m.m)].type];
+			m.score = equalcap[p.board[getFrom(m.m)]];
 		}
 		else
 		{
@@ -144,18 +144,18 @@ void order(ref Move hm)
 		followpv = false;
 		for (int i = p.listc[p.ply]; i < p.listc[p.ply + 1]; i++)
 		{
-			from = FROM(p.list[i].m);
-			to = TO(p.list[i].m);
-			if ((from == FROM(pv[0][p.ply].m)) && (to == TO(pv[0][p.ply].m)))
+			from = getFrom(p.list[i].m);
+			to = getTo(p.list[i].m);
+			if ((from == getFrom(pv[0][p.ply].m)) && (to == getTo(pv[0][p.ply].m)))
 			{
 				followpv = true;
 				p.list[i].score = HASH;
 			}
-			else if ((from == FROM(hm.m)) && (to == TO(hm.m)))
+			else if ((from == getFrom(hm.m)) && (to == getTo(hm.m)))
 			{
 				p.list[i].score = HASH;
 			}
-			else if ((from == FROM(matekiller[p.ply].m)) && (to == TO(matekiller[p.ply].m)))
+			else if ((from == getFrom(matekiller[p.ply].m)) && (to == getTo(matekiller[p.ply].m)))
 			{
 				p.list[i].score = M_KILLER;
 			}
@@ -174,16 +174,16 @@ void order(ref Move hm)
 			else if (!scoreKiller(p.list[i]))
 			{
 				p.list[i].score = his_table[p.list[i].m & MOVEBITS];
-				int fromType = p.board[FROM(p.list[i].m)].type;
+				int fromType = p.board[getFrom(p.list[i].m)];
 				if (p.majors > 4)
 				{
 					p.list[i].score += returnMidtab(fromType,
-							TO(p.list[i].m)) - returnMidtab(fromType, FROM(p.list[i].m));
+							getTo(p.list[i].m)) - returnMidtab(fromType, getFrom(p.list[i].m));
 				}
 				else
 				{
 					p.list[i].score += returnEndtab(fromType,
-							TO(p.list[i].m)) - returnEndtab(fromType, FROM(p.list[i].m));
+							getTo(p.list[i].m)) - returnEndtab(fromType, getFrom(p.list[i].m));
 				}
 			}
 		}
@@ -192,14 +192,14 @@ void order(ref Move hm)
 	{
 		for (int i = p.listc[p.ply]; i < p.listc[p.ply + 1]; i++)
 		{
-			from = FROM(p.list[i].m);
-			to = TO(p.list[i].m);
+			from = getFrom(p.list[i].m);
+			to = getTo(p.list[i].m);
 
-			if ((from == FROM(hm.m)) && (to == TO(hm.m)))
+			if ((from == getFrom(hm.m)) && (to == getTo(hm.m)))
 			{
 				p.list[i].score = HASH;
 			}
-			else if ((from == FROM(matekiller[p.ply].m)) && (to == TO(matekiller[p.ply].m)))
+			else if ((from == getFrom(matekiller[p.ply].m)) && (to == getTo(matekiller[p.ply].m)))
 			{
 				p.list[i].score = M_KILLER;
 			}
@@ -218,16 +218,16 @@ void order(ref Move hm)
 			else if (!scoreKiller(p.list[i]))
 			{
 				p.list[i].score = his_table[p.list[i].m & MOVEBITS];
-				int fromType = p.board[FROM(p.list[i].m)].type;
+				int fromType = p.board[getFrom(p.list[i].m)];
 				if (p.majors > 4)
 				{
 					p.list[i].score += returnMidtab(fromType,
-							TO(p.list[i].m)) - returnMidtab(fromType, FROM(p.list[i].m));
+							getTo(p.list[i].m)) - returnMidtab(fromType, getFrom(p.list[i].m));
 				}
 				else
 				{
 					p.list[i].score += returnEndtab(fromType,
-							TO(p.list[i].m)) - returnEndtab(fromType, FROM(p.list[i].m));
+							getTo(p.list[i].m)) - returnEndtab(fromType, getFrom(p.list[i].m));
 				}
 			}
 		}
@@ -238,8 +238,8 @@ void qorder()
 {
 	for (int i = p.listc[p.ply]; i < p.listc[p.ply + 1]; i++)
 	{
-		int from = FROM(p.list[i].m);
-		int to = TO(p.list[i].m);
+		int from = getFrom(p.list[i].m);
+		int to = getTo(p.list[i].m);
 		p.list[i].score = 0;
 
 		if (p.list[i].m == pv[p.ply][0].m)
@@ -248,7 +248,7 @@ void qorder()
 		}
 		else
 		{
-			int val = vals[p.board[to].type] - vals[p.board[from].type];
+			int val = vals[p.board[to]] - vals[p.board[from]];
 			p.list[i].score = 10000 + val;
 
 			if (val < 0)
@@ -263,14 +263,14 @@ void qorder()
 int extraDepth(Move m)
 {
 	int nd = 0;
-	int to = TO(m.m);
+	int to = getTo(m.m);
 
 	if (m.m & oPQ)
 	{
 		nd += 48;
 		prom++;
 	}
-	if (p.board[to].type == wP)
+	if (p.board[to] == SquareType.wP)
 	{
 		if (ranks[to] == 6)
 		{
@@ -283,7 +283,7 @@ int extraDepth(Move m)
 			pawnsix++;
 		}
 	}
-	if (p.board[to].type == bP)
+	if (p.board[to] == SquareType.bP)
 	{
 		if (ranks[to] == 1)
 		{

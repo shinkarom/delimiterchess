@@ -88,9 +88,9 @@ void writeboard()
 		log_file.writeln();
 		for(int f = 0; f<8; f++)
 		{
-			if(p.board[fileRankToSquare(f,r)].type != empty)
+			if(p.board[fileRankToSquare(f,r)] != SquareType.Empty)
 			{
-				log_file.writef(" %c ",piecetochar[p.board[fileRankToSquare(f,r)].type]);
+				log_file.writef(" %c ",piecetochar[p.board[fileRankToSquare(f,r)]]);
 			}
 			else
 			{
@@ -108,11 +108,11 @@ void writeboard()
 	log_file.writef("\n majors = %d", p.majors);
 	log_file.writef("\n ply = %d", p.ply);
 	log_file.write("\n wk ");
-	writesq(p.k[white]);
+	writesq(p.k[Side.White]);
 	log_file.write("\n bk ");
-	writesq(p.k[black]);
-	log_file.writef("\n white material = %d", p.material[white]);
-	log_file.writef("\n black material = %d", p.material[black]);
+	writesq(p.k[Side.Black]);
+	log_file.writef("\n white material = %d", p.material[Side.White]);
+	log_file.writef("\n black material = %d", p.material[Side.Black]);
 	log_file.writef("\n fifty = %d", p.fifty);
 	log_file.write("\n\n");
 }

@@ -20,7 +20,7 @@ void iniFile()
 
 void setTime(ulong t, ulong ot, int compside)
 {
-	if (compside == white)
+	if (compside == Side.White)
 	{
 		searchParam.wtime = t;
 		searchParam.btime = ot;
@@ -93,7 +93,7 @@ bool checkResult()
 
 	if (inc)
 	{
-		if (p.side == white)
+		if (p.side == Side.White)
 		{
 			writeln("\n0-1 {black mates}");
 			return true;
@@ -171,8 +171,8 @@ void xThink()
 	}
 	else
 	{
-		searchParam.ponfrom = FROM(best.m);
-		searchParam.ponto = TO(best.m);
+		searchParam.ponfrom = getFrom(best.m);
+		searchParam.ponto = getTo(best.m);
 	}
 }
 
@@ -247,8 +247,8 @@ void xboardMode()
 			formattedRead(line, "level %d %d %d", mps, base, inc);
 			if (mps)
 			{
-				searchParam.movestogo[white] = mps;
-				searchParam.movestogo[black] = mps;
+				searchParam.movestogo[Side.White] = mps;
+				searchParam.movestogo[Side.Black] = mps;
 			}
 			if (inc)
 			{
@@ -260,12 +260,12 @@ void xboardMode()
 		case "new":
 			setBoard(startFEN);
 			clearhash();
-			compside = black;
+			compside = Side.Black;
 			break;
 		case "perft":
 			setBoard(startFEN);
 			clearhash();
-			compside = black;
+			compside = Side.Black;
 			perft(6);
 			break;
 		case "quit":
@@ -339,10 +339,10 @@ void xboardMode()
 		case "bk":
 			break;
 		case "white":
-			compside = white;
+			compside = Side.White;
 			break;
 		case "black":
-			compside = black;
+			compside = Side.Black;
 			break;
 		case "remove":
 			if (histply > 0)

@@ -9,11 +9,11 @@ string returnsquare(int from)
 string returnmove(Move move)
 {
 	string result = "";
-	result ~= fileToChar(files[FROM(move.m)]);
-	result ~= rankToChar(ranks[FROM(move.m)]);
-	result ~= fileToChar(files[TO(move.m)]);
-	result ~= rankToChar(ranks[TO(move.m)]);
-	int flag = FLAG(move.m);
+	result ~= fileToChar(files[getFrom(move.m)]);
+	result ~= rankToChar(ranks[getFrom(move.m)]);
+	result ~= fileToChar(files[getTo(move.m)]);
+	result ~= rankToChar(ranks[getTo(move.m)]);
+	int flag = getFlag(move.m);
 	if (flag & mProm)
 	{
 		if (flag & oPQ)
@@ -48,9 +48,9 @@ int understandmove(string move, ref bool prom)
 	int i;
 	for (i = p.listc[p.ply]; i < p.listc[p.ply + 1]; i++)
 	{
-		if (FROM(p.list[i].m) == from && TO(p.list[i].m) == to)
+		if (getFrom(p.list[i].m) == from && getTo(p.list[i].m) == to)
 		{
-			if (FLAG(p.list[i].m) & mProm)
+			if (getFlag(p.list[i].m) & mProm)
 			{
 				if (move[4] == 'q' && (p.list[i].m & oPQ))
 				{
@@ -200,7 +200,7 @@ int myparse(string move)
 
 	for (int i = p.listc[p.ply]; i < p.listc[p.ply + 1]; i++)
 	{
-		if (FROM(p.list[i].m) == from && TO(p.list[i].m) == to)
+		if (getFrom(p.list[i].m) == from && getTo(p.list[i].m) == to)
 		{
 			return i;
 		}
