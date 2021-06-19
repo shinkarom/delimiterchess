@@ -9,7 +9,7 @@ void pushMove(int from, int to, int flag)
 
 void pushPawn(int from, int to, int flag)
 {
-	if (to > H7 || to < A2)
+	if (to > Square.H7 || to < Square.A2)
 	{
 		pushMove(from, to, mPQ | flag);
 		pushMove(from, to, mPR | flag);
@@ -30,7 +30,7 @@ void knightMove(int f, int t, Side xSide)
 	{
 		pushMove(f, t, mNORM);
 	}
-	else if (SquareTypeColor[p.board[t]] == xSide)
+	else if (SquareTypeSide[p.board[t]] == xSide)
 	{
 		pushMove(f, t, mCAP);
 	}
@@ -48,7 +48,7 @@ void slideMove(int f, int t, Side xSide)
 			pushMove(f, t, mNORM);
 			t += d;
 		}
-		else if (SquareTypeColor[p.board[t]] == xSide)
+		else if (SquareTypeSide[p.board[t]] == xSide)
 		{
 			pushMove(f, t, mCAP);
 			break;
@@ -65,7 +65,7 @@ void knightMoveC(int f, int t, Side xSide)
 {
 	if (p.board[t] == SquareType.Edge)
 		return;
-	else if (SquareTypeColor[p.board[t]] == xSide)
+	else if (SquareTypeSide[p.board[t]] == xSide)
 	{
 		pushMove(f, t, mCAP);
 	}
@@ -82,7 +82,7 @@ void slideMoveC(int f, int t, Side xSide)
 		{
 			t += d;
 		}
-		else if (SquareTypeColor[p.board[t]] == xSide)
+		else if (SquareTypeSide[p.board[t]] == xSide)
 		{
 			pushMove(f, t, mCAP);
 			break;
@@ -110,20 +110,20 @@ void moveGen()
 			{
 			case SquareType.wP:
 				tsq = sq + 13;
-				if (SquareTypeColor[p.board[tsq]] == Side.Black)
+				if (SquareTypeSide[p.board[tsq]] == Side.Black)
 				{
 					pushPawn(sq, tsq, mCAP);
 				}
-				if (p.en_pas == tsq)
+				if (p.enPas == tsq)
 				{
 					pushMove(sq, tsq, mPEP);
 				}
 				tsq = sq + 11;
-				if (SquareTypeColor[p.board[tsq]] == Side.Black)
+				if (SquareTypeSide[p.board[tsq]] == Side.Black)
 				{
 					pushPawn(sq, tsq, mCAP);
 				}
-				if (p.en_pas == tsq)
+				if (p.enPas == tsq)
 				{
 					pushMove(sq, tsq, mPEP);
 				}
@@ -131,7 +131,7 @@ void moveGen()
 				if (p.board[tsq] == SquareType.Empty)
 				{
 					pushPawn(sq, tsq, mNORM);
-					if (sq < A3 && p.board[tsq + 12] == SquareType.Empty)
+					if (sq < Square.A3 && p.board[tsq + 12] == SquareType.Empty)
 					{
 						pushMove(sq, (tsq + 12), mPST);
 					}
@@ -156,29 +156,29 @@ void moveGen()
 				knightMove(sq, sq - 12, Side.Black);
 				knightMove(sq, sq - 11, Side.Black);
 				knightMove(sq, sq - 13, Side.Black);
-				if (sq == E1)
+				if (sq == Square.E1)
 				{
-					if (p.castleflags & WKC)
+					if (p.castleFlags & WKC)
 					{
-						if (p.board[H1] == SquareType.wR && p.board[F1] == SquareType.Empty
-								&& p.board[G1] == SquareType.Empty)
+						if (p.board[Square.H1] == SquareType.wR && p.board[Square.F1] == SquareType.Empty
+								&& p.board[Square.G1] == SquareType.Empty)
 						{
-							if (!isAttacked(F1, Side.Black) && !isAttacked(E1,
-									Side.Black) && !isAttacked(G1, Side.Black))
+							if (!isAttacked(Square.F1, Side.Black) && !isAttacked(Square.E1,
+									Side.Black) && !isAttacked(Square.G1, Side.Black))
 							{
-								pushMove(E1, G1, mCA);
+								pushMove(Square.E1, Square.G1, mCA);
 							}
 						}
 					}
-					if (p.castleflags & WQC)
+					if (p.castleFlags & WQC)
 					{
-						if (p.board[A1] == SquareType.wR && p.board[D1] == SquareType.Empty
-								&& p.board[C1] == SquareType.Empty && p.board[B1] == SquareType.Empty)
+						if (p.board[Square.A1] == SquareType.wR && p.board[Square.D1] == SquareType.Empty
+								&& p.board[Square.C1] == SquareType.Empty && p.board[Square.B1] == SquareType.Empty)
 						{
-							if (!isAttacked(D1, Side.Black) && !isAttacked(E1,
-									Side.Black) && !isAttacked(C1, Side.Black))
+							if (!isAttacked(Square.D1, Side.Black) && !isAttacked(Square.E1,
+									Side.Black) && !isAttacked(Square.C1, Side.Black))
 							{
-								pushMove(E1, C1, mCA);
+								pushMove(Square.E1, Square.C1, mCA);
 							}
 						}
 					}
@@ -222,20 +222,20 @@ void moveGen()
 			{
 			case SquareType.bP:
 				tsq = sq - 13;
-				if (SquareTypeColor[p.board[tsq]] == Side.White)
+				if (SquareTypeSide[p.board[tsq]] == Side.White)
 				{
 					pushPawn(sq, tsq, mCAP);
 				}
-				if (p.en_pas == tsq)
+				if (p.enPas == tsq)
 				{
 					pushMove(sq, tsq, mPEP);
 				}
 				tsq = sq - 11;
-				if (SquareTypeColor[p.board[tsq]] == Side.White)
+				if (SquareTypeSide[p.board[tsq]] == Side.White)
 				{
 					pushPawn(sq, tsq, mCAP);
 				}
-				if (p.en_pas == tsq)
+				if (p.enPas == tsq)
 				{
 					pushMove(sq, tsq, mPEP);
 				}
@@ -243,7 +243,7 @@ void moveGen()
 				if (p.board[tsq] == SquareType.Empty)
 				{
 					pushPawn(sq, tsq, mNORM);
-					if (sq > H6 && p.board[tsq - 12] == SquareType.Empty)
+					if (sq > Square.H6 && p.board[tsq - 12] == SquareType.Empty)
 					{
 						pushMove(sq, (tsq - 12), mPST);
 					}
@@ -268,29 +268,29 @@ void moveGen()
 				knightMove(sq, sq - 12, Side.White);
 				knightMove(sq, sq - 11, Side.White);
 				knightMove(sq, sq - 13, Side.White);
-				if (sq == E8)
+				if (sq == Square.E8)
 				{
-					if (p.castleflags & BKC)
+					if (p.castleFlags & BKC)
 					{
-						if (p.board[H8] == SquareType.bR && p.board[F8] == SquareType.Empty
-								&& p.board[G8] == SquareType.Empty)
+						if (p.board[Square.H8] == SquareType.bR && p.board[Square.F8] == SquareType.Empty
+								&& p.board[Square.G8] == SquareType.Empty)
 						{
-							if (!isAttacked(F8, Side.White) && !isAttacked(E8,
-									Side.White) && !isAttacked(G8, Side.White))
+							if (!isAttacked(Square.F8, Side.White) && !isAttacked(Square.E8,
+									Side.White) && !isAttacked(Square.G8, Side.White))
 							{
-								pushMove(E8, G8, mCA);
+								pushMove(Square.E8, Square.G8, mCA);
 							}
 						}
 					}
-					if (p.castleflags & BQC)
+					if (p.castleFlags & BQC)
 					{
-						if (p.board[A8] == SquareType.bR && p.board[D8] == SquareType.Empty
-								&& p.board[C8] == SquareType.Empty && p.board[B8] == SquareType.Empty)
+						if (p.board[Square.A8] == SquareType.bR && p.board[Square.D8] == SquareType.Empty
+								&& p.board[Square.C8] == SquareType.Empty && p.board[Square.B8] == SquareType.Empty)
 						{
-							if (!isAttacked(D8, Side.White) && !isAttacked(E8,
-									Side.White) && !isAttacked(C8, Side.White))
+							if (!isAttacked(Square.D8, Side.White) && !isAttacked(Square.E8,
+									Side.White) && !isAttacked(Square.C8, Side.White))
 							{
-								pushMove(E8, C8, mCA);
+								pushMove(Square.E8, Square.C8, mCA);
 							}
 						}
 					}
@@ -340,20 +340,20 @@ void capGen()
 			{
 			case SquareType.wP:
 				tsq = sq + 13;
-				if (SquareTypeColor[p.board[tsq]] == Side.Black)
+				if (SquareTypeSide[p.board[tsq]] == Side.Black)
 				{
 					pushPawn(sq, tsq, mCAP);
 				}
-				if (p.en_pas == tsq)
+				if (p.enPas == tsq)
 				{
 					pushMove(sq, tsq, mPEP);
 				}
 				tsq = sq + 11;
-				if (SquareTypeColor[p.board[tsq]] == Side.Black)
+				if (SquareTypeSide[p.board[tsq]] == Side.Black)
 				{
 					pushPawn(sq, tsq, mCAP);
 				}
-				if (p.en_pas == tsq)
+				if (p.enPas == tsq)
 				{
 					pushMove(sq, tsq, mPEP);
 				}
@@ -416,20 +416,20 @@ void capGen()
 			{
 			case SquareType.bP:
 				tsq = sq - 13;
-				if (SquareTypeColor[p.board[tsq]] == Side.White)
+				if (SquareTypeSide[p.board[tsq]] == Side.White)
 				{
 					pushPawn(sq, tsq, mCAP);
 				}
-				if (p.en_pas == tsq)
+				if (p.enPas == tsq)
 				{
 					pushMove(sq, tsq, mPEP);
 				}
 				tsq = sq - 11;
-				if (SquareTypeColor[p.board[tsq]] == Side.White)
+				if (SquareTypeSide[p.board[tsq]] == Side.White)
 				{
 					pushPawn(sq, tsq, mCAP);
 				}
-				if (p.en_pas == tsq)
+				if (p.enPas == tsq)
 				{
 					pushMove(sq, tsq, mPEP);
 				}

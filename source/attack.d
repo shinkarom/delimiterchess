@@ -35,7 +35,7 @@ bool isAttacked(int sq, int side)
 		{
 			if (p.board[tsq] == SquareType.bR || p.board[tsq] == SquareType.bQ)
 				return true;
-			if (SquareTypeColor[p.board[tsq]] != Side.None)
+			if (SquareTypeSide[p.board[tsq]] != Side.None)
 				break;
 			tsq += 1;
 		}
@@ -47,7 +47,7 @@ bool isAttacked(int sq, int side)
 		{
 			if (p.board[tsq] == SquareType.bR || p.board[tsq] == SquareType.bQ)
 				return true;
-			if (SquareTypeColor[p.board[tsq]] != Side.None)
+			if (SquareTypeSide[p.board[tsq]] != Side.None)
 				break;
 			tsq -= 1;
 		}
@@ -59,7 +59,7 @@ bool isAttacked(int sq, int side)
 		{
 			if (p.board[tsq] == SquareType.bR || p.board[tsq] == SquareType.bQ)
 				return true;
-			if (SquareTypeColor[p.board[tsq]] != Side.None)
+			if (SquareTypeSide[p.board[tsq]] != Side.None)
 				break;
 			tsq += 12;
 		}
@@ -71,7 +71,7 @@ bool isAttacked(int sq, int side)
 		{
 			if (p.board[tsq] == SquareType.bR || p.board[tsq] == SquareType.bQ)
 				return true;
-			if (SquareTypeColor[p.board[tsq]] != Side.None)
+			if (SquareTypeSide[p.board[tsq]] != Side.None)
 				break;
 			tsq -= 12;
 		}
@@ -83,7 +83,7 @@ bool isAttacked(int sq, int side)
 		{
 			if (p.board[tsq] == SquareType.bB || p.board[tsq] == SquareType.bQ)
 				return true;
-			if (SquareTypeColor[p.board[tsq]] != Side.None)
+			if (SquareTypeSide[p.board[tsq]] != Side.None)
 				break;
 			tsq += 13;
 		}
@@ -95,7 +95,7 @@ bool isAttacked(int sq, int side)
 		{
 			if (p.board[tsq] == SquareType.bB || p.board[tsq] == SquareType.bQ)
 				return true;
-			if (SquareTypeColor[p.board[tsq]] != Side.None)
+			if (SquareTypeSide[p.board[tsq]] != Side.None)
 				break;
 			tsq -= 13;
 		}
@@ -107,7 +107,7 @@ bool isAttacked(int sq, int side)
 		{
 			if (p.board[tsq] == SquareType.bB || p.board[tsq] == SquareType.bQ)
 				return true;
-			if (SquareTypeColor[p.board[tsq]] != Side.None)
+			if (SquareTypeSide[p.board[tsq]] != Side.None)
 				break;
 			tsq += 11;
 		}
@@ -119,7 +119,7 @@ bool isAttacked(int sq, int side)
 		{
 			if (p.board[tsq] == SquareType.bB || p.board[tsq] == SquareType.bQ)
 				return true;
-			if (SquareTypeColor[p.board[tsq]] != Side.None)
+			if (SquareTypeSide[p.board[tsq]] != Side.None)
 				break;
 			tsq -= 11;
 		}
@@ -156,7 +156,7 @@ bool isAttacked(int sq, int side)
 		{
 			if (p.board[tsq] == SquareType.wR || p.board[tsq] == SquareType.wQ)
 				return true;
-			if (SquareTypeColor[p.board[tsq]] != Side.None)
+			if (SquareTypeSide[p.board[tsq]] != Side.None)
 				break;
 			tsq += 1;
 		}
@@ -168,7 +168,7 @@ bool isAttacked(int sq, int side)
 		{
 			if (p.board[tsq] == SquareType.wR || p.board[tsq] == SquareType.wQ)
 				return true;
-			if (SquareTypeColor[p.board[tsq]] != Side.None)
+			if (SquareTypeSide[p.board[tsq]] != Side.None)
 				break;
 			tsq -= 1;
 		}
@@ -180,7 +180,7 @@ bool isAttacked(int sq, int side)
 		{
 			if (p.board[tsq] == SquareType.wR || p.board[tsq] == SquareType.wQ)
 				return true;
-			if (SquareTypeColor[p.board[tsq]] != Side.None)
+			if (SquareTypeSide[p.board[tsq]] != Side.None)
 				break;
 			tsq += 12;
 		}
@@ -192,7 +192,7 @@ bool isAttacked(int sq, int side)
 		{
 			if (p.board[tsq] == SquareType.wR || p.board[tsq] == SquareType.wQ)
 				return true;
-			if (SquareTypeColor[p.board[tsq]] != Side.None)
+			if (SquareTypeSide[p.board[tsq]] != Side.None)
 				break;
 			tsq -= 12;
 		}
@@ -204,7 +204,7 @@ bool isAttacked(int sq, int side)
 		{
 			if (p.board[tsq] == SquareType.wB || p.board[tsq] == SquareType.wQ)
 				return true;
-			if (SquareTypeColor[p.board[tsq]] != Side.None)
+			if (SquareTypeSide[p.board[tsq]] != Side.None)
 				break;
 			tsq += 13;
 		}
@@ -216,7 +216,7 @@ bool isAttacked(int sq, int side)
 		{
 			if (p.board[tsq] == SquareType.wB || p.board[tsq] == SquareType.wQ)
 				return true;
-			if (SquareTypeColor[p.board[tsq]] != Side.None)
+			if (SquareTypeSide[p.board[tsq]] != Side.None)
 				break;
 			tsq -= 13;
 		}
@@ -228,7 +228,7 @@ bool isAttacked(int sq, int side)
 		{
 			if (p.board[tsq] == SquareType.wB || p.board[tsq] == SquareType.wQ)
 				return true;
-			if (SquareTypeColor[p.board[tsq]] != Side.None)
+			if (SquareTypeSide[p.board[tsq]] != Side.None)
 				break;
 			tsq += 11;
 		}
@@ -240,7 +240,7 @@ bool isAttacked(int sq, int side)
 		{
 			if (p.board[tsq] == SquareType.wB || p.board[tsq] == SquareType.wQ)
 				return true;
-			if (SquareTypeColor[p.board[tsq]] != Side.None)
+			if (SquareTypeSide[p.board[tsq]] != Side.None)
 				break;
 			tsq -= 11;
 		}

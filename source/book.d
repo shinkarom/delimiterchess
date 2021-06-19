@@ -147,7 +147,7 @@ void parseOpeningLine(string str)
 			if(str[ptr]=='+')
 				ptr++;
 		}
-		ulong oldkey = p.hashkey;
+		ulong oldkey = p.hashKey;
 		auto flag = understandmove(move_string, t);
 		if(!flag)
 			return;
@@ -171,7 +171,7 @@ int wFindHashBookMove()
 	int[2] m = [-1, -1];
 	foreach(it; whitebook)
 	{
-		if(it.k == p.hashkey)
+		if(it.k == p.hashKey)
 		{
 			auto match = myparse(it.m);
 			if(match)

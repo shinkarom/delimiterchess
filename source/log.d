@@ -90,7 +90,7 @@ void writeboard()
 		{
 			if(p.board[fileRankToSquare(f,r)] != SquareType.Empty)
 			{
-				log_file.writef(" %c ",piecetochar[p.board[fileRankToSquare(f,r)]]);
+				log_file.writef(" %c ",pieceToChar[p.board[fileRankToSquare(f,r)]]);
 			}
 			else
 			{
@@ -102,8 +102,8 @@ void writeboard()
 	log_file.writef(" \n side = %d", p.side);
 	writestring("\n Castle Flags ");
 	writestring(returncastle());
-	writesq(p.en_pas);
-	log_file.writef("\n hashkey %X", p.hashkey);
+	writesq(p.enPas);
+	log_file.writef("\n hashKey %X", p.hashKey);
 	log_file.writef("\n side = %d", colours[p.side]);
 	log_file.writef("\n majors = %d", p.majors);
 	log_file.writef("\n ply = %d", p.ply);

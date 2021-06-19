@@ -1,6 +1,6 @@
 import defines, data;
 
-void clearBoard()
+void clearBoard(ref Position p)
 {
 	for (int sq = 0; sq < 144; sq++)
 	{
@@ -22,22 +22,22 @@ void initCastleBits()
 	{
 		switch (sq)
 		{
-		case A1:
+		case Square.A1:
 			castleBits[sq] = ~WQC;
 			break;
-		case H1:
+		case Square.H1:
 			castleBits[sq] = ~WKC;
 			break;
-		case A8:
+		case Square.A8:
 			castleBits[sq] = ~BQC;
 			break;
-		case H8:
+		case Square.H8:
 			castleBits[sq] = ~BKC;
 			break;
-		case E1:
+		case Square.E1:
 			castleBits[sq] = ~(WKC | WQC);
 			break;
-		case E8:
+		case Square.E8:
 			castleBits[sq] = ~(BKC | BQC);
 			break;
 		default:
@@ -45,69 +45,6 @@ void initCastleBits()
 			break;
 		}
 	}
-}
-
-int fileRankToSquare(const int r, const int f)
-{
-	return (r + 2) * 12 + 2 + f;
-}
-
-int charToFile(const char file)
-{
-	if (file == 'a')
-		return 0;
-	if (file == 'b')
-		return 1;
-	if (file == 'c')
-		return 2;
-	if (file == 'd')
-		return 3;
-	if (file == 'e')
-		return 4;
-	if (file == 'f')
-		return 5;
-	if (file == 'g')
-		return 6;
-	if (file == 'h')
-		return 7;
-
-	return 0;
-}
-
-int charToRank(const char rank)
-{
-	if (rank == '1')
-		return 0;
-	if (rank == '2')
-		return 1;
-	if (rank == '3')
-		return 2;
-	if (rank == '4')
-		return 3;
-	if (rank == '5')
-		return 4;
-	if (rank == '6')
-		return 5;
-	if (rank == '7')
-		return 6;
-	if (rank == '8')
-		return 7;
-	return 0;
-}
-
-char rankToChar(int rank)
-{
-	return brdranks[rank];
-}
-
-char fileToChar(int file)
-{
-	return brdfiles[file];
-}
-
-char piece(int piece)
-{
-	return piecetochar[piece];
 }
 
 void initPieceLists()
@@ -118,11 +55,11 @@ void initPieceLists()
 
 	for (sq = 0; sq < 144; sq++)
 	{
-		p.sqToPceNum[sq] = nopiece;
+		p.sqToPceNum[sq] = noPiece;
 	}
 	for (pce = 0; pce < 17; pce++)
 	{
-		p.pceNumToSq[pce] = deadsquare;
+		p.pceNumToSq[pce] = deadSquare;
 	}
 
 	p.majors = 0;

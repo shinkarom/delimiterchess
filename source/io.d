@@ -166,19 +166,19 @@ bool nopvmove(string move)
 string returncastle()
 {
 	string result;
-	if (p.castleflags & 8)
+	if (p.castleFlags & 8)
 		result ~= "K";
 	else
 		result ~= "-";
-	if (p.castleflags & 4)
+	if (p.castleFlags & 4)
 		result ~= "Q";
 	else
 		result ~= "-";
-	if (p.castleflags & 2)
+	if (p.castleFlags & 2)
 		result ~= "k";
 	else
 		result ~= "-";
-	if (p.castleflags & 1)
+	if (p.castleFlags & 1)
 		result ~= "Q";
 	else
 		result ~= "-";

@@ -1,16 +1,5 @@
 import defines, data, psqt, attack;
 
-immutable int HASH = 65536, M_KILLER = 65526, WIN_CAPT1 = 65516, WIN_CAPT2 = 65506,
-	WIN_CAPT3 = 65496, Q_PROM_CAPT = 65486, Q_PROM = 65476, GCAP_QQ = 65466,
-	GCAP_RR = 65456, GCAP_BB = 65446, GCAP_NN = 65436, GCAP_PP = 65426, SEECAP = 65416,
-	KILLER1 = 65406, KILLER1_PLY = 65396, KILLER2 = 65376, KILLER2_PLY = 65366,
-	OO = 65356, OOO = 65346, MINORPROM = 65366;
-
-immutable int[16] equalcap = [
-	0, GCAP_PP, GCAP_PP, GCAP_NN, GCAP_NN, GCAP_BB, GCAP_BB, GCAP_RR, GCAP_RR,
-	GCAP_QQ, GCAP_QQ, 10000, 10000, 0, 0, 0
-];
-
 void updateHistory(Move move, int depth)
 {
 	his_table[move.m & MOVEBITS] = depth / PLY;

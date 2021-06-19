@@ -45,53 +45,53 @@ void clearhash()
 {
 	for (int i = 0; i < numelem; i++)
 	{
-		TTable[i].hashkey = 0;
+		TTable[i].hashKey = 0;
 		TTable[i].depth = 0;
 		TTable[i].score = 0;
-		TTable[i].flag = 0;
+		TTable[i].flag = BookMoveType.None;
 	}
 }
 
-void fullhashkey()
+void fullhashKey()
 {
-	p.hashkey = generateHashKey();
+	p.hashKey = generateHashKey();
 }
 
 ulong generateHashKey()
 {
-	ulong hashkey = 0;
-	for (int i = A1; i <= H8; i++)
+	ulong hashKey = 0;
+	for (int i = Square.A1; i <= Square.H8; i++)
 	{
 		if (p.board[i] == SquareType.Edge || p.board[i] == SquareType.Empty)
 			continue;
-		hashkey ^= hashPieces[64 * p.board[i] + 8 * ranks[i] + files[i]];
+		hashKey ^= hashPieces[64 * p.board[i] + 8 * ranks[i] + files[i]];
 	}
 	if (p.side == Side.White)
-		hashkey ^= hashTurn;
-	if (p.en_pas != noenpas)
+		hashKey ^= hashTurn;
+	if (p.enPas != noEnPas)
 	{
-		int squareNum = 8 * ranks[p.en_pas] + files[p.en_pas];
-		hashkey ^= hashEnPassant[files[p.en_pas]];
+		int squareNum = 8 * ranks[p.enPas] + files[p.enPas];
+		hashKey ^= hashEnPassant[files[p.enPas]];
 	}
-	//hashkey ^= hashCastleCombinations[p.castleflags];
-	if (p.castleflags & WKC)
-		hashkey ^= hashCastle[0];
-	if (p.castleflags & WQC)
-		hashkey ^= hashCastle[1];
-	if (p.castleflags & BKC)
-		hashkey ^= hashCastle[2];
-	if (p.castleflags & BQC)
-		hashkey ^= hashCastle[3];
-	return hashkey;
+	//hashKey ^= hashCastleCombinations[p.castleFlags];
+	if (p.castleFlags & WKC)
+		hashKey ^= hashCastle[0];
+	if (p.castleFlags & WQC)
+		hashKey ^= hashCastle[1];
+	if (p.castleFlags & BKC)
+		hashKey ^= hashCastle[2];
+	if (p.castleFlags & BQC)
+		hashKey ^= hashCastle[3];
+	return hashKey;
 }
 
-bool testhashkey()
+bool testhashKey()
 {
-	auto hashkey = generateHashKey();
+	auto hashKey = generateHashKey();
 
-	if (hashkey != p.hashkey)
+	if (hashKey != p.hashKey)
 	{
-		writefln("corrupt key %X %X, difference %X", hashkey, p.hashkey, hashkey ^ p.hashkey);
+		writefln("corrupt key %X %X, difference %X", hashKey, p.hashKey, hashKey ^ p.hashKey);
 		/+
 		printboard();
 		+/
@@ -100,13 +100,13 @@ bool testhashkey()
 	return true;
 }
 
-int probe_hash_table(int depth, Move move, ref bool nul, ref int score, int beta)
+BookMoveType probe_hash_table(int depth, Move move, ref bool nul, ref int score, int beta)
 {
 	hashprobe++;
 	HashElem probe2;
-	int flag = NOFLAG;
-	probe2 = TTable[p.hashkey % numelem];
-	if (probe2.hashkey == p.hashkey)
+	auto flag = BookMoveType.None;
+	probe2 = TTable[p.hashKey % numelem];
+	if (probe2.hashKey == p.hashKey)
 	{
 		move.m = probe2.move;
 		hashhit++;
@@ -120,15 +120,15 @@ int probe_hash_table(int depth, Move move, ref bool nul, ref int score, int beta
 		}
 		return flag;
 	}
-	return 0;
+	return BookMoveType.None;
 }
 
-void store_hash(int depth, int score, int flag, bool nul, Move move)
+void store_hash(int depth, int score, BookMoveType flag, bool nul, Move move)
 {
-	auto index = p.hashkey % numelem;
+	auto index = p.hashKey % numelem;
 	if (depth >= TTable[index].depth)
 	{
-		TTable[index].hashkey = p.hashkey;
+		TTable[index].hashKey = p.hashKey;
 		TTable[index].depth = depth;
 		TTable[index].score = score;
 		TTable[index].flag = flag;

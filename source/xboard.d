@@ -37,7 +37,7 @@ int repetition()
 	int rep = 0;
 	for (int i = 0; i < histply; i++)
 	{
-		if (hist[i].hashKey == p.hashkey)
+		if (hist[i].hashKey == p.hashKey)
 			rep++;
 	}
 	return rep;
@@ -166,8 +166,8 @@ void xThink()
 		{
 			searchParam.movestogo[p.side ^ 1]--;
 		}
-		searchParam.ponfrom = deadsquare;
-		searchParam.ponto = deadsquare;
+		searchParam.ponfrom = deadSquare;
+		searchParam.ponto = deadSquare;
 	}
 	else
 	{

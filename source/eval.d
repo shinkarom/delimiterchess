@@ -334,21 +334,21 @@ bool brSeven()
 void development()
 {
 	int wdev = 0, bdev = 0;
-	if (p.board[C1] == SquareType.wB)
+	if (p.board[Square.C1] == SquareType.wB)
 		wdev++;
-	if (p.board[B1] == SquareType.wN)
+	if (p.board[Square.B1] == SquareType.wN)
 		wdev++;
-	if (p.board[F1] == SquareType.wB)
+	if (p.board[Square.F1] == SquareType.wB)
 		wdev++;
-	if (p.board[G1] == SquareType.wN)
+	if (p.board[Square.G1] == SquareType.wN)
 		wdev++;
-	if (p.board[C8] == SquareType.bB)
+	if (p.board[Square.C8] == SquareType.bB)
 		bdev++;
-	if (p.board[B8] == SquareType.bN)
+	if (p.board[Square.B8] == SquareType.bN)
 		bdev++;
-	if (p.board[F8] == SquareType.bB)
+	if (p.board[Square.F8] == SquareType.bB)
 		bdev++;
-	if (p.board[G8] == SquareType.bN)
+	if (p.board[Square.G8] == SquareType.bN)
 		bdev++;
 
 	evalData.score[Side.Black][beg] -= developpenalty[bdev];
@@ -367,19 +367,19 @@ bool doBks()
 
 void blockedPawn()
 {
-	if (p.board[D2] == SquareType.wP && p.board[D3] != SquareType.Empty)
+	if (p.board[Square.D2] == SquareType.wP && p.board[Square.D3] != SquareType.Empty)
 	{
 		evalData.score[Side.White][beg] -= 40;
 	}
-	if (p.board[E2] == SquareType.wP && p.board[E3] != SquareType.Empty)
+	if (p.board[Square.E2] == SquareType.wP && p.board[Square.E3] != SquareType.Empty)
 	{
 		evalData.score[Side.White][beg] -= 40;
 	}
-	if (p.board[D7] == SquareType.bP && p.board[D6] != SquareType.Empty)
+	if (p.board[Square.D7] == SquareType.bP && p.board[Square.D6] != SquareType.Empty)
 	{
 		evalData.score[Side.Black][beg] -= 40;
 	}
-	if (p.board[E7] == SquareType.bP && p.board[E6] != SquareType.Empty)
+	if (p.board[Square.E7] == SquareType.bP && p.board[Square.E6] != SquareType.Empty)
 	{
 		evalData.score[Side.Black][beg] -= 40;
 	}
@@ -387,16 +387,16 @@ void blockedPawn()
 
 void wRookTrapped(int sq)
 {
-	if (sq == H1 || sq == G1)
+	if (sq == Square.H1 || sq == Square.G1)
 	{
-		if (p.k[Side.White] == F1 || p.k[Side.White] == G1)
+		if (p.k[Side.White] == Square.F1 || p.k[Side.White] == Square.G1)
 		{
 			evalData.score[Side.White][beg] -= 70;
 		}
 	}
-	else if (sq == A1 || sq == B1)
+	else if (sq == Square.A1 || sq == Square.B1)
 	{
-		if (p.k[Side.White] == C1 || p.k[Side.White] == B1)
+		if (p.k[Side.White] == Square.C1 || p.k[Side.White] == Square.B1)
 		{
 			evalData.score[Side.White][beg] -= 70;
 		}
@@ -405,16 +405,16 @@ void wRookTrapped(int sq)
 
 void bRookTrapped(int sq)
 {
-	if (sq == H8 || sq == G8)
+	if (sq == Square.H8 || sq == Square.G8)
 	{
-		if (p.k[Side.Black] == F8 || p.k[Side.Black] == G8)
+		if (p.k[Side.Black] == Square.F8 || p.k[Side.Black] == Square.G8)
 		{
 			evalData.score[Side.Black][beg] -= 70;
 		}
 	}
-	else if (sq == A8 || sq == B8)
+	else if (sq == Square.A8 || sq == Square.B8)
 	{
-		if (p.k[Side.Black] == C8 || p.k[Side.Black] == B8)
+		if (p.k[Side.Black] == Square.C8 || p.k[Side.Black] == Square.B8)
 		{
 			evalData.score[Side.Black][beg] -= 70;
 		}
@@ -446,7 +446,7 @@ int whiteKingSafety(int sq)
 	if (file < 8)
 		fpen += whitePawnCover(file + 1, rank);
 	int ourscore = 0;
-	if (p.castleflags & 12)
+	if (p.castleFlags & 12)
 	{
 		if (fpen < 21)
 			ourscore -= 25;
@@ -477,7 +477,7 @@ int blackKingSafety(int sq)
 	if (file < 8)
 		fpen += whitePawnCover(file + 1, rank);
 	int ourscore = 0;
-	if (p.castleflags & 3)
+	if (p.castleFlags & 3)
 	{
 		if (fpen < 21)
 			ourscore -= 25;

@@ -16,7 +16,7 @@ void pushPawnLegal(int from, int to, int flag)
 {
 	import std.stdio;
 
-	if (to > H7 || to < A2)
+	if (to > Square.H7 || to < Square.A2)
 	{
 		pushMoveLegal(from, to, mPQ);
 		pushMoveLegal(from, to, mPR);
@@ -37,7 +37,7 @@ void knightMoveLegal(int f, int t, Side xSide)
 	{
 		pushMoveLegal(f, t, mNORM);
 	}
-	else if (SquareTypeColor[p.board[t]] == xSide)
+	else if (SquareTypeSide[p.board[t]] == xSide)
 	{
 		pushMoveLegal(f, t, mCAP);
 	}
@@ -55,7 +55,7 @@ void slideMoveLegal(int f, int t, Side xSide)
 			pushMoveLegal(f, t, mNORM);
 			t += d;
 		}
-		else if (SquareTypeColor[p.board[t]] == xSide)
+		else if (SquareTypeSide[p.board[t]] == xSide)
 		{
 			pushMoveLegal(f, t, mCAP);
 			break;
@@ -84,20 +84,20 @@ void moveGenLegal()
 			{
 			case SquareType.wP:
 				tsq = sq + 13;
-				if (SquareTypeColor[p.board[tsq]] == Side.Black)
+				if (SquareTypeSide[p.board[tsq]] == Side.Black)
 				{
 					pushPawnLegal(sq, tsq, mCAP);
 				}
-				if (p.en_pas == tsq)
+				if (p.enPas == tsq)
 				{
 					pushMoveLegal(sq, tsq, mPEP);
 				}
 				tsq = sq + 11;
-				if (SquareTypeColor[p.board[tsq]] == Side.Black)
+				if (SquareTypeSide[p.board[tsq]] == Side.Black)
 				{
 					pushPawnLegal(sq, tsq, mCAP);
 				}
-				if (p.en_pas == tsq)
+				if (p.enPas == tsq)
 				{
 					pushMoveLegal(sq, tsq, mPEP);
 				}
@@ -105,7 +105,7 @@ void moveGenLegal()
 				if (p.board[tsq] == SquareType.Empty)
 				{
 					pushPawnLegal(sq, tsq, mNORM);
-					if (sq < A3 && p.board[tsq + 12] == SquareType.Empty)
+					if (sq < Square.A3 && p.board[tsq + 12] == SquareType.Empty)
 					{
 						pushMoveLegal(sq, (tsq + 12), mPST);
 					}
@@ -130,29 +130,29 @@ void moveGenLegal()
 				knightMoveLegal(sq, sq - 12, Side.Black);
 				knightMoveLegal(sq, sq - 11, Side.Black);
 				knightMoveLegal(sq, sq - 13, Side.Black);
-				if (sq == E1)
+				if (sq == Square.E1)
 				{
-					if (p.castleflags & 8)
+					if (p.castleFlags & 8)
 					{
-						if (p.board[H1] == SquareType.wR && p.board[F1] == SquareType.Empty
-								&& p.board[G1] == SquareType.Empty)
+						if (p.board[Square.H1] == SquareType.wR && p.board[Square.F1] == SquareType.Empty
+								&& p.board[Square.G1] == SquareType.Empty)
 						{
-							if (!isAttacked(F1, Side.Black) && !isAttacked(E1,
-									Side.Black) && !isAttacked(G1, Side.Black))
+							if (!isAttacked(Square.F1, Side.Black) && !isAttacked(Square.E1,
+									Side.Black) && !isAttacked(Square.G1, Side.Black))
 							{
-								pushMoveLegal(E1, G1, mCA);
+								pushMoveLegal(Square.E1, Square.G1, mCA);
 							}
 						}
 					}
-					if (p.castleflags & 4)
+					if (p.castleFlags & 4)
 					{
-						if (p.board[A1] == SquareType.wR && p.board[D1] == SquareType.Empty
-								&& p.board[C1] == SquareType.Empty && p.board[B1] == SquareType.Empty)
+						if (p.board[Square.A1] == SquareType.wR && p.board[Square.D1] == SquareType.Empty
+								&& p.board[Square.C1] == SquareType.Empty && p.board[Square.B1] == SquareType.Empty)
 						{
-							if (!isAttacked(D1, Side.Black) && !isAttacked(E1,
-									Side.Black) && !isAttacked(C1, Side.Black))
+							if (!isAttacked(Square.D1, Side.Black) && !isAttacked(Square.E1,
+									Side.Black) && !isAttacked(Square.C1, Side.Black))
 							{
-								pushMoveLegal(E1, C1, mCA);
+								pushMoveLegal(Square.E1, Square.C1, mCA);
 							}
 						}
 					}
@@ -197,20 +197,20 @@ void moveGenLegal()
 			{
 			case SquareType.bP:
 				tsq = sq - 13;
-				if (SquareTypeColor[p.board[tsq]] == Side.White)
+				if (SquareTypeSide[p.board[tsq]] == Side.White)
 				{
 					pushPawnLegal(sq, tsq, mCAP);
 				}
-				if (p.en_pas == tsq)
+				if (p.enPas == tsq)
 				{
 					pushMoveLegal(sq, tsq, mPEP);
 				}
 				tsq = sq - 11;
-				if (SquareTypeColor[p.board[tsq]] == Side.White)
+				if (SquareTypeSide[p.board[tsq]] == Side.White)
 				{
 					pushPawnLegal(sq, tsq, mCAP);
 				}
-				if (p.en_pas == tsq)
+				if (p.enPas == tsq)
 				{
 					pushMoveLegal(sq, tsq, mPEP);
 				}
@@ -218,7 +218,7 @@ void moveGenLegal()
 				if (p.board[tsq] == SquareType.Empty)
 				{
 					pushPawnLegal(sq, tsq, mNORM);
-					if (sq < A3 && p.board[tsq + 12] == SquareType.Empty)
+					if (sq < Square.A3 && p.board[tsq + 12] == SquareType.Empty)
 					{
 						pushMoveLegal(sq, (tsq - 12), mPST);
 					}
@@ -243,29 +243,29 @@ void moveGenLegal()
 				knightMoveLegal(sq, sq - 12, Side.White);
 				knightMoveLegal(sq, sq - 11, Side.White);
 				knightMoveLegal(sq, sq - 13, Side.White);
-				if (sq == E8)
+				if (sq == Square.E8)
 				{
-					if (p.castleflags & 2)
+					if (p.castleFlags & 2)
 					{
-						if (p.board[H8] == SquareType.bR && p.board[F8] == SquareType.Empty
-								&& p.board[G8] == SquareType.Empty)
+						if (p.board[Square.H8] == SquareType.bR && p.board[Square.F8] == SquareType.Empty
+								&& p.board[Square.G8] == SquareType.Empty)
 						{
-							if (!isAttacked(F8, Side.White) && !isAttacked(E8,
-									Side.White) && !isAttacked(G8, Side.White))
+							if (!isAttacked(Square.F8, Side.White) && !isAttacked(Square.E8,
+									Side.White) && !isAttacked(Square.G8, Side.White))
 							{
-								pushMoveLegal(E8, G8, mCA);
+								pushMoveLegal(Square.E8, Square.G8, mCA);
 							}
 						}
 					}
-					if (p.castleflags & 1)
+					if (p.castleFlags & 1)
 					{
-						if (p.board[A8] == SquareType.bR && p.board[D8] == SquareType.Empty
-								&& p.board[C8] == SquareType.Empty && p.board[B8] == SquareType.Empty)
+						if (p.board[Square.A8] == SquareType.bR && p.board[Square.D8] == SquareType.Empty
+								&& p.board[Square.C8] == SquareType.Empty && p.board[Square.B8] == SquareType.Empty)
 						{
-							if (!isAttacked(D8, Side.White) && !isAttacked(E8,
-									Side.White) && !isAttacked(C8, Side.White))
+							if (!isAttacked(Square.D8, Side.White) && !isAttacked(Square.E8,
+									Side.White) && !isAttacked(Square.C8, Side.White))
 							{
-								pushMoveLegal(E8, C8, mCA);
+								pushMoveLegal(Square.E8, Square.C8, mCA);
 							}
 						}
 					}
@@ -372,25 +372,25 @@ bool makeQuick(int m, ref SquareType holdme)
 	}
 	else if (flag & mCA)
 	{
-		if (to == G1)
+		if (to == Square.G1)
 		{
-			p.board[F1] = p.board[H1];
-			p.board[H1] = SquareType.Empty;
+			p.board[Square.F1] = p.board[Square.H1];
+			p.board[Square.H1] = SquareType.Empty;
 		}
-		if (to == C1)
+		if (to == Square.C1)
 		{
-			p.board[D1] = p.board[A1];
-			p.board[A1] = SquareType.Empty;
+			p.board[Square.D1] = p.board[Square.A1];
+			p.board[Square.A1] = SquareType.Empty;
 		}
-		if (to == G8)
+		if (to == Square.G8)
 		{
-			p.board[F8] = p.board[H8];
-			p.board[H8] = SquareType.Empty;
+			p.board[Square.F8] = p.board[Square.H8];
+			p.board[Square.H8] = SquareType.Empty;
 		}
-		if (to == C8)
+		if (to == Square.C8)
 		{
-			p.board[D8] = p.board[A8];
-			p.board[A8] = SquareType.Empty;
+			p.board[Square.D8] = p.board[Square.A8];
+			p.board[Square.A8] = SquareType.Empty;
 		}
 	}
 	else if (flag & oPEP)
@@ -441,25 +441,25 @@ void takeQuick(int m, ref SquareType holdme)
 	}
 	else if (flag & mCA)
 	{
-		if (to == G1)
+		if (to == Square.G1)
 		{
-			p.board[H1] = p.board[F1];
-			p.board[F1] = SquareType.Empty;
+			p.board[Square.H1] = p.board[Square.F1];
+			p.board[Square.F1] = SquareType.Empty;
 		}
-		if (to == C1)
+		if (to == Square.C1)
 		{
-			p.board[A1] = p.board[D1];
-			p.board[D1] = SquareType.Empty;
+			p.board[Square.A1] = p.board[Square.D1];
+			p.board[Square.D1] = SquareType.Empty;
 		}
-		if (to == G8)
+		if (to == Square.G8)
 		{
-			p.board[H8] = p.board[F8];
-			p.board[F8] = SquareType.Empty;
+			p.board[Square.H8] = p.board[Square.F8];
+			p.board[Square.F8] = SquareType.Empty;
 		}
-		if (to == C8)
+		if (to == Square.C8)
 		{
-			p.board[A8] = p.board[D8];
-			p.board[D8] = SquareType.Empty;
+			p.board[Square.A8] = p.board[Square.D8];
+			p.board[Square.D8] = SquareType.Empty;
 		}
 	}
 	else if (flag & mPEP)
@@ -484,19 +484,19 @@ bool makeLegalMove(Move m)
 	bool r = false;
 
 	hist[histply].data = m.m;
-	hist[histply].enPas = p.en_pas;
+	hist[histply].enPas = p.enPas;
 	hist[histply].fifty = p.fifty;
-	hist[histply].hashKey = p.hashkey;
-	hist[histply].castleFlags = p.castleflags;
+	hist[histply].hashKey = p.hashKey;
+	hist[histply].castleFlags = p.castleFlags;
 	hist[histply].captured = p.board[to];
 
-	p.hashkey ^= hashTurn;
-	p.hashkey ^= hashCastleCombinations[p.castleflags];
-	p.hashkey ^= hashEnPassant[files[p.en_pas]];
+	p.hashKey ^= hashTurn;
+	p.hashKey ^= hashCastleCombinations[p.castleFlags];
+	p.hashKey ^= hashEnPassant[files[p.enPas]];
 
-	p.en_pas = noenpas;
-	p.castleflags &= castleBits[to];
-	p.castleflags &= castleBits[from];
+	p.enPas = noEnPas;
+	p.castleFlags &= castleBits[to];
+	p.castleFlags &= castleBits[from];
 
 	hist[histply].pList = p.sqToPceNum[to];
 	p.pceNumToSq[p.sqToPceNum[to]] = 0;
@@ -516,8 +516,8 @@ bool makeLegalMove(Move m)
 		p.k[Side.Black] = to;
 	}
 
-	p.hashkey ^= hashPieces[64 * p.board[to] + 8 * ranks[from] + files[from]];
-	p.hashkey ^= hashPieces[64 * p.board[to] + 8 * ranks[to] + files[to]];
+	p.hashKey ^= hashPieces[64 * p.board[to] + 8 * ranks[from] + files[from]];
+	p.hashKey ^= hashPieces[64 * p.board[to] + 8 * ranks[to] + files[to]];
 
 	p.fifty++;
 
@@ -528,7 +528,7 @@ bool makeLegalMove(Move m)
 			p.majors--;
 		}
 		p.material[p.side] -= vals[hist[histply].captured];
-		p.hashkey ^= hashPieces[64 * hist[histply].captured + 8 * ranks[to] + files[to]];
+		p.hashKey ^= hashPieces[64 * hist[histply].captured + 8 * ranks[to] + files[to]];
 		p.fifty = 0;
 	}
 	if (p.board[to] < 3)
@@ -546,15 +546,15 @@ bool makeLegalMove(Move m)
 			{
 				p.board[to] = SquareType.wQ;
 				p.material[Side.White] += vQ - vP;
-				p.hashkey ^= hashPieces[64 * SquareType.wP + 8 * ranks[to] + files[to]];
-				p.hashkey ^= hashPieces[64 * SquareType.wQ + 8 * ranks[to] + files[to]];
+				p.hashKey ^= hashPieces[64 * SquareType.wP + 8 * ranks[to] + files[to]];
+				p.hashKey ^= hashPieces[64 * SquareType.wQ + 8 * ranks[to] + files[to]];
 			}
 			else
 			{
 				p.board[to] = SquareType.bQ;
 				p.material[Side.Black] += vQ - vP;
-				p.hashkey ^= hashPieces[64 * SquareType.bP + 8 * ranks[to] + files[to]];
-				p.hashkey ^= hashPieces[64 * SquareType.bQ + 8 * ranks[to] + files[to]];
+				p.hashKey ^= hashPieces[64 * SquareType.bP + 8 * ranks[to] + files[to]];
+				p.hashKey ^= hashPieces[64 * SquareType.bQ + 8 * ranks[to] + files[to]];
 			}
 		}
 		else if (flag & oPR)
@@ -563,15 +563,15 @@ bool makeLegalMove(Move m)
 			{
 				p.board[to] = SquareType.wR;
 				p.material[Side.White] += vR - vP;
-				p.hashkey ^= hashPieces[64 * SquareType.wP + 8 * ranks[to] + files[to]];
-				p.hashkey ^= hashPieces[64 * SquareType.wR + 8 * ranks[to] + files[to]];
+				p.hashKey ^= hashPieces[64 * SquareType.wP + 8 * ranks[to] + files[to]];
+				p.hashKey ^= hashPieces[64 * SquareType.wR + 8 * ranks[to] + files[to]];
 			}
 			else
 			{
 				p.board[to] = SquareType.bR;
 				p.material[Side.Black] += vR - vP;
-				p.hashkey ^= hashPieces[64 * SquareType.bP + 8 * ranks[to] + files[to]];
-				p.hashkey ^= hashPieces[64 * SquareType.bR + 8 * ranks[to] + files[to]];
+				p.hashKey ^= hashPieces[64 * SquareType.bP + 8 * ranks[to] + files[to]];
+				p.hashKey ^= hashPieces[64 * SquareType.bR + 8 * ranks[to] + files[to]];
 			}
 		}
 		else if (flag & oPB)
@@ -580,15 +580,15 @@ bool makeLegalMove(Move m)
 			{
 				p.board[to] = SquareType.wB;
 				p.material[Side.White] += vB - vP;
-				p.hashkey ^= hashPieces[64 * SquareType.wP + 8 * ranks[to] + files[to]];
-				p.hashkey ^= hashPieces[64 * SquareType.wB + 8 * ranks[to] + files[to]];
+				p.hashKey ^= hashPieces[64 * SquareType.wP + 8 * ranks[to] + files[to]];
+				p.hashKey ^= hashPieces[64 * SquareType.wB + 8 * ranks[to] + files[to]];
 			}
 			else
 			{
 				p.board[to] = SquareType.bB;
 				p.material[Side.Black] += vB - vP;
-				p.hashkey ^= hashPieces[64 * SquareType.bP + 8 * ranks[to] + files[to]];
-				p.hashkey ^= hashPieces[64 * SquareType.bB + 8 * ranks[to] + files[to]];
+				p.hashKey ^= hashPieces[64 * SquareType.bP + 8 * ranks[to] + files[to]];
+				p.hashKey ^= hashPieces[64 * SquareType.bB + 8 * ranks[to] + files[to]];
 			}
 		}
 		else if (flag & oPN)
@@ -597,15 +597,15 @@ bool makeLegalMove(Move m)
 			{
 				p.board[to] = SquareType.wN;
 				p.material[Side.White] += vN - vP;
-				p.hashkey ^= hashPieces[64 * SquareType.wP + 8 * ranks[to] + files[to]];
-				p.hashkey ^= hashPieces[64 * SquareType.wN + 8 * ranks[to] + files[to]];
+				p.hashKey ^= hashPieces[64 * SquareType.wP + 8 * ranks[to] + files[to]];
+				p.hashKey ^= hashPieces[64 * SquareType.wN + 8 * ranks[to] + files[to]];
 			}
 			else
 			{
 				p.board[to] = SquareType.bN;
 				p.material[Side.Black] += vN - vP;
-				p.hashkey ^= hashPieces[64 * SquareType.bP + 8 * ranks[to] + files[to]];
-				p.hashkey ^= hashPieces[64 * SquareType.bN + 8 * ranks[to] + files[to]];
+				p.hashKey ^= hashPieces[64 * SquareType.bP + 8 * ranks[to] + files[to]];
+				p.hashKey ^= hashPieces[64 * SquareType.bN + 8 * ranks[to] + files[to]];
 			}
 		}
 	}
@@ -613,62 +613,62 @@ bool makeLegalMove(Move m)
 	{
 		if (p.side == Side.White)
 		{
-			p.en_pas = to - 12;
+			p.enPas = to - 12;
 		}
 		else
 		{
-			p.en_pas = to + 12;
+			p.enPas = to + 12;
 		}
 	}
 	else if (flag & mCA)
 	{
-		if (to == G1)
+		if (to == Square.G1)
 		{
-			p.board[F1] = p.board[H1];
-			p.board[H1] = SquareType.Empty;
+			p.board[Square.F1] = p.board[Square.H1];
+			p.board[Square.H1] = SquareType.Empty;
 
-			p.hashkey ^= hashPieces[64 * SquareType.wR + 8 * ranks[H1] + files[H1]];
-			p.hashkey ^= hashPieces[64 * SquareType.wR + 8 * ranks[F1] + files[F1]];
+			p.hashKey ^= hashPieces[64 * SquareType.wR + 8 * ranks[Square.H1] + files[Square.H1]];
+			p.hashKey ^= hashPieces[64 * SquareType.wR + 8 * ranks[Square.F1] + files[Square.F1]];
 
-			p.pceNumToSq[p.sqToPceNum[H1]] = F1;
-			p.sqToPceNum[F1] = p.sqToPceNum[H1];
-			p.sqToPceNum[H1] = 0;
+			p.pceNumToSq[p.sqToPceNum[Square.H1]] = Square.F1;
+			p.sqToPceNum[Square.F1] = p.sqToPceNum[Square.H1];
+			p.sqToPceNum[Square.H1] = 0;
 		}
-		if (to == C1)
+		if (to == Square.C1)
 		{
-			p.board[D1] = p.board[A1];
-			p.board[A1] = SquareType.Empty;
+			p.board[Square.D1] = p.board[Square.A1];
+			p.board[Square.A1] = SquareType.Empty;
 
-			p.hashkey ^= hashPieces[64 * SquareType.wR + 8 * ranks[A1] + files[A1]];
-			p.hashkey ^= hashPieces[64 * SquareType.wR + 8 * ranks[D1] + files[D1]];
+			p.hashKey ^= hashPieces[64 * SquareType.wR + 8 * ranks[Square.A1] + files[Square.A1]];
+			p.hashKey ^= hashPieces[64 * SquareType.wR + 8 * ranks[Square.D1] + files[Square.D1]];
 
-			p.pceNumToSq[p.sqToPceNum[A1]] = D1;
-			p.sqToPceNum[D1] = p.sqToPceNum[A1];
-			p.sqToPceNum[A1] = 0;
+			p.pceNumToSq[p.sqToPceNum[Square.A1]] = Square.D1;
+			p.sqToPceNum[Square.D1] = p.sqToPceNum[Square.A1];
+			p.sqToPceNum[Square.A1] = 0;
 		}
-		if (to == G8)
+		if (to == Square.G8)
 		{
-			p.board[F8] = p.board[H8];
-			p.board[H8] = SquareType.Empty;
+			p.board[Square.F8] = p.board[Square.H8];
+			p.board[Square.H8] = SquareType.Empty;
 
-			p.hashkey ^= hashPieces[64 * SquareType.bR + 8 * ranks[H8] + files[H8]];
-			p.hashkey ^= hashPieces[64 * SquareType.bR + 8 * ranks[F8] + files[F8]];
+			p.hashKey ^= hashPieces[64 * SquareType.bR + 8 * ranks[Square.H8] + files[Square.H8]];
+			p.hashKey ^= hashPieces[64 * SquareType.bR + 8 * ranks[Square.F8] + files[Square.F8]];
 
-			p.pceNumToSq[p.sqToPceNum[H8]] = F8;
-			p.sqToPceNum[F8] = p.sqToPceNum[H8];
-			p.sqToPceNum[H8] = 0;
+			p.pceNumToSq[p.sqToPceNum[Square.H8]] = Square.F8;
+			p.sqToPceNum[Square.F8] = p.sqToPceNum[Square.H8];
+			p.sqToPceNum[Square.H8] = 0;
 		}
-		if (to == C8)
+		if (to == Square.C8)
 		{
-			p.board[D8] = p.board[A8];
-			p.board[A8] = SquareType.Empty;
+			p.board[Square.D8] = p.board[Square.A8];
+			p.board[Square.A8] = SquareType.Empty;
 
-			p.hashkey ^= hashPieces[64 * SquareType.bR + 8 * ranks[A8] + files[A8]];
-			p.hashkey ^= hashPieces[64 * SquareType.bR + 8 * ranks[D8] + files[D8]];
+			p.hashKey ^= hashPieces[64 * SquareType.bR + 8 * ranks[Square.A8] + files[Square.A8]];
+			p.hashKey ^= hashPieces[64 * SquareType.bR + 8 * ranks[Square.D8] + files[Square.D8]];
 
-			p.pceNumToSq[p.sqToPceNum[A8]] = D8;
-			p.sqToPceNum[D8] = p.sqToPceNum[A8];
-			p.sqToPceNum[A8] = 0;
+			p.pceNumToSq[p.sqToPceNum[Square.A8]] = Square.D8;
+			p.sqToPceNum[Square.D8] = p.sqToPceNum[Square.A8];
+			p.sqToPceNum[Square.A8] = 0;
 		}
 	}
 	else if (flag & oPEP)
@@ -677,7 +677,7 @@ bool makeLegalMove(Move m)
 		{
 			p.board[to - 12] = SquareType.Empty;
 
-			p.hashkey ^= hashPieces[64 * SquareType.bP + 8 * ranks[to - 12] + files[to - 12]];
+			p.hashKey ^= hashPieces[64 * SquareType.bP + 8 * ranks[to - 12] + files[to - 12]];
 			p.material[Side.Black] -= vP;
 
 			hist[histply].pList = p.sqToPceNum[to - 12];
@@ -688,7 +688,7 @@ bool makeLegalMove(Move m)
 		{
 			p.board[to + 12] = SquareType.Empty;
 
-			p.hashkey ^= hashPieces[64 * SquareType.wP + 8 * ranks[to + 12] + files[to + 12]];
+			p.hashKey ^= hashPieces[64 * SquareType.wP + 8 * ranks[to + 12] + files[to + 12]];
 			p.material[Side.White] -= vP;
 
 			hist[histply].pList = p.sqToPceNum[to + 12];
@@ -701,8 +701,8 @@ bool makeLegalMove(Move m)
 	p.side ^= 1;
 	histply++;
 
-	p.hashkey ^= hashTurn;
-	p.hashkey ^= hashCastleCombinations[p.castleflags];
-	p.hashkey ^= hashEnPassant[files[p.en_pas]];
+	p.hashKey ^= hashTurn;
+	p.hashKey ^= hashCastleCombinations[p.castleFlags];
+	p.hashKey ^= hashEnPassant[files[p.enPas]];
 	return r;
 }

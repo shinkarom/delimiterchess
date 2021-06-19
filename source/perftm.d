@@ -33,7 +33,7 @@ long go(int depth)
 			continue;
 		}
 		//writeln("move ",returnmove(p.list[i])," depth ",depth);
-		testhashkey();
+		testhashKey();
 			
 		nodes += go(depth-1);
 		takeMove();
@@ -55,7 +55,7 @@ long goShow(int depth)
 			continue;
 		}
 		//writeln("making ",returnmove(p.list[i]));
-		testhashkey();
+		testhashKey();
 			
 		nodes += go(depth-1);
 		takeMove();
@@ -80,7 +80,7 @@ long goRoot(int depth)
 			continue;
 		}
 		//writeln("root move ",returnmove(p.list[i]));
-		testhashkey();
+		testhashKey();
 			
 		nodes += go(depth-1);
 		takeMove();

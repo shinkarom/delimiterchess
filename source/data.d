@@ -26,16 +26,12 @@ Position p;
 EvalOptions eo;
 
 Move ponderMove;
-Hist[1024] hist;
+HistoryEntry[1024] hist;
 
 Move nomove;
 Move best;
 
 int[144] castleBits;
-
-char[15] piecetochar = "pPnNbBrRqQkK.";
-char[8] brdranks = "12345678";
-char[8] brdfiles = "abcdefgh";
 
 HashElem[] TTable;
 int numelem;

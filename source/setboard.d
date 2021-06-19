@@ -10,11 +10,10 @@ int[64] index = [
 
 void setBoard(string str)
 {
-	clearBoard();
+	p.clearBoard();
 	int WK = 0, BK = 0, WP = 0, BP = 0;
 	int sq = 0;
 	int ptr = 0;
-	bool shouldBreak = false;
 	while (sq < 64)
 	{
 		switch (str[ptr])
@@ -134,19 +133,19 @@ void setBoard(string str)
 	while (str[ptr] == ' ')
 		ptr++;
 
-	p.castleflags = 0;
+	p.castleFlags = 0;
 	while (str[ptr] != ' ')
 	{
 		if (str[ptr] == '-')
 			break;
 		else if (str[ptr] == 'K')
-			p.castleflags |= 8;
+			p.castleFlags |= 8;
 		else if (str[ptr] == 'Q')
-			p.castleflags |= 4;
+			p.castleFlags |= 4;
 		else if (str[ptr] == 'k')
-			p.castleflags |= 2;
+			p.castleFlags |= 2;
 		else if (str[ptr] == 'q')
-			p.castleflags |= 1;
+			p.castleFlags |= 1;
 		ptr++;
 	}
 	ptr++;
@@ -155,17 +154,17 @@ void setBoard(string str)
 
 	if (str[ptr] == '-')
 	{
-		p.en_pas = noenpas;
+		p.enPas = noEnPas;
 	}
 	else
 	{
-		int file = charToFile(str[ptr]);
+		immutable int file = charToFile(str[ptr]);
 		ptr++;
-		int rank = charToRank(str[ptr]);
-		p.en_pas = fileRankToSquare(file, rank);
+		immutable int rank = charToRank(str[ptr]);
+		p.enPas = fileRankToSquare(file, rank);
 	}
-	if (p.en_pas < A4 || p.en_pas > H6)
-		p.en_pas = noenpas;
+	if (p.enPas < Square.A4 || p.enPas > Square.H6)
+		p.enPas = noEnPas;
 
 	ptr++;
 	while (str[ptr] == ' ')
@@ -179,7 +178,7 @@ void setBoard(string str)
 	p.fifty *= 2;
 
 	initPieceLists();
-	fullhashkey();
+	fullhashKey();
 	p.ply = 0;
 	histply = 0;
 	p.listc[0] = 0;

@@ -8,13 +8,13 @@ void printBoard()
 		for (int j = 2; j < 10; j++)
 		{
 			int k = i * 12 + j;
-			write(piecetochar[p.board[k]]);
+			write(pieceToChar[p.board[k]]);
 		}
 		write("\t");
 		switch (i)
 		{
 		case 9:
-			writef("Hash: %X", p.hashkey);
+			writef("Hash: %X", p.hashKey);
 			break;
 		case 8:
 			writef("Fresh hash: %X", generateHashKey());
@@ -30,13 +30,13 @@ void printBoard()
 			break;
 		case 4:
 			write("Castling: ");
-			if (p.castleflags & WKC)
+			if (p.castleFlags & WKC)
 				write("K");
-			if (p.castleflags & WQC)
+			if (p.castleFlags & WQC)
 				write("Q");
-			if (p.castleflags & BKC)
+			if (p.castleFlags & BKC)
 				write("k");
-			if (p.castleflags & BQC)
+			if (p.castleFlags & BQC)
 				write("q");
 			break;
 		default:
@@ -61,7 +61,7 @@ void debugPceNumToSq()
 	for (int index = 1; index <= p.pceNum; index++)
 	{
 		auto sq = p.pceNumToSq[index];
-		writef("%s (%d) ", piecetochar[p.board[sq]], sq);
+		writef("%s (%d) ", pieceToChar[p.board[sq]], sq);
 	}
 	writeln();
 }

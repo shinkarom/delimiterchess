@@ -2,7 +2,8 @@ import data, defines, interrupt, sort, doundo, hash, attack, movegen, eval, move
 
 int search(int alpha, int beta, int depth, bool nul)
 {
-	int score = 0, hashscore = 0, hflag = NOFLAG;
+	int score = 0, hashscore = 0;
+	auto hflag = BookMoveType.None;
 	int inc = 0;
 	Move hashmove = nomove;
 	int old_alpha = alpha;
@@ -20,14 +21,14 @@ int search(int alpha, int beta, int depth, bool nul)
 	hflag = probe_hash_table(depth, hashmove, nul, hashscore, beta);
 	switch (hflag)
 	{
-	case EXACT:
+	case BookMoveType.Exact:
 		return hashscore;
-	case UPPER:
+	case BookMoveType.Upper:
 		if (hashscore <= alpha)
 			return hashscore;
 		else
 			break;
-	case LOWER:
+	case BookMoveType.Lower:
 		if (hashscore >= beta)
 			return hashscore;
 		else
@@ -49,15 +50,15 @@ int search(int alpha, int beta, int depth, bool nul)
 		check[p.ply] = 0;
 		if (p.pceNum > 4 && nul && depth > PLY && !followpv)
 		{
-			int tep = p.en_pas;
-			p.hashkey ^= hashTurn;
-			if (p.en_pas != noenpas)
-				p.hashkey ^= hashEnPassant[files[p.en_pas]];
-			p.en_pas = noenpas;
+			int tep = p.enPas;
+			p.hashKey ^= hashTurn;
+			if (p.enPas != noEnPas)
+				p.hashKey ^= hashEnPassant[files[p.enPas]];
+			p.enPas = noEnPas;
 			p.side ^= 1;
-			p.hashkey ^= hashTurn;
-			if (p.en_pas != noenpas)
-				p.hashkey ^= hashEnPassant[files[p.en_pas]];
+			p.hashKey ^= hashTurn;
+			if (p.enPas != noEnPas)
+				p.hashKey ^= hashEnPassant[files[p.enPas]];
 			int ns;
 			if (depth > 7)
 			{
@@ -68,15 +69,15 @@ int search(int alpha, int beta, int depth, bool nul)
 				ns = -search(-beta, -beta + 1, depth - 3 * PLY, false);
 			}
 			followpv = opv;
-			tep = p.en_pas;
-			p.hashkey ^= hashTurn;
-			if (p.en_pas != noenpas)
-				p.hashkey ^= hashEnPassant[files[p.en_pas]];
-			p.en_pas = tep;
+			tep = p.enPas;
+			p.hashKey ^= hashTurn;
+			if (p.enPas != noEnPas)
+				p.hashKey ^= hashEnPassant[files[p.enPas]];
+			p.enPas = tep;
 			p.side ^= 1;
-			p.hashkey ^= hashTurn;
-			if (p.en_pas != noenpas)
-				p.hashkey ^= hashEnPassant[files[p.en_pas]];
+			p.hashKey ^= hashTurn;
+			if (p.enPas != noEnPas)
+				p.hashKey ^= hashEnPassant[files[p.enPas]];
 			if (stopsearch)
 				return 0;
 			if (ns >= beta)
@@ -157,7 +158,7 @@ int search(int alpha, int beta, int depth, bool nul)
 						fhf++;
 					fh++;
 					updateKillers(p.list[i], score);
-					store_hash(depth, score, LOWER, nul, bestmove);
+					store_hash(depth, score, BookMoveType.Lower, nul, bestmove);
 					return beta;
 				}
 
@@ -182,11 +183,11 @@ int search(int alpha, int beta, int depth, bool nul)
 	}
 	if (alpha > old_alpha)
 	{
-		store_hash(depth, bestscore, EXACT, nul, bestmove);
+		store_hash(depth, bestscore, BookMoveType.Exact, nul, bestmove);
 	}
 	else
 	{
-		store_hash(depth, alpha, UPPER, nul, bestmove);
+		store_hash(depth, alpha, BookMoveType.Upper, nul, bestmove);
 	}
 
 	return alpha;
@@ -268,7 +269,7 @@ bool isRep()
 		return true;
 	for (int i = 0; i < histply; i++)
 	{
-		if (hist[i].hashKey == p.hashkey)
+		if (hist[i].hashKey == p.hashKey)
 			return true;
 	}
 	return false;
