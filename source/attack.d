@@ -1,6 +1,6 @@
 import data, defines;
 
-bool isAttacked(int sq, int side)
+bool isAttacked(ref Position p, int sq, int side)
 {
 	int tsq;
 	if (side == Side.Black)

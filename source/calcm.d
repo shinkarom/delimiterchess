@@ -73,7 +73,7 @@ Move findHashMove(Move m)
 	int fbeta = 0;
 
 	Move hashMove = nomove;
-	makeMove(m);
+	p.makeMove(m);
 	fakeScore = probe_hash_table(fakeDepth, hashMove, fakeNull, fakeScore, fbeta);
 	if (nopvmove(returnmove(hashMove)))
 	{
@@ -82,9 +82,9 @@ Move findHashMove(Move m)
 		for (int i = p.listc[p.ply]; i < p.listc[p.ply + 1]; i++)
 		{
 			pick(i);
-			if (makeMove(p.list[i]))
+			if (p.makeMove(p.list[i]))
 			{
-				takeMove();
+				p.takeMove();
 				continue;
 			}
 			else
@@ -95,7 +95,7 @@ Move findHashMove(Move m)
 			}
 		}
 	}
-	takeMove();
+	p.takeMove();
 
 	return hashMove;
 }

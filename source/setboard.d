@@ -1,14 +1,14 @@
 import std.stdio;
 import data, defines, board, utils, hash;
 
-int[64] index = [
+immutable int[64] index = [
 	110, 111, 112, 113, 114, 115, 116, 117, 98, 99, 100, 101, 102, 103, 104,
 	105, 86, 87, 88, 89, 90, 91, 92, 93, 74, 75, 76, 77, 78, 79, 80, 81, 62,
 	63, 64, 65, 66, 67, 68, 69, 50, 51, 52, 53, 54, 55, 56, 57, 38, 39, 40,
 	41, 42, 43, 44, 45, 26, 27, 28, 29, 30, 31, 32, 33
 ];
 
-void setBoard(string str)
+void setBoard(ref Position p, string str)
 {
 	p.clearBoard();
 	int WK = 0, BK = 0, WP = 0, BP = 0;
@@ -20,7 +20,7 @@ void setBoard(string str)
 		{
 		case 'K':
 			p.board[index[sq]] = SquareType.wK;
-			p.k[Side.White] = index[sq];
+			p.kingSquares[Side.White] = cast(Square)(index[sq]);
 			WK++;
 			sq++;
 			break;
@@ -52,7 +52,7 @@ void setBoard(string str)
 			break;
 		case 'k':
 			p.board[index[sq]] = SquareType.bK;
-			p.k[Side.Black] = index[sq];
+			p.kingSquares[Side.Black] = cast(Square)(index[sq]);
 			BK++;
 			sq++;
 			break;

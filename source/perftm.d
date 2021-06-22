@@ -26,17 +26,17 @@ long go(int depth)
 	for(int i  = p.listc[p.ply]; i < p.listc[p.ply+1]; i++)
 	{
 		//writeln(returnmove(p.list[i])," there is on depth ",depth);
-		if(makeMove(p.list[i]))
+		if(p.makeMove(p.list[i]))
 		{
 			//writeln("move ",returnmove(p.list[i])," depth ",depth," unavailable");
-			takeMove();
+			p.takeMove();
 			continue;
 		}
 		//writeln("move ",returnmove(p.list[i])," depth ",depth);
 		testhashKey();
 			
 		nodes += go(depth-1);
-		takeMove();
+		p.takeMove();
 	}
 	return nodes;
 }
@@ -49,16 +49,16 @@ long goShow(int depth)
 	moveGen();
 	for(int i  = p.listc[p.ply]; i < p.listc[p.ply+1]; i++)
 	{
-		if(makeMove(p.list[i]))
+		if(p.makeMove(p.list[i]))
 		{
-			takeMove();
+			p.takeMove();
 			continue;
 		}
 		//writeln("making ",returnmove(p.list[i]));
 		testhashKey();
 			
 		nodes += go(depth-1);
-		takeMove();
+		p.takeMove();
 	}
 	return nodes;	
 }
@@ -73,17 +73,17 @@ long goRoot(int depth)
 	//long oldnodes = 0;
 	for(int i  = p.listc[p.ply]; i < p.listc[p.ply+1]; i++)
 	{
-		if(makeMove(p.list[i]))
+		if(p.makeMove(p.list[i]))
 		{
 			//writeln("root move ",returnmove(p.list[i])," depth ",depth," unavailable");
-			takeMove();
+			p.takeMove();
 			continue;
 		}
 		//writeln("root move ",returnmove(p.list[i]));
 		testhashKey();
 			
 		nodes += go(depth-1);
-		takeMove();
+		p.takeMove();
 		
 		//rootnodes[i] = actnodes - oldnodes;
 		//writeln(returnmove(p.list[i])," ",rootnodes[i]);
@@ -100,7 +100,7 @@ void perftFile(int depth)
 	
 	foreach(fileline; testfile.byLine())
 	{
-		setBoard(fileline.idup);
+		p.setBoard(fileline.idup);
 		auto finddepth = fileline.find("D"~to!string(depth)~" ");
 		if(finddepth == "")
 			continue;

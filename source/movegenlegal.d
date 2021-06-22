@@ -1,7 +1,7 @@
 import data, defines, attack;
 import std.stdio;
 
-void pushMoveLegal(int from, int to, int flag)
+void pushMoveLegal(Square from, Square to, int flag)
 {
 	SquareType holdme;
 	int data = (from << 8) | to | flag;
@@ -12,7 +12,7 @@ void pushMoveLegal(int from, int to, int flag)
 	takeQuick(data, holdme);
 }
 
-void pushPawnLegal(int from, int to, int flag)
+void pushPawnLegal(Square from, Square to, int flag)
 {
 	import std.stdio;
 
@@ -29,46 +29,47 @@ void pushPawnLegal(int from, int to, int flag)
 	}
 }
 
-void knightMoveLegal(int f, int t, Side xSide)
+void knightMoveLegal(Square from, int dir, Side xSide)
 {
-	if (p.board[t] == SquareType.Edge)
+	Square to = cast(Square)(from + dir);
+	if (p.board[to] == SquareType.Edge)
 		return;
-	else if (p.board[t] == SquareType.Empty)
+	else if (p.board[to] == SquareType.Empty)
 	{
-		pushMoveLegal(f, t, mNORM);
+		pushMoveLegal(from, to, mNORM);
 	}
-	else if (SquareTypeSide[p.board[t]] == xSide)
+	else if (SquareTypeSide[p.board[to]] == xSide)
 	{
-		pushMoveLegal(f, t, mCAP);
+		pushMoveLegal(from, to, mCAP);
 	}
 }
 
-void slideMoveLegal(int f, int t, Side xSide)
+void slideMoveLegal(Square from, int dir, Side xSide)
 {
-	int d = t - f;
-	if (p.board[t] == SquareType.Edge)
+	Square to = cast(Square)(from + dir);
+	if (p.board[to] == SquareType.Edge)
 		return;
 	do
 	{
-		if (p.board[t] == SquareType.Empty)
+		if (p.board[to] == SquareType.Empty)
 		{
-			pushMoveLegal(f, t, mNORM);
-			t += d;
+			pushMoveLegal(from, to, mNORM);
+			to += dir;
 		}
-		else if (SquareTypeSide[p.board[t]] == xSide)
+		else if (SquareTypeSide[p.board[to]] == xSide)
 		{
-			pushMoveLegal(f, t, mCAP);
+			pushMoveLegal(from, to, mCAP);
 			break;
 		}
 		else
 			break;
 	}
-	while (p.board[t] != SquareType.Edge);
+	while (p.board[to] != SquareType.Edge);
 }
 
 void moveGenLegal()
 {
-	int tsq;
+	Square tsq;
 	p.listc[p.ply + 1] = p.listc[p.ply];
 
 	if (p.side == Side.White)
@@ -79,11 +80,11 @@ void moveGenLegal()
 		{
 			if (p.pceNumToSq[index] == 0)
 				continue;
-			int sq = p.pceNumToSq[index];
+			Square sq = cast(Square)(p.pceNumToSq[index]);
 			switch (p.board[sq])
 			{
 			case SquareType.wP:
-				tsq = sq + 13;
+				tsq = cast(Square)(sq + 13);
 				if (SquareTypeSide[p.board[tsq]] == Side.Black)
 				{
 					pushPawnLegal(sq, tsq, mCAP);
@@ -92,7 +93,7 @@ void moveGenLegal()
 				{
 					pushMoveLegal(sq, tsq, mPEP);
 				}
-				tsq = sq + 11;
+				tsq = cast(Square)(sq + 11);
 				if (SquareTypeSide[p.board[tsq]] == Side.Black)
 				{
 					pushPawnLegal(sq, tsq, mCAP);
@@ -101,35 +102,35 @@ void moveGenLegal()
 				{
 					pushMoveLegal(sq, tsq, mPEP);
 				}
-				tsq = sq + 12;
+				tsq = cast(Square)(sq + 12);
 				if (p.board[tsq] == SquareType.Empty)
 				{
 					pushPawnLegal(sq, tsq, mNORM);
 					if (sq < Square.A3 && p.board[tsq + 12] == SquareType.Empty)
 					{
-						pushMoveLegal(sq, (tsq + 12), mPST);
+						pushMoveLegal(sq, cast(Square)(tsq + 12), mPST);
 					}
 				}
 				break;
 			case SquareType.wN:
-				knightMoveLegal(sq, sq + 14, Side.Black);
-				knightMoveLegal(sq, sq + 10, Side.Black);
-				knightMoveLegal(sq, sq + 25, Side.Black);
-				knightMoveLegal(sq, sq + 23, Side.Black);
-				knightMoveLegal(sq, sq - 14, Side.Black);
-				knightMoveLegal(sq, sq - 10, Side.Black);
-				knightMoveLegal(sq, sq - 25, Side.Black);
-				knightMoveLegal(sq, sq - 23, Side.Black);
+				knightMoveLegal(sq, 14, Side.Black);
+				knightMoveLegal(sq, 10, Side.Black);
+				knightMoveLegal(sq, 25, Side.Black);
+				knightMoveLegal(sq, 23, Side.Black);
+				knightMoveLegal(sq, -14, Side.Black);
+				knightMoveLegal(sq, -10, Side.Black);
+				knightMoveLegal(sq, -25, Side.Black);
+				knightMoveLegal(sq, -23, Side.Black);
 				break;
 			case SquareType.wK:
-				knightMoveLegal(sq, sq + 1, Side.Black);
-				knightMoveLegal(sq, sq + 12, Side.Black);
-				knightMoveLegal(sq, sq + 11, Side.Black);
-				knightMoveLegal(sq, sq + 13, Side.Black);
-				knightMoveLegal(sq, sq - 1, Side.Black);
-				knightMoveLegal(sq, sq - 12, Side.Black);
-				knightMoveLegal(sq, sq - 11, Side.Black);
-				knightMoveLegal(sq, sq - 13, Side.Black);
+				knightMoveLegal(sq, +1, Side.Black);
+				knightMoveLegal(sq, +12, Side.Black);
+				knightMoveLegal(sq, +11, Side.Black);
+				knightMoveLegal(sq, +13, Side.Black);
+				knightMoveLegal(sq, -1, Side.Black);
+				knightMoveLegal(sq, -12, Side.Black);
+				knightMoveLegal(sq, -11, Side.Black);
+				knightMoveLegal(sq, -13, Side.Black);
 				if (sq == Square.E1)
 				{
 					if (p.castleFlags & 8)
@@ -137,8 +138,8 @@ void moveGenLegal()
 						if (p.board[Square.H1] == SquareType.wR && p.board[Square.F1] == SquareType.Empty
 								&& p.board[Square.G1] == SquareType.Empty)
 						{
-							if (!isAttacked(Square.F1, Side.Black) && !isAttacked(Square.E1,
-									Side.Black) && !isAttacked(Square.G1, Side.Black))
+							if (!p.isAttacked(Square.F1, Side.Black) && !p.isAttacked(Square.E1,
+									Side.Black) && !p.isAttacked(Square.G1, Side.Black))
 							{
 								pushMoveLegal(Square.E1, Square.G1, mCA);
 							}
@@ -149,8 +150,8 @@ void moveGenLegal()
 						if (p.board[Square.A1] == SquareType.wR && p.board[Square.D1] == SquareType.Empty
 								&& p.board[Square.C1] == SquareType.Empty && p.board[Square.B1] == SquareType.Empty)
 						{
-							if (!isAttacked(Square.D1, Side.Black) && !isAttacked(Square.E1,
-									Side.Black) && !isAttacked(Square.C1, Side.Black))
+							if (!p.isAttacked(Square.D1, Side.Black) && !p.isAttacked(Square.E1,
+									Side.Black) && !p.isAttacked(Square.C1, Side.Black))
 							{
 								pushMoveLegal(Square.E1, Square.C1, mCA);
 							}
@@ -159,26 +160,26 @@ void moveGenLegal()
 				}
 				break;
 			case SquareType.wQ:
-				slideMoveLegal(sq, sq + 13, Side.Black);
-				slideMoveLegal(sq, sq + 11, Side.Black);
-				slideMoveLegal(sq, sq - 13, Side.Black);
-				slideMoveLegal(sq, sq - 11, Side.Black);
-				slideMoveLegal(sq, sq + 12, Side.Black);
-				slideMoveLegal(sq, sq + 1, Side.Black);
-				slideMoveLegal(sq, sq - 12, Side.Black);
-				slideMoveLegal(sq, sq - 1, Side.Black);
+				slideMoveLegal(sq, 13, Side.Black);
+				slideMoveLegal(sq, 11, Side.Black);
+				slideMoveLegal(sq, -13, Side.Black);
+				slideMoveLegal(sq, -11, Side.Black);
+				slideMoveLegal(sq, 12, Side.Black);
+				slideMoveLegal(sq, 1, Side.Black);
+				slideMoveLegal(sq, -12, Side.Black);
+				slideMoveLegal(sq, -1, Side.Black);
 				break;
 			case SquareType.wB:
-				slideMoveLegal(sq, sq + 13, Side.Black);
-				slideMoveLegal(sq, sq + 11, Side.Black);
-				slideMoveLegal(sq, sq - 13, Side.Black);
-				slideMoveLegal(sq, sq - 11, Side.Black);
+				slideMoveLegal(sq, 13, Side.Black);
+				slideMoveLegal(sq, 11, Side.Black);
+				slideMoveLegal(sq, -13, Side.Black);
+				slideMoveLegal(sq, -11, Side.Black);
 				break;
 			case SquareType.wR:
-				slideMoveLegal(sq, sq + 12, Side.Black);
-				slideMoveLegal(sq, sq + 1, Side.Black);
-				slideMoveLegal(sq, sq - 12, Side.Black);
-				slideMoveLegal(sq, sq - 1, Side.Black);
+				slideMoveLegal(sq, 12, Side.Black);
+				slideMoveLegal(sq, 1, Side.Black);
+				slideMoveLegal(sq, -12, Side.Black);
+				slideMoveLegal(sq, -1, Side.Black);
 				break;
 			default:
 				break;
@@ -192,11 +193,11 @@ void moveGenLegal()
 			if (p.pceNumToSq[index] == 0)
 				continue;
 
-			int sq = p.pceNumToSq[index];
+			Square sq = cast(Square)(p.pceNumToSq[index]);
 			switch (p.board[sq])
 			{
 			case SquareType.bP:
-				tsq = sq - 13;
+				tsq = cast(Square)(sq - 13);
 				if (SquareTypeSide[p.board[tsq]] == Side.White)
 				{
 					pushPawnLegal(sq, tsq, mCAP);
@@ -205,7 +206,7 @@ void moveGenLegal()
 				{
 					pushMoveLegal(sq, tsq, mPEP);
 				}
-				tsq = sq - 11;
+				tsq = cast(Square)(sq - 11);
 				if (SquareTypeSide[p.board[tsq]] == Side.White)
 				{
 					pushPawnLegal(sq, tsq, mCAP);
@@ -214,35 +215,35 @@ void moveGenLegal()
 				{
 					pushMoveLegal(sq, tsq, mPEP);
 				}
-				tsq = sq - 12;
+				tsq = cast(Square)(sq - 12);
 				if (p.board[tsq] == SquareType.Empty)
 				{
 					pushPawnLegal(sq, tsq, mNORM);
 					if (sq < Square.A3 && p.board[tsq + 12] == SquareType.Empty)
 					{
-						pushMoveLegal(sq, (tsq - 12), mPST);
+						pushMoveLegal(sq, cast(Square)(tsq - 12), mPST);
 					}
 				}
 				break;
 			case SquareType.bN:
-				knightMoveLegal(sq, sq + 14, Side.White);
-				knightMoveLegal(sq, sq + 10, Side.White);
-				knightMoveLegal(sq, sq + 25, Side.White);
-				knightMoveLegal(sq, sq + 23, Side.White);
-				knightMoveLegal(sq, sq - 14, Side.White);
-				knightMoveLegal(sq, sq - 10, Side.White);
-				knightMoveLegal(sq, sq - 25, Side.White);
-				knightMoveLegal(sq, sq - 23, Side.White);
+				knightMoveLegal(sq, 14, Side.White);
+				knightMoveLegal(sq, 10, Side.White);
+				knightMoveLegal(sq, 25, Side.White);
+				knightMoveLegal(sq, 23, Side.White);
+				knightMoveLegal(sq, -14, Side.White);
+				knightMoveLegal(sq, -10, Side.White);
+				knightMoveLegal(sq, -25, Side.White);
+				knightMoveLegal(sq, -23, Side.White);
 				break;
 			case SquareType.bK:
-				knightMoveLegal(sq, sq + 1, Side.White);
-				knightMoveLegal(sq, sq + 12, Side.White);
-				knightMoveLegal(sq, sq + 11, Side.White);
-				knightMoveLegal(sq, sq + 13, Side.White);
-				knightMoveLegal(sq, sq - 1, Side.White);
-				knightMoveLegal(sq, sq - 12, Side.White);
-				knightMoveLegal(sq, sq - 11, Side.White);
-				knightMoveLegal(sq, sq - 13, Side.White);
+				knightMoveLegal(sq, 1, Side.White);
+				knightMoveLegal(sq, 12, Side.White);
+				knightMoveLegal(sq, 11, Side.White);
+				knightMoveLegal(sq, 13, Side.White);
+				knightMoveLegal(sq, -1, Side.White);
+				knightMoveLegal(sq, -12, Side.White);
+				knightMoveLegal(sq, -11, Side.White);
+				knightMoveLegal(sq, -13, Side.White);
 				if (sq == Square.E8)
 				{
 					if (p.castleFlags & 2)
@@ -250,8 +251,8 @@ void moveGenLegal()
 						if (p.board[Square.H8] == SquareType.bR && p.board[Square.F8] == SquareType.Empty
 								&& p.board[Square.G8] == SquareType.Empty)
 						{
-							if (!isAttacked(Square.F8, Side.White) && !isAttacked(Square.E8,
-									Side.White) && !isAttacked(Square.G8, Side.White))
+							if (!p.isAttacked(Square.F8, Side.White) && !p.isAttacked(Square.E8,
+									Side.White) && !p.isAttacked(Square.G8, Side.White))
 							{
 								pushMoveLegal(Square.E8, Square.G8, mCA);
 							}
@@ -262,8 +263,8 @@ void moveGenLegal()
 						if (p.board[Square.A8] == SquareType.bR && p.board[Square.D8] == SquareType.Empty
 								&& p.board[Square.C8] == SquareType.Empty && p.board[Square.B8] == SquareType.Empty)
 						{
-							if (!isAttacked(Square.D8, Side.White) && !isAttacked(Square.E8,
-									Side.White) && !isAttacked(Square.C8, Side.White))
+							if (!p.isAttacked(Square.D8, Side.White) && !p.isAttacked(Square.E8,
+									Side.White) && !p.isAttacked(Square.C8, Side.White))
 							{
 								pushMoveLegal(Square.E8, Square.C8, mCA);
 							}
@@ -272,26 +273,26 @@ void moveGenLegal()
 				}
 				break;
 			case SquareType.bQ:
-				slideMoveLegal(sq, sq + 13, Side.White);
-				slideMoveLegal(sq, sq + 11, Side.White);
-				slideMoveLegal(sq, sq - 13, Side.White);
-				slideMoveLegal(sq, sq - 11, Side.White);
-				slideMoveLegal(sq, sq + 12, Side.White);
-				slideMoveLegal(sq, sq + 1, Side.White);
-				slideMoveLegal(sq, sq - 12, Side.White);
-				slideMoveLegal(sq, sq - 1, Side.White);
+				slideMoveLegal(sq, 13, Side.White);
+				slideMoveLegal(sq, 11, Side.White);
+				slideMoveLegal(sq, -13, Side.White);
+				slideMoveLegal(sq, -11, Side.White);
+				slideMoveLegal(sq, 12, Side.White);
+				slideMoveLegal(sq, 1, Side.White);
+				slideMoveLegal(sq, -12, Side.White);
+				slideMoveLegal(sq, -1, Side.White);
 				break;
 			case SquareType.bB:
-				slideMoveLegal(sq, sq + 13, Side.White);
-				slideMoveLegal(sq, sq + 11, Side.White);
-				slideMoveLegal(sq, sq - 13, Side.White);
-				slideMoveLegal(sq, sq - 11, Side.White);
+				slideMoveLegal(sq, 13, Side.White);
+				slideMoveLegal(sq, 11, Side.White);
+				slideMoveLegal(sq, -13, Side.White);
+				slideMoveLegal(sq, -11, Side.White);
 				break;
 			case SquareType.bR:
-				slideMoveLegal(sq, sq + 12, Side.White);
-				slideMoveLegal(sq, sq + 1, Side.White);
-				slideMoveLegal(sq, sq - 12, Side.White);
-				slideMoveLegal(sq, sq - 1, Side.White);
+				slideMoveLegal(sq, 12, Side.White);
+				slideMoveLegal(sq, 1, Side.White);
+				slideMoveLegal(sq, -12, Side.White);
+				slideMoveLegal(sq, -1, Side.White);
 				break;
 			default:
 				break;
@@ -302,8 +303,8 @@ void moveGenLegal()
 
 bool makeQuick(int m, ref SquareType holdme)
 {
-	int from = getFrom(m);
-	int to = getTo(m);
+	auto from = getFrom(m);
+	auto to = getTo(m);
 	int flag = getFlag(m);
 
 	bool r = false;
@@ -316,11 +317,11 @@ bool makeQuick(int m, ref SquareType holdme)
 
 	if (p.side == Side.White && p.board[to] == SquareType.wK)
 	{
-		p.k[Side.White] = to;
+		p.kingSquares[Side.White] = cast(Square)to;
 	}
 	else if (p.side == Side.Black && p.board[to] == SquareType.bK)
 	{
-		p.k[Side.Black] = to;
+		p.kingSquares[Side.Black] = cast(Square)to;
 	}
 
 	if (flag & mProm)
@@ -406,14 +407,14 @@ bool makeQuick(int m, ref SquareType holdme)
 			p.board[to + 12] = SquareType.Empty;
 		}
 	}
-	r = isAttacked(p.k[p.side], p.side ^ 1);
+	r = p.isAttacked(p.kingSquares[p.side], p.side ^ 1);
 	return r;
 }
 
-void takeQuick(int m, ref SquareType holdme)
+void takeQuick(int m, SquareType holdme)
 {
-	int from = getFrom(m);
-	int to = getTo(m);
+	auto from = getFrom(m);
+	auto to = getTo(m);
 	int flag = getFlag(m);
 
 	p.board[from] = p.board[to];
@@ -421,11 +422,11 @@ void takeQuick(int m, ref SquareType holdme)
 
 	if (p.side == Side.White && p.board[from] == SquareType.wK)
 	{
-		p.k[Side.White] = from;
+		p.kingSquares[Side.White] = cast(Square)from;
 	}
 	else if (p.side == Side.Black && p.board[from] == SquareType.bK)
 	{
-		p.k[Side.Black] = from;
+		p.kingSquares[Side.Black] = cast(Square)from;
 	}
 
 	if (flag & mProm)
@@ -477,8 +478,8 @@ void takeQuick(int m, ref SquareType holdme)
 
 bool makeLegalMove(Move m)
 {
-	int from = getFrom(m.m);
-	int to = getTo(m.m);
+	auto from = getFrom(m.m);
+	auto to = getTo(m.m);
 	int flag = getFlag(m.m);
 
 	bool r = false;
@@ -509,11 +510,11 @@ bool makeLegalMove(Move m)
 
 	if (p.side == Side.White && p.board[to] == SquareType.wK)
 	{
-		p.k[Side.White] = to;
+		p.kingSquares[Side.White] = cast(Square)to;
 	}
 	else if (p.side == Side.Black && p.board[to] == SquareType.bK)
 	{
-		p.k[Side.Black] = to;
+		p.kingSquares[Side.Black] = cast(Square)to;
 	}
 
 	p.hashKey ^= hashPieces[64 * p.board[to] + 8 * ranks[from] + files[from]];

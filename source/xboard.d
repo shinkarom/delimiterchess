@@ -78,18 +78,18 @@ bool checkResult()
 
 	for (int i = p.listc[p.ply]; i < p.listc[p.ply + 1]; i++)
 	{
-		if (makeMove(p.list[i]))
+		if (p.makeMove(p.list[i]))
 		{
-			takeMove();
+			p.takeMove();
 			continue;
 		}
 
 		played++;
-		takeMove();
+		p.takeMove();
 	}
 	if (played)
 		return false;
-	bool inc = isAttacked(p.k[p.side], p.side ^ 1);
+	bool inc = p.isAttacked(p.kingSquares[p.side], p.side ^ 1);
 
 	if (inc)
 	{
@@ -143,7 +143,7 @@ void xThink()
 	ulong allocatedtime;
 	if (!searchParam.pon)
 	{
-		allocatedtime = allocateTime();
+		allocatedtime = allocateTime(p, searchParam);
 		if (allocatedtime < 0)
 			allocatedtime = 200;
 		searchParam.starttime = (MonoTime.currTime - MonoTime.zero()).total!"msecs";
@@ -160,7 +160,7 @@ void xThink()
 
 	if (!searchParam.pon)
 	{
-		makeMove(best);
+		p.makeMove(best);
 		writeln("move=", returnmove(best));
 		if (searchParam.movestogo[p.side ^ 1] != -1)
 		{
@@ -186,10 +186,10 @@ void xboardMode()
 	string command;
 
 	iniFile();
-	setBoard(startFEN);
+	p.setBoard(startFEN);
 	clearhash();
 	int compside = noside;
-	initSearchParam();
+	initSearchParam(searchParam);
 	searchParam.xbmode = true;
 	searchParam.usebook = true;
 	while (true)
@@ -243,7 +243,7 @@ void xboardMode()
 			writeln("feature ics=1");
 			break;
 		case "level":
-			initSearchParam();
+			initSearchParam(searchParam);
 			formattedRead(line, "level %d %d %d", mps, base, inc);
 			if (mps)
 			{
@@ -258,12 +258,12 @@ void xboardMode()
 			searchParam.depth = -1;
 			break;
 		case "new":
-			setBoard(startFEN);
+			p.setBoard(startFEN);
 			clearhash();
 			compside = Side.Black;
 			break;
 		case "perft":
-			setBoard(startFEN);
+			p.setBoard(startFEN);
 			clearhash();
 			compside = Side.Black;
 			perft(6);
@@ -324,7 +324,7 @@ void xboardMode()
 				writeln("offer draw");
 			break;
 		case "setboard":
-			setBoard(line[9 .. $]);
+			p.setBoard(line[9 .. $]);
 			/+
 				printboard();
 				+/
@@ -347,17 +347,17 @@ void xboardMode()
 		case "remove":
 			if (histply > 0)
 			{
-				takeMove();
+				p.takeMove();
 				if (histply > 0)
 				{
-					takeMove();
+					p.takeMove();
 				}
 			}
 			break;
 		case "undo":
 			if (histply > 0)
 			{
-				takeMove();
+				p.takeMove();
 			}
 			break;
 		case "hard":

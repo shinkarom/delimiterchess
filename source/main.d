@@ -29,7 +29,7 @@ void main()
 
 	bookInit();
 
-	setBoard(startFEN);
+	p.setBoard(startFEN);
 	//printBoard();
 	if (debugMode)
 	{
@@ -63,7 +63,7 @@ void main()
 			perft(d);
 			break;
 		case "undo":
-			takeMove();
+			p.takeMove();
 			printBoard();
 			break;
 		case "print":

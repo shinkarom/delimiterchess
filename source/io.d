@@ -40,8 +40,8 @@ int understandmove(string move, ref bool prom)
 		writeln("ILLEGAL PARSE : ", move);
 		return -1;
 	}
-	int from = fileRankToSquare(charToRank(move[1]), charToFile(move[0]));
-	int to = fileRankToSquare(charToRank(move[3]), charToFile(move[2]));
+	Square from = fileRankToSquare(charToRank(move[1]), charToFile(move[0]));
+	Square to = fileRankToSquare(charToRank(move[3]), charToFile(move[2]));
 
 	moveGen();
 
@@ -89,9 +89,9 @@ int understandmove(string move, ref bool prom)
 		return -1;
 	}
 
-	if (makeMove(p.list[i]))
+	if (p.makeMove(p.list[i]))
 	{
-		takeMove();
+		p.takeMove();
 		writeln("illegal move!");
 		returnflag = -1;
 		prom = false;
@@ -193,8 +193,8 @@ int myparse(string move)
 		writeln("ILLEGAL PARSE : ", move);
 		return -1;
 	}
-	int from = fileRankToSquare(charToFile(move[0]), charToRank(move[1]));
-	int to = fileRankToSquare(charToFile(move[2]), charToRank(move[3]));
+	Square from = fileRankToSquare(charToFile(move[0]), charToRank(move[1]));
+	Square to = fileRankToSquare(charToFile(move[2]), charToRank(move[3]));
 
 	moveGen();
 

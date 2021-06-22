@@ -206,10 +206,10 @@ void midgameEval()
 					evalData.score[Side.White][beg] += 5;
 					evalData.score[Side.White][end] += 10;
 				}
-				if (abs(files[sq] - files[p.k[Side.Black]]) <= 1)
+				if (abs(files[sq] - files[p.kingSquares[Side.Black]]) <= 1)
 				{
 					evalData.score[Side.White][beg] += 8;
-					if (files[sq] == files[p.k[Side.Black]])
+					if (files[sq] == files[p.kingSquares[Side.Black]])
 					{
 						evalData.score[Side.White][beg] += 8;
 					}
@@ -275,10 +275,10 @@ void midgameEval()
 					evalData.score[Side.Black][beg] += 5;
 					evalData.score[Side.Black][end] += 10;
 				}
-				if (abs(files[sq] - files[p.k[Side.White]]) <= 1)
+				if (abs(files[sq] - files[p.kingSquares[Side.White]]) <= 1)
 				{
 					evalData.score[Side.Black][beg] += 8;
-					if (files[sq] == files[p.k[Side.White]])
+					if (files[sq] == files[p.kingSquares[Side.White]])
 					{
 						evalData.score[Side.Black][beg] += 8;
 					}
@@ -315,7 +315,7 @@ void midgameEval()
 	development();
 	blockedPawn();
 	bishopPair();
-	if (abs(files[p.k[Side.White]] - files[p.k[Side.Black]]) > 2)
+	if (abs(files[p.kingSquares[Side.White]] - files[p.kingSquares[Side.Black]]) > 2)
 	{
 		pawnStorm();
 	}
@@ -323,12 +323,12 @@ void midgameEval()
 
 bool wrSeven()
 {
-	return (64 & evalData.pawnbits[Side.Black]) || (ranks[p.k[Side.Black]] == 7);
+	return (64 & evalData.pawnbits[Side.Black]) || (ranks[p.kingSquares[Side.Black]] == 7);
 }
 
 bool brSeven()
 {
-	return (2 & evalData.pawnbits[Side.White]) || (ranks[p.k[Side.White]] == 0);
+	return (2 & evalData.pawnbits[Side.White]) || (ranks[p.kingSquares[Side.White]] == 0);
 }
 
 void development()
@@ -389,14 +389,14 @@ void wRookTrapped(int sq)
 {
 	if (sq == Square.H1 || sq == Square.G1)
 	{
-		if (p.k[Side.White] == Square.F1 || p.k[Side.White] == Square.G1)
+		if (p.kingSquares[Side.White] == Square.F1 || p.kingSquares[Side.White] == Square.G1)
 		{
 			evalData.score[Side.White][beg] -= 70;
 		}
 	}
 	else if (sq == Square.A1 || sq == Square.B1)
 	{
-		if (p.k[Side.White] == Square.C1 || p.k[Side.White] == Square.B1)
+		if (p.kingSquares[Side.White] == Square.C1 || p.kingSquares[Side.White] == Square.B1)
 		{
 			evalData.score[Side.White][beg] -= 70;
 		}
@@ -407,14 +407,14 @@ void bRookTrapped(int sq)
 {
 	if (sq == Square.H8 || sq == Square.G8)
 	{
-		if (p.k[Side.Black] == Square.F8 || p.k[Side.Black] == Square.G8)
+		if (p.kingSquares[Side.Black] == Square.F8 || p.kingSquares[Side.Black] == Square.G8)
 		{
 			evalData.score[Side.Black][beg] -= 70;
 		}
 	}
 	else if (sq == Square.A8 || sq == Square.B8)
 	{
-		if (p.k[Side.Black] == Square.C8 || p.k[Side.Black] == Square.B8)
+		if (p.kingSquares[Side.Black] == Square.C8 || p.kingSquares[Side.Black] == Square.B8)
 		{
 			evalData.score[Side.Black][beg] -= 70;
 		}
@@ -527,8 +527,8 @@ int blackPawnCover(int file, int rank)
 
 void pawnStorm()
 {
-	int wkf = files[p.k[Side.White]] + 1;
-	int bkf = files[p.k[Side.Black]] + 1;
+	int wkf = files[p.kingSquares[Side.White]] + 1;
+	int bkf = files[p.kingSquares[Side.Black]] + 1;
 
 	evalData.score[Side.White][beg] += wstorm[evalData.pawn_set[Side.White][bkf - 1]];
 	evalData.score[Side.White][beg] += wstorm[evalData.pawn_set[Side.White][bkf]];
@@ -673,14 +673,14 @@ void wpp(int sq)
 		mscore += mppawn[Side.White][rank] >> 2;
 		mscore += eppawn[Side.White][rank] >> 1;
 	}
-	mscore += kmdppawn[distancetable[p.k[Side.White]][sq]] >> 2;
-	mscore -= kmdppawn[distancetable[p.k[Side.Black]][sq]] >> 2;
-	escore += kmdppawn[distancetable[p.k[Side.White]][sq]] >> 2;
-	escore -= kmdppawn[distancetable[p.k[Side.Black]][sq]] >> 2;
+	mscore += kmdppawn[distancetable[p.kingSquares[Side.White]][sq]] >> 2;
+	mscore -= kmdppawn[distancetable[p.kingSquares[Side.Black]][sq]] >> 2;
+	escore += kmdppawn[distancetable[p.kingSquares[Side.White]][sq]] >> 2;
+	escore -= kmdppawn[distancetable[p.kingSquares[Side.Black]][sq]] >> 2;
 	if (evalData.bmajors == 0)
 	{
 		int psq = sq + (7 - ranks[sq]) * 12;
-		if (distancetable[p.k[Side.Black]][psq] > distancetable[sq][psq])
+		if (distancetable[p.kingSquares[Side.Black]][psq] > distancetable[sq][psq])
 		{
 			escore += 800;
 		}
@@ -709,14 +709,14 @@ void bpp(int sq)
 		mscore += mppawn[Side.White][rank] >> 2;
 		mscore += eppawn[Side.White][rank] >> 1;
 	}
-	mscore += kmdppawn[distancetable[p.k[Side.Black]][sq]] >> 2;
-	mscore -= kmdppawn[distancetable[p.k[Side.White]][sq]] >> 2;
-	escore += kmdppawn[distancetable[p.k[Side.Black]][sq]] >> 2;
-	escore -= kmdppawn[distancetable[p.k[Side.White]][sq]] >> 2;
+	mscore += kmdppawn[distancetable[p.kingSquares[Side.Black]][sq]] >> 2;
+	mscore -= kmdppawn[distancetable[p.kingSquares[Side.White]][sq]] >> 2;
+	escore += kmdppawn[distancetable[p.kingSquares[Side.Black]][sq]] >> 2;
+	escore -= kmdppawn[distancetable[p.kingSquares[Side.White]][sq]] >> 2;
 	if (evalData.wmajors == 0)
 	{
 		int psq = sq - (ranks[sq] * 12);
-		if (distancetable[p.k[Side.White]][psq] > distancetable[sq][psq])
+		if (distancetable[p.kingSquares[Side.White]][psq] > distancetable[sq][psq])
 		{
 			escore += 800;
 		}

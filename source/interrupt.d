@@ -94,7 +94,7 @@ bool checkinput()
 				searchParam.ponderhit = true;
 				searchParam.pon = false;
 				searchParam.inf = false;
-				ulong alloctime = allocateTime();
+				ulong alloctime = allocateTime(p, searchParam);
 				if(alloctime<0) alloctime = 200;
 				searchParam.starttime = (MonoTime.currTime+msecs(500)-MonoTime.zero()).total!"msecs";
 				searchParam.stoptime = searchParam.starttime + alloctime;

@@ -108,9 +108,9 @@ void writeboard()
 	log_file.writef("\n majors = %d", p.majors);
 	log_file.writef("\n ply = %d", p.ply);
 	log_file.write("\n wk ");
-	writesq(p.k[Side.White]);
+	writesq(p.kingSquares[Side.White]);
 	log_file.write("\n bk ");
-	writesq(p.k[Side.Black]);
+	writesq(p.kingSquares[Side.Black]);
 	log_file.writef("\n white material = %d", p.material[Side.White]);
 	log_file.writef("\n black material = %d", p.material[Side.Black]);
 	log_file.writef("\n fifty = %d", p.fifty);

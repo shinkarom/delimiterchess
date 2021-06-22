@@ -48,7 +48,7 @@ void clearhash()
 		TTable[i].hashKey = 0;
 		TTable[i].depth = 0;
 		TTable[i].score = 0;
-		TTable[i].flag = BookMoveType.None;
+		TTable[i].flag = TableMoveType.None;
 	}
 }
 
@@ -100,11 +100,11 @@ bool testhashKey()
 	return true;
 }
 
-BookMoveType probe_hash_table(int depth, Move move, ref bool nul, ref int score, int beta)
+TableMoveType probe_hash_table(int depth, Move move, ref bool nul, ref int score, int beta)
 {
 	hashprobe++;
 	HashElem probe2;
-	auto flag = BookMoveType.None;
+	auto flag = TableMoveType.None;
 	probe2 = TTable[p.hashKey % numelem];
 	if (probe2.hashKey == p.hashKey)
 	{
@@ -120,10 +120,10 @@ BookMoveType probe_hash_table(int depth, Move move, ref bool nul, ref int score,
 		}
 		return flag;
 	}
-	return BookMoveType.None;
+	return TableMoveType.None;
 }
 
-void store_hash(int depth, int score, BookMoveType flag, bool nul, Move move)
+void store_hash(int depth, int score, TableMoveType flag, bool nul, Move move)
 {
 	auto index = p.hashKey % numelem;
 	if (depth >= TTable[index].depth)

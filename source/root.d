@@ -22,13 +22,13 @@ void scoreRootMoves()
 	{
 		auto f = getFrom(p.list[i].m);
 		auto t = getTo(p.list[i].m);
-		if (makeMove(p.list[i]))
+		if (p.makeMove(p.list[i]))
 		{
-			takeMove();
+			p.takeMove();
 			continue;
 		}
 		p.list[i].score = -quies(-10000, 10000);
-		takeMove();
+		p.takeMove();
 	}
 }
 
@@ -65,12 +65,12 @@ int rootSearch(int alpha, int beta, int depth)
 	for (int i = p.listc[p.ply]; i < p.listc[p.ply + 1]; i++)
 	{
 		pick(i);
-		if (makeMove(p.list[i]))
+		if (p.makeMove(p.list[i]))
 		{
-			takeMove();
+			p.takeMove();
 			continue;
 		}
-		if (isAttacked(p.k[p.side], p.side ^ 1))
+		if (p.isAttacked(p.kingSquares[p.side], p.side ^ 1))
 		{
 			inc = PLY;
 		}
@@ -89,7 +89,7 @@ int rootSearch(int alpha, int beta, int depth)
 				score = -search(-beta, -alpha, depth - PLY + inc, true);
 			}
 		}
-		takeMove();
+		p.takeMove();
 		inc = 0;
 
 		if (stopsearch)

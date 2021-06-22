@@ -61,7 +61,7 @@ void parseLine(string str)
 		parseOption(str[10 .. $]);
 		break;
 	case "ucinewgame":
-		setBoard(startFEN);
+		p.setBoard(startFEN);
 		clearhash();
 		break;
 	case "go":
@@ -94,11 +94,11 @@ void parsePosition(string str)
 	if (fen != "")
 	{
 		fen = fen[4 .. $];
-		setBoard(fen);
+		p.setBoard(fen);
 	}
 	else
 	{
-		setBoard(startFEN);
+		p.setBoard(startFEN);
 	}
 
 	bool prom;
@@ -125,7 +125,7 @@ void parseGo(string str)
 		writestring(str);
 	}
 
-	initSearchParam();
+	initSearchParam(searchParam);
 	auto arr = str.split(' ');
 	for (int i = 0; i < arr.length; i++)
 	{
@@ -182,7 +182,7 @@ void parseGo(string str)
 
 void think()
 {
-	ulong allocatedtime = allocateTime();
+	ulong allocatedtime = allocateTime(p, searchParam);
 	if (allocatedtime == 0)
 		allocatedtime = 200;
 	//writeln("allocated ",allocatedtime);

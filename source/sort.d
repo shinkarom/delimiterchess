@@ -35,8 +35,8 @@ void updateKillers(Move move, int score)
 
 bool scoreKiller(ref Move m)
 {
-	int from = getFrom(m.m);
-	int to = getTo(m.m);
+	auto from = getFrom(m.m);
+	auto to = getTo(m.m);
 	if (from == getFrom(killer1[p.ply].m) && to == getTo(killer1[p.ply].m))
 	{
 		m.score = KILLER1;
@@ -92,8 +92,8 @@ void scoreCapture(ref Move m)
 	}
 	else
 	{
-		int from = getFrom(m.m);
-		int to = getTo(m.m);
+		auto from = getFrom(m.m);
+		auto to = getTo(m.m);
 		int val = vals[p.board[getTo(m.m)]] - vals[p.board[getFrom(m.m)]];
 		if (val >= 600)
 		{
@@ -113,7 +113,7 @@ void scoreCapture(ref Move m)
 		}
 		else
 		{
-			if (isAttacked(to, p.side ^ 1))
+			if (p.isAttacked(to, p.side ^ 1))
 			{
 				m.score = 0;
 			}
@@ -227,8 +227,8 @@ void qorder()
 {
 	for (int i = p.listc[p.ply]; i < p.listc[p.ply + 1]; i++)
 	{
-		int from = getFrom(p.list[i].m);
-		int to = getTo(p.list[i].m);
+		auto from = getFrom(p.list[i].m);
+		auto to = getTo(p.list[i].m);
 		p.list[i].score = 0;
 
 		if (p.list[i].m == pv[p.ply][0].m)
@@ -242,7 +242,7 @@ void qorder()
 
 			if (val < 0)
 			{
-				if (isAttacked(to, p.side ^ 1))
+				if (p.isAttacked(to, p.side ^ 1))
 					p.list[i].score = 0;
 			}
 		}
@@ -252,7 +252,7 @@ void qorder()
 int extraDepth(Move m)
 {
 	int nd = 0;
-	int to = getTo(m.m);
+	auto to = getTo(m.m);
 
 	if (m.m & oPQ)
 	{

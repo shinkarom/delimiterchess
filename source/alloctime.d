@@ -1,7 +1,7 @@
 import core.time, std.stdio;
 import defines, data;
 
-ulong allocateTime()
+ulong allocateTime(Position p, SearchParam serachParam)
 {
 	if (searchParam.depth != -1)
 	{

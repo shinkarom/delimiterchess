@@ -128,11 +128,10 @@ void parseOpeningLine(string str)
 {
 	string move_string;
 	int ptr = 0;
-	int ptrtwo;
 	int movemade;
 	bool t;
 	
-	setBoard(startFEN);
+	p.setBoard(startFEN);
 	
 	while(ptr < str.length)
 	{

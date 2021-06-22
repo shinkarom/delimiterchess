@@ -2,11 +2,11 @@ import std.stdio;
 import debugit, io, data, defines, attack, hash;
 
 /// Make the move.
-bool makeMove(Move m)
+bool makeMove(ref Position p, Move m)
 {
-	int from = getFrom(m.m);
-	int to = getTo(m.m);
-	int flag = getFlag(m.m);
+	auto from = getFrom(m.m);
+	auto to = getTo(m.m);
+	immutable int flag = getFlag(m.m);
 	bool r = false;
 
 	hist[histply].data = m.m;
@@ -52,11 +52,11 @@ bool makeMove(Move m)
 
 	if (p.side == Side.White && p.board[to] == SquareType.wK)
 	{
-		p.k[Side.White] = to;
+		p.kingSquares[Side.White] = cast(Square)to;
 	}
 	else if (p.side == Side.Black && p.board[to] == SquareType.bK)
 	{
-		p.k[Side.Black] = to;
+		p.kingSquares[Side.Black] = cast(Square)to;
 	}
 
 	p.hashKey ^= hashPieces[64 * p.board[to] + 8 * ranks[from] + files[from]];
@@ -235,7 +235,7 @@ bool makeMove(Move m)
 		}
 	}
 
-	r = isAttacked(p.k[p.side], p.side ^ 1);
+	r = p.isAttacked(p.kingSquares[p.side], p.side ^ 1);
 
 	p.ply++;
 	p.side ^= 1;
@@ -256,7 +256,7 @@ bool makeMove(Move m)
 }
 
 /// Undo the move.
-void takeMove()
+void takeMove(ref Position p)
 {
 	p.ply--;
 	p.side ^= 1;
@@ -267,9 +267,9 @@ void takeMove()
 	p.hashKey = hist[histply].hashKey;
 	p.fifty = hist[histply].fifty;
 
-	int from = getFrom(hist[histply].data);
-	int to = getTo(hist[histply].data);
-	int flag = getFlag(hist[histply].data);
+	auto from = getFrom(hist[histply].data);
+	auto to = getTo(hist[histply].data);
+	immutable int flag = getFlag(hist[histply].data);
 
 	p.board[from] = p.board[to];
 	p.board[to] = hist[histply].captured;
@@ -281,11 +281,11 @@ void takeMove()
 
 	if (p.side == Side.White && p.board[from] == SquareType.wK)
 	{
-		p.k[Side.White] = from;
+		p.kingSquares[Side.White] = cast(Square)from;
 	}
 	else if (p.side == Side.Black && p.board[from] == SquareType.bK)
 	{
-		p.k[Side.Black] = from;
+		p.kingSquares[Side.Black] = cast(Square)from;
 	}
 
 	if (hist[histply].captured != SquareType.Empty)

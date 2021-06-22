@@ -3,7 +3,7 @@ import data, defines, interrupt, sort, doundo, hash, attack, movegen, eval, move
 int search(int alpha, int beta, int depth, bool nul)
 {
 	int score = 0, hashscore = 0;
-	auto hflag = BookMoveType.None;
+	auto hflag = TableMoveType.None;
 	int inc = 0;
 	Move hashmove = nomove;
 	int old_alpha = alpha;
@@ -21,14 +21,14 @@ int search(int alpha, int beta, int depth, bool nul)
 	hflag = probe_hash_table(depth, hashmove, nul, hashscore, beta);
 	switch (hflag)
 	{
-	case BookMoveType.Exact:
+	case TableMoveType.Exact:
 		return hashscore;
-	case BookMoveType.Upper:
+	case TableMoveType.Upper:
 		if (hashscore <= alpha)
 			return hashscore;
 		else
 			break;
-	case BookMoveType.Lower:
+	case TableMoveType.Lower:
 		if (hashscore >= beta)
 			return hashscore;
 		else
@@ -37,7 +37,7 @@ int search(int alpha, int beta, int depth, bool nul)
 		break;
 	}
 	int extend = 0;
-	inc = isAttacked(p.k[p.side], p.side ^ 1);
+	inc = p.isAttacked(p.kingSquares[p.side], p.side ^ 1);
 	bool opv = followpv;
 	if (inc)
 	{
@@ -111,9 +111,9 @@ int search(int alpha, int beta, int depth, bool nul)
 	for (int i = p.listc[p.ply]; i < p.listc[p.ply + 1]; i++)
 	{
 		pick(i);
-		if (makeMove(p.list[i]))
+		if (p.makeMove(p.list[i]))
 		{
-			takeMove();
+			p.takeMove();
 			continue;
 		}
 		played++;
@@ -140,7 +140,7 @@ int search(int alpha, int beta, int depth, bool nul)
 				score = -search(-beta, -alpha, depth - PLY + extend + nd, true);
 			}
 		}
-		takeMove();
+		p.takeMove();
 		if (stopsearch)
 			return 0;
 		if (score > bestscore)
@@ -158,7 +158,7 @@ int search(int alpha, int beta, int depth, bool nul)
 						fhf++;
 					fh++;
 					updateKillers(p.list[i], score);
-					store_hash(depth, score, BookMoveType.Lower, nul, bestmove);
+					store_hash(depth, score, TableMoveType.Lower, nul, bestmove);
 					return beta;
 				}
 
@@ -183,11 +183,11 @@ int search(int alpha, int beta, int depth, bool nul)
 	}
 	if (alpha > old_alpha)
 	{
-		store_hash(depth, bestscore, BookMoveType.Exact, nul, bestmove);
+		store_hash(depth, bestscore, TableMoveType.Exact, nul, bestmove);
 	}
 	else
 	{
-		store_hash(depth, alpha, BookMoveType.Upper, nul, bestmove);
+		store_hash(depth, alpha, TableMoveType.Upper, nul, bestmove);
 	}
 
 	return alpha;
@@ -221,13 +221,13 @@ int quies(int alpha, int beta)
 	for (int i = p.listc[p.ply]; i < p.listc[p.ply + 1]; i++)
 	{
 		pick(i);
-		if (makeMove(p.list[i]))
+		if (p.makeMove(p.list[i]))
 		{
-			takeMove();
+			p.takeMove();
 			continue;
 		}
 		score = -quies(-beta, -alpha);
-		takeMove();
+		p.takeMove();
 		if (stopsearch)
 			return 0;
 		if (score > alpha)
