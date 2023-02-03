@@ -15,7 +15,7 @@ version (Posix)
 		
 		timeout.tv_sec = 0;
 		timeout.tv_usec = 0;
-		select(16, &readfs, 0, 0, &timeout);
+		select(16, &readfs, null, null, &timeout);
 		
 		return FD_ISSET(stdin.fileno(), &readfs);
 	}
